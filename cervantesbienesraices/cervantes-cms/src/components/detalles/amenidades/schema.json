@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_detalles_amenidades",
+  "info": {
+    "displayName": "Amenidades",
+    "icon": "check",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "descripcion": {
+      "type": "string"
+    }
+  }
+}
