@@ -253,31 +253,31 @@ export const categories3 = [
 export const collectionsData = [
   {
     id: 1,
-    imageSrc: "/assets/images/home/demo9/collection_grid_1.jpg",
+    imageSrc: "/assets/images/furnitures.jpg",
     title: "Furniture",
     productCount: "954 Products",
   },
   {
     id: 2,
-    imageSrc: "/assets/images/home/demo9/collection_grid_2.jpg",
+    imageSrc: "/assets/images/cuisine.jpg",
     title: "Clocks",
     productCount: "710 Products",
   },
   {
     id: 3,
-    imageSrc: "/assets/images/home/demo9/collection_grid_3.jpg",
+    imageSrc: "/assets/images/javones.jpg",
     title: "Accessories",
     productCount: "954 Products",
   },
   {
     id: 4,
-    imageSrc: "/assets/images/home/demo9/collection_grid_4.jpg",
+    imageSrc: "/assets/images/lampes.jpg",
     title: "Lighting",
     productCount: "184 Products",
   },
   {
     id: 5,
-    imageSrc: "/assets/images/home/demo9/collection_grid_5.jpg",
+    imageSrc: "/assets/images/desinfectant.jpg",
     title: "Toys",
     productCount: "245 Products",
   },

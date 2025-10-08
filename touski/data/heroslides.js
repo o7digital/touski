@@ -286,35 +286,11 @@ export const slidesData3 = [
 export const slidesData4 = [
   {
     id: 1,
-    imageSrc: "/assets/images/home/demo9/slider1.jpg",
-    imageAlt: "TRENDING 2023",
-    subtitle: "Interior Designs",
+    imageSrc: "/assets/images/hero.jpg",
+    imageAlt: "Ambiance lumineuse",
+    subtitle: "Salon apaisant",
     description:
-      "Lorem ipsum dolor sit amet, consectetur elit. Odio pulvinar in ipsum amet.",
-  },
-  {
-    id: 2,
-    imageSrc: "/assets/images/home/demo9/slider1.jpg",
-    imageAlt: "TRENDING 2023",
-    subtitle: "Interior Designs",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur elit. Odio pulvinar in ipsum amet.",
-  },
-  {
-    id: 3,
-    imageSrc: "/assets/images/home/demo9/slider1.jpg",
-    imageAlt: "TRENDING 2023",
-    subtitle: "Interior Designs",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur elit. Odio pulvinar in ipsum amet.",
-  },
-  {
-    id: 4,
-    imageSrc: "/assets/images/home/demo9/slider1.jpg",
-    imageAlt: "TRENDING 2023",
-    subtitle: "Interior Designs",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio pulvinar in ipsum amet.",
+      "Decouvrez notre nouvelle collection deco naturelle pour illuminer votre salon.",
   },
 ];
 export const slidesData5 = [

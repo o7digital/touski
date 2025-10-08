@@ -25,9 +25,9 @@ export default function NewsLetterModal() {
                   loading="lazy"
                   width={450}
                   height={550}
-                  src="/assets/images/newsletter-popup.jpg"
+                  src="/assets/images/girls.jpg"
                   className="h-100 w-100 object-fit-cover d-block"
-                  alt="image"
+                  alt="Newsletter lifestyle"
                 />
               </div>
             </div>

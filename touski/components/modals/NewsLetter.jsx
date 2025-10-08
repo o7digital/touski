@@ -45,9 +45,9 @@ export default function NewsLetter() {
                   height={550}
                   style={{ height: "fit-content" }}
                   loading="lazy"
-                  src="/assets/images/newsletter-popup.jpg"
+                  src="/assets/images/girls.jpg"
                   className="h-100 w-100 object-fit-cover d-block"
-                  alt="image"
+                  alt="Newsletter lifestyle"
                 />
               </div>
             </div>
