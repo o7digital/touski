@@ -17,7 +17,17 @@ export default function Collections() {
               ></div>
               <div className="content_abs content_top content_left content_top-md content_left-md pt-2 px-2">
                 <h3 className="text-uppercase mb-0">
-                  {collectionsData[0].title}
+                  <span
+                    style={{
+                      display: "inline-block",
+                      backgroundColor: "rgba(23, 61, 50, 0.6)",
+                      color: "#fff",
+                      padding: "0.15em 0.5em",
+                      borderRadius: "0.25rem",
+                    }}
+                  >
+                    {collectionsData[0].title}
+                  </span>
                 </h3>
                 <p className="mb-3">
                   {collectionsData[0].productCount} Products
@@ -45,7 +55,19 @@ export default function Collections() {
                         style={{ backgroundImage: `url(${elm.imageSrc})` }}
                       ></div>
                       <div className="content_abs content_top content_left content_top-md content_left-md pt-2 px-2">
-                        <h3 className="text-uppercase mb-0">{elm.title}</h3>
+                        <h3 className="text-uppercase mb-0">
+                          <span
+                            style={{
+                              display: "inline-block",
+                              backgroundColor: "rgba(23, 61, 50, 0.6)",
+                              color: "#fff",
+                              padding: "0.15em 0.5em",
+                              borderRadius: "0.25rem",
+                            }}
+                          >
+                            {elm.title}
+                          </span>
+                        </h3>
                         <p className="mb-3">{elm.productCount} Products</p>
                       </div>
                       {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}
@@ -66,7 +88,19 @@ export default function Collections() {
                         style={{ backgroundImage: `url(${elm.imageSrc})` }}
                       ></div>
                       <div className="content_abs content_top content_left content_top-md content_left-md pt-2 px-2">
-                        <h3 className="text-uppercase mb-0">{elm.title}</h3>
+                        <h3 className="text-uppercase mb-0">
+                          <span
+                            style={{
+                              display: "inline-block",
+                              backgroundColor: "rgba(23, 61, 50, 0.6)",
+                              color: "#fff",
+                              padding: "0.15em 0.5em",
+                              borderRadius: "0.25rem",
+                            }}
+                          >
+                            {elm.title}
+                          </span>
+                        </h3>
                         <p className="mb-3">{elm.productCount} Products</p>
                       </div>
                       {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}

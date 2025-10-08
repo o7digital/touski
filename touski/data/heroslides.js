@@ -288,7 +288,7 @@ export const slidesData4 = [
     id: 1,
     imageSrc: "/assets/images/hero.jpg",
     imageAlt: "Ambiance lumineuse",
-    subtitle: "Salon apaisant",
+    subtitle: "Touski est pour son chez soi ...",
     description:
       "Decouvrez notre nouvelle collection deco naturelle pour illuminer votre salon.",
   },

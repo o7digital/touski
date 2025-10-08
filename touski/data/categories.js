@@ -260,13 +260,13 @@ export const collectionsData = [
   {
     id: 2,
     imageSrc: "/assets/images/cuisine.jpg",
-    title: "Clocks",
+    title: "Cuisine",
     productCount: "710 Products",
   },
   {
     id: 3,
     imageSrc: "/assets/images/javones.jpg",
-    title: "Accessories",
+    title: "Salle de bain",
     productCount: "954 Products",
   },
   {
@@ -278,7 +278,7 @@ export const collectionsData = [
   {
     id: 5,
     imageSrc: "/assets/images/desinfectant.jpg",
-    title: "Toys",
+    title: "Detergents",
     productCount: "245 Products",
   },
 ];

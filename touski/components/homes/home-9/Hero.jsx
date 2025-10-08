@@ -43,7 +43,18 @@ export default function Hero() {
                 {elm.imageAlt}
               </h6>
               <h2 className="text-uppercase h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">
-                {elm.subtitle}
+                <span
+                  style={{
+                    display: "inline-block",
+                  backgroundColor: "rgba(23, 61, 50, 0.6)",
+                    color: "#fff",
+                    padding: "0.25em 0.6em",
+                    borderRadius: "0.25rem",
+                    boxShadow: "0 0 0 3px rgba(23, 61, 50, 0.25)",
+                  }}
+                >
+                  {elm.subtitle}
+                </span>
               </h2>
               <p className="animate animate_fade animate_btt animate_delay-6">
                 {elm.description.split(" ").slice(0, 7).join(" ")}
