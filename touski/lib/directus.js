@@ -1,11 +1,24 @@
 // Minimal Directus REST helpers for Next.js (in-app for main branch)
 
-const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_URL || process.env.DIRECTUS_URL;
+function resolveDirectusUrl() {
+  const candidates = [
+    process.env.NEXT_PUBLIC_DIRECTUS_URL,
+    process.env.DIRECTUS_URL,
+    process.env.NEXT_PUBLIC_DIRECTUS_API_URL,
+    process.env.DIRECTUS_API_URL,
+  ];
+  const found = candidates.find((v) => typeof v === 'string' && v.trim().length > 0);
+  return found ? found.replace(/\/$/, '') : undefined;
+}
+
+export const DIRECTUS_URL = resolveDirectusUrl();
 const DIRECTUS_STATIC_TOKEN = process.env.DIRECTUS_STATIC_TOKEN;
 
 if (!DIRECTUS_URL) {
   // eslint-disable-next-line no-console
-  console.warn("DIRECTUS_URL is not set. Set NEXT_PUBLIC_DIRECTUS_URL in your env.");
+  console.warn(
+    "Directus URL is not set. Define NEXT_PUBLIC_DIRECTUS_URL or DIRECTUS_URL in your environment."
+  );
 }
 
 async function safeJson(res) {
@@ -17,6 +30,9 @@ async function safeJson(res) {
 }
 
 export async function getProducts({ filter, fields, limit } = {}, accessToken) {
+  if (!DIRECTUS_URL) {
+    throw new Error('Directus URL manquante: définis NEXT_PUBLIC_DIRECTUS_URL (ou DIRECTUS_URL) sur Vercel.');
+  }
   const params = new URLSearchParams();
   if (fields) params.set("fields", fields);
   if (typeof limit === "number") params.set("limit", String(limit));
