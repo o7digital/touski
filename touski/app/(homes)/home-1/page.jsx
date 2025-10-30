@@ -10,6 +10,7 @@ import Products2 from "@/components/homes/home-1/Products2";
 import Products3 from "@/components/homes/home-1/Products3";
 import Products4 from "@/components/homes/home-1/Products4";
 import Products5 from "@/components/homes/home-1/Products5";
+import Link from "next/link";
 
 export const metadata = {
   title: "Home 1 || Uomo eCommerce React Nextjs Template",
@@ -22,6 +23,11 @@ export default function HomePage1() {
         <Header1 />
         <main className="page-wrapper">
           <Hero />
+          <div className="container text-center my-4">
+            <Link href="/products" className="btn btn-primary">
+              Voir les produits
+            </Link>
+          </div>
           <div className="mb-3 pb-3 mb-md-4 pb-md-4 mb-xl-5 pb-xl-5"></div>
           <div className="pb-1"></div>
           <Products1 />

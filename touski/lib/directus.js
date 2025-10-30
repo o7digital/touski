@@ -1,0 +1,43 @@
+// Minimal Directus REST helpers for Next.js (in-app for main branch)
+
+const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_URL || process.env.DIRECTUS_URL;
+
+if (!DIRECTUS_URL) {
+  // eslint-disable-next-line no-console
+  console.warn("DIRECTUS_URL is not set. Set NEXT_PUBLIC_DIRECTUS_URL in your env.");
+}
+
+async function safeJson(res) {
+  try {
+    return await res.json();
+  } catch (_) {
+    return null;
+  }
+}
+
+export async function getProducts({ filter, fields, limit } = {}, accessToken) {
+  const params = new URLSearchParams();
+  if (fields) params.set("fields", fields);
+  if (typeof limit === "number") params.set("limit", String(limit));
+  if (filter) {
+    for (const [k, v] of Object.entries(filter)) {
+      if (typeof v === "object" && v !== null) {
+        for (const [op, val] of Object.entries(v)) {
+          params.set(`filter[${k}][${op}]`, String(val));
+        }
+      } else {
+        params.set(`filter[${k}]`, String(v));
+      }
+    }
+  }
+  const res = await fetch(`${DIRECTUS_URL}/items/products?${params.toString()}`, {
+    headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const err = await safeJson(res);
+    throw new Error(err?.errors?.[0]?.message || "Failed to fetch products");
+  }
+  return res.json(); // { data: [...] }
+}
+
