@@ -36,13 +36,18 @@ export async function getProducts({ filter, fields, limit } = {}, accessToken) {
     : DIRECTUS_STATIC_TOKEN
     ? { Authorization: `Bearer ${DIRECTUS_STATIC_TOKEN}` }
     : {};
-  const res = await fetch(`${DIRECTUS_URL}/items/products?${params.toString()}`, {
-    headers: authHeader,
-    cache: 'no-store',
-  });
-  if (!res.ok) {
+
+  const candidates = ["products", "Products", "product", "Product"];
+  let lastErr = null;
+  for (const col of candidates) {
+    const res = await fetch(`${DIRECTUS_URL}/items/${col}?${params.toString()}`, {
+      headers: authHeader,
+      cache: 'no-store',
+    });
+    if (res.ok) return res.json();
     const err = await safeJson(res);
-    throw new Error(err?.errors?.[0]?.message || "Failed to fetch products");
+    lastErr = err?.errors?.[0]?.message || `${res.status} ${res.statusText}`;
+    if (res.status !== 404) break; // if not found, try next candidate; else stop on other errors
   }
-  return res.json(); // { data: [...] }
+  throw new Error(lastErr || "Failed to fetch products");
 }

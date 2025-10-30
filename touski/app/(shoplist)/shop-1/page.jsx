@@ -45,6 +45,7 @@ export default async function ShopPage1() {
                 const price = pick(prod, ["price", "Price"]);
                 const cost = pick(prod, ["cost_price", "costPrice", "Cost Price"]);
                 const status = pick(prod, ["status", "Status"]);
+                const description = pick(prod, ["Description", "description"]);
                 return (
                   <li key={prod.id} className="mb-2">
                     <strong>{title}</strong>
@@ -52,6 +53,11 @@ export default async function ShopPage1() {
                       SKU: {sku || "—"} · Prix: {price ?? "—"} · Coût: {cost ?? "—"}
                       {" "}· Statut: {status || "—"}
                     </div>
+                    {description && (
+                      <div className="small" style={{maxWidth: '60ch'}}>
+                        {description}
+                      </div>
+                    )}
                   </li>
                 );
               })}
