@@ -15,8 +15,8 @@ function resolveDirectusUrl() {
 export async function GET(req) {
   const DIRECTUS_URL = resolveDirectusUrl();
   const RAW_TOKEN = process.env.DIRECTUS_STATIC_TOKEN;
-  const DIRECTUS_EMAIL = process.env.DIRECTUS_EMAIL;
-  const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD;
+  const DIRECTUS_EMAIL = process.env.DIRECTUS_EMAIL || process.env.NEXT_PUBLIC_DIRECTUS_EMAIL;
+  const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD || process.env.NEXT_PUBLIC_DIRECTUS_PASSWORD;
 
   const { searchParams } = new URL(req.url);
   const collection = searchParams.get('collection') || 'products';
@@ -92,6 +92,10 @@ export async function GET(req) {
       usedAuthHeader,
       authMode,
       tokenMeta,
+      credsMeta: {
+        hasEmail: Boolean(DIRECTUS_EMAIL),
+        hasPassword: Boolean(DIRECTUS_PASSWORD),
+      },
       data: json?.data ?? null,
       raw: json ?? text,
     }, { status: res.ok ? 200 : res.status });
@@ -104,6 +108,6 @@ export async function GET(req) {
       hasNonAscii: RAW_TOKEN ? /[^\x00-\x7F]/.test(String(RAW_TOKEN)) : false,
       hasQuotes: RAW_TOKEN ? /^['"].*['"]$/.test(String(RAW_TOKEN)) : false,
     };
-    return Response.json({ ok: false, error: String(e?.message || e), url, usedAuthHeader, authMode, tokenMeta }, { status: 500 });
+    return Response.json({ ok: false, error: String(e?.message || e), url, usedAuthHeader, authMode, tokenMeta, credsMeta: { hasEmail: Boolean(DIRECTUS_EMAIL), hasPassword: Boolean(DIRECTUS_PASSWORD) } }, { status: 500 });
   }
 }

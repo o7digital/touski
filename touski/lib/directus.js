@@ -13,8 +13,8 @@ function resolveDirectusUrl() {
 
 export const DIRECTUS_URL = resolveDirectusUrl();
 const DIRECTUS_STATIC_TOKEN = process.env.DIRECTUS_STATIC_TOKEN;
-const DIRECTUS_EMAIL = process.env.DIRECTUS_EMAIL;
-const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD;
+const DIRECTUS_EMAIL = process.env.DIRECTUS_EMAIL || process.env.NEXT_PUBLIC_DIRECTUS_EMAIL;
+const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD || process.env.NEXT_PUBLIC_DIRECTUS_PASSWORD;
 
 if (!DIRECTUS_URL) {
   // eslint-disable-next-line no-console
