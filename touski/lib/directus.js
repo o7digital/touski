@@ -1,6 +1,7 @@
 // Minimal Directus REST helpers for Next.js (in-app for main branch)
 
 const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_URL || process.env.DIRECTUS_URL;
+const DIRECTUS_STATIC_TOKEN = process.env.DIRECTUS_STATIC_TOKEN;
 
 if (!DIRECTUS_URL) {
   // eslint-disable-next-line no-console
@@ -30,8 +31,13 @@ export async function getProducts({ filter, fields, limit } = {}, accessToken) {
       }
     }
   }
+  const authHeader = accessToken
+    ? { Authorization: `Bearer ${accessToken}` }
+    : DIRECTUS_STATIC_TOKEN
+    ? { Authorization: `Bearer ${DIRECTUS_STATIC_TOKEN}` }
+    : {};
   const res = await fetch(`${DIRECTUS_URL}/items/products?${params.toString()}`, {
-    headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
+    headers: authHeader,
     cache: 'no-store',
   });
   if (!res.ok) {
@@ -40,4 +46,3 @@ export async function getProducts({ filter, fields, limit } = {}, accessToken) {
   }
   return res.json(); // { data: [...] }
 }
-
