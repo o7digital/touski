@@ -14,7 +14,9 @@ function resolveDirectusUrl() {
 
 export async function GET(req) {
   const DIRECTUS_URL = resolveDirectusUrl();
-  const DIRECTUS_STATIC_TOKEN = process.env.DIRECTUS_STATIC_TOKEN;
+  const RAW_TOKEN = process.env.DIRECTUS_STATIC_TOKEN;
+  const DIRECTUS_EMAIL = process.env.DIRECTUS_EMAIL;
+  const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD;
 
   const { searchParams } = new URL(req.url);
   const collection = searchParams.get('collection') || 'products';
@@ -42,29 +44,66 @@ export async function GET(req) {
   params.set('fields', fields);
 
   const url = `${DIRECTUS_URL}/items/${collection}?${params.toString()}`;
-  const headers = DIRECTUS_STATIC_TOKEN ? { Authorization: `Bearer ${DIRECTUS_STATIC_TOKEN}` } : {};
+  let token = RAW_TOKEN ? String(RAW_TOKEN).trim().replace(/^['"]|['"]$/g, '') : undefined;
+  const hasNonAscii = token ? /[^\x00-\x7F]/.test(token) : false;
+  if (hasNonAscii) token = undefined; // ignore invalid token
+  let headers = token ? { Authorization: `Bearer ${token}` } : {};
+  let usedAuthHeader = Boolean(token);
+  let authMode = usedAuthHeader ? 'static_token' : 'none';
+
+  // Fallback to login if no token and credentials provided
+  if (!usedAuthHeader && DIRECTUS_EMAIL && DIRECTUS_PASSWORD) {
+    try {
+      const login = await fetch(`${DIRECTUS_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: DIRECTUS_EMAIL, password: DIRECTUS_PASSWORD }),
+        cache: 'no-store',
+      });
+      if (login.ok) {
+        const j = await login.json();
+        const at = j?.data?.access_token || j?.access_token;
+        if (at && !/[^\x00-\x7F]/.test(at)) {
+          headers = { Authorization: `Bearer ${at}` };
+          usedAuthHeader = true;
+          authMode = 'login';
+        }
+      }
+    } catch (_) {}
+  }
 
   try {
     const res = await fetch(url, { headers, cache: 'no-store' });
     const text = await res.text();
     let json = null;
     try { json = JSON.parse(text); } catch {}
-    return Response.json(
-      {
-        ok: res.ok,
-        status: res.status,
-        url,
-        usedAuthHeader: Boolean(DIRECTUS_STATIC_TOKEN),
-        data: json?.data ?? null,
-        raw: json ?? text,
-      },
-      { status: res.ok ? 200 : res.status }
-    );
+    const tokenMeta = {
+      present: Boolean(RAW_TOKEN),
+      length: RAW_TOKEN ? String(RAW_TOKEN).length : 0,
+      preview: RAW_TOKEN ? String(RAW_TOKEN).slice(0, 12) : null,
+      hasEllipsis: RAW_TOKEN ? /…/.test(String(RAW_TOKEN)) : false,
+      hasNonAscii,
+      hasQuotes: RAW_TOKEN ? /^['"].*['"]$/.test(String(RAW_TOKEN)) : false,
+    };
+    return Response.json({
+      ok: res.ok,
+      status: res.status,
+      url,
+      usedAuthHeader,
+      authMode,
+      tokenMeta,
+      data: json?.data ?? null,
+      raw: json ?? text,
+    }, { status: res.ok ? 200 : res.status });
   } catch (e) {
-    return Response.json(
-      { ok: false, error: String(e?.message || e), url, usedAuthHeader: Boolean(DIRECTUS_STATIC_TOKEN) },
-      { status: 500 }
-    );
+    const tokenMeta = {
+      present: Boolean(RAW_TOKEN),
+      length: RAW_TOKEN ? String(RAW_TOKEN).length : 0,
+      preview: RAW_TOKEN ? String(RAW_TOKEN).slice(0, 12) : null,
+      hasEllipsis: RAW_TOKEN ? /…/.test(String(RAW_TOKEN)) : false,
+      hasNonAscii: RAW_TOKEN ? /[^\x00-\x7F]/.test(String(RAW_TOKEN)) : false,
+      hasQuotes: RAW_TOKEN ? /^['"].*['"]$/.test(String(RAW_TOKEN)) : false,
+    };
+    return Response.json({ ok: false, error: String(e?.message || e), url, usedAuthHeader, authMode, tokenMeta }, { status: 500 });
   }
 }
-

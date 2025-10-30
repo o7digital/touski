@@ -13,6 +13,8 @@ function resolveDirectusUrl() {
 
 export const DIRECTUS_URL = resolveDirectusUrl();
 const DIRECTUS_STATIC_TOKEN = process.env.DIRECTUS_STATIC_TOKEN;
+const DIRECTUS_EMAIL = process.env.DIRECTUS_EMAIL;
+const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD;
 
 if (!DIRECTUS_URL) {
   // eslint-disable-next-line no-console
@@ -27,6 +29,41 @@ async function safeJson(res) {
   } catch (_) {
     return null;
   }
+}
+
+function cleanToken(t) {
+  if (!t) return undefined;
+  const s = String(t).trim().replace(/^['"]|['"]$/g, "");
+  // Reject if contains non-ASCII (likely “…”)
+  if (/[^\x00-\x7F]/.test(s)) return undefined;
+  return s;
+}
+
+async function getAuthHeader(accessToken) {
+  const cleanedAccess = cleanToken(accessToken);
+  if (cleanedAccess) return { Authorization: `Bearer ${cleanedAccess}` };
+  const cleanedStatic = cleanToken(DIRECTUS_STATIC_TOKEN);
+  if (cleanedStatic) return { Authorization: `Bearer ${cleanedStatic}` };
+  // Fallback: login with email/password if provided
+  if (DIRECTUS_EMAIL && DIRECTUS_PASSWORD && DIRECTUS_URL) {
+    try {
+      const res = await fetch(`${DIRECTUS_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: DIRECTUS_EMAIL, password: DIRECTUS_PASSWORD }),
+        cache: 'no-store',
+      });
+      if (res.ok) {
+        const json = await res.json();
+        const tok = json?.data?.access_token || json?.access_token;
+        const cleaned = cleanToken(tok);
+        if (cleaned) return { Authorization: `Bearer ${cleaned}` };
+      }
+    } catch (_) {
+      // ignore
+    }
+  }
+  return {};
 }
 
 export async function getProducts({ filter, fields, limit } = {}, accessToken) {
@@ -47,11 +84,7 @@ export async function getProducts({ filter, fields, limit } = {}, accessToken) {
       }
     }
   }
-  const authHeader = accessToken
-    ? { Authorization: `Bearer ${accessToken}` }
-    : DIRECTUS_STATIC_TOKEN
-    ? { Authorization: `Bearer ${DIRECTUS_STATIC_TOKEN}` }
-    : {};
+  const authHeader = await getAuthHeader(accessToken);
 
   const candidates = ["products", "Products", "product", "Product"];
   let lastErr = null;
