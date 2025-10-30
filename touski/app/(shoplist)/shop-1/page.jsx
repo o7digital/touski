@@ -19,12 +19,14 @@ function pick(obj, keys) {
 
 export default async function ShopPage1() {
   let directusItems = [];
+  let directusError = null;
   try {
     const res = await getProducts({ fields: "*", limit: 50 });
     directusItems = res?.data || [];
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error("Erreur chargement produits Directus (shop-1):", e);
+    directusError = e?.message || "Erreur inconnue";
   }
 
   return (
@@ -33,6 +35,11 @@ export default async function ShopPage1() {
       <main className="page-wrapper">
         <section className="container my-4">
           <h2 className="h4 mb-3">Produits Directus</h2>
+          {directusError && (
+            <p style={{ color: "#c00" }}>
+              Erreur de chargement Directus: {String(directusError)}
+            </p>
+          )}
           {directusItems.length === 0 ? (
             <p>Aucun produit trouvé.</p>
           ) : (
