@@ -84,45 +84,90 @@ export async function GET(req) {
       return Response.json({ ok: false, error: `Token error: ${j.error || tokenRes.statusText}` }, { status: 500 });
     }
     const { token } = await tokenRes.json();
-    const url = new URL(`${base}${productsPath}`);
-    const headers = { [tokenHeader]: tokenPrefix ? `${tokenPrefix} ${token}` : token, Accept: 'application/json' };
+    // Build a list of attempts (env first, then fallbacks)
+    const attempts = [];
+    const pushAttempt = (b, p, hdr, pref, qp, pp, sp, catp, minp, maxp, sortp, post, xtra) => {
+      attempts.push({ base: b, path: p, tokenHeader: hdr, tokenPrefix: pref, qParam: qp, pageParam: pp, sizeParam: sp, categoryParam: catp, minPriceParam: minp, maxPriceParam: maxp, sortParam: sortp, usePost: post, extra: xtra });
+    };
 
-    let res;
-    let method = 'GET';
-    let sentBody = null;
-    if (usePost) {
-      const body = { ...extra };
-      if (q) body[qParam] = q;
-      body[pageParam] = String(page);
-      body[sizeParam] = String(pageSize);
-      if (category) body[categoryParam] = category;
-      if (minPrice) body[minPriceParam] = String(minPrice);
-      if (maxPrice) body[maxPriceParam] = String(maxPrice);
-      if (sort) body[sortParam] = sort;
-      sentBody = body;
-      method = 'POST';
-      res = await fetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body), cache: 'no-store' });
-    } else {
-      if (q) url.searchParams.set(qParam, q);
-      url.searchParams.set(pageParam, String(page));
-      url.searchParams.set(sizeParam, String(pageSize));
-      if (category) url.searchParams.set(categoryParam, category);
-      if (minPrice) url.searchParams.set(minPriceParam, String(minPrice));
-      if (maxPrice) url.searchParams.set(maxPriceParam, String(maxPrice));
-      if (sort) url.searchParams.set(sortParam, sort);
-      for (const [k, v] of Object.entries(extra)) url.searchParams.set(k, String(v));
-      res = await fetch(url, { headers, cache: 'no-store' });
+    // 1) Env-configured attempt
+    pushAttempt(base, productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, extra);
+    // 2) Common fallbacks (developers vs openapi, header styles, GET/POST, qParam variants)
+    pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'CJ-Access-Token', '', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+    pushAttempt('https://developers.cjdropshipping.com', '/api/product/list', 'CJ-Access-Token', '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+    pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'Authorization', 'Bearer', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+    pushAttempt('https://developers.cjdropshipping.com', '/api/product/list', 'Authorization', 'Bearer', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+    pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'CJ-Access-Token', '', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', false, {});
+
+    const tried = [];
+    const controller = new AbortController();
+    const timeoutMs = 15000;
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      for (const a of attempts) {
+        const url = new URL(`${a.base.replace(/\/$/, '')}${a.path}`);
+        const headers = {
+          [a.tokenHeader]: a.tokenPrefix ? `${a.tokenPrefix} ${token}` : token,
+          Accept: 'application/json',
+          'User-Agent': 'TouskiCJ/1.0 (+https://touski.app)'
+        };
+        let method = 'GET';
+        let sentBody = null;
+        let res;
+        if (a.usePost) {
+          const body = { ...(a.extra || {}) };
+          if (q) body[a.qParam] = q;
+          body[a.pageParam] = String(page);
+          body[a.sizeParam] = String(pageSize);
+          if (category) body[a.categoryParam] = category;
+          if (minPrice) body[a.minPriceParam] = String(minPrice);
+          if (maxPrice) body[a.maxPriceParam] = String(maxPrice);
+          if (sort) body[a.sortParam] = sort;
+          sentBody = body;
+          method = 'POST';
+          try {
+            res = await fetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body), cache: 'no-store', signal: controller.signal });
+          } catch (e) {
+            tried.push({ url: String(url), method, error: String(e?.message || e) });
+            continue;
+          }
+        } else {
+          if (q) url.searchParams.set(a.qParam, q);
+          url.searchParams.set(a.pageParam, String(page));
+          url.searchParams.set(a.sizeParam, String(pageSize));
+          if (category) url.searchParams.set(a.categoryParam, category);
+          if (minPrice) url.searchParams.set(a.minPriceParam, String(minPrice));
+          if (maxPrice) url.searchParams.set(a.maxPriceParam, String(maxPrice));
+          if (sort) url.searchParams.set(a.sortParam, sort);
+          for (const [k, v] of Object.entries(a.extra || {})) url.searchParams.set(k, String(v));
+          try {
+            res = await fetch(url, { headers, cache: 'no-store', signal: controller.signal });
+          } catch (e) {
+            tried.push({ url: String(url), method, error: String(e?.message || e) });
+            continue;
+          }
+        }
+        const text = await res.text();
+        let json = null; try { json = JSON.parse(text); } catch {}
+        if (!res.ok) {
+          const msg = json?.message || json?.error || `${res.status} ${res.statusText}`;
+          tried.push({ url: String(url), method, status: res.status, error: msg, raw: debug ? (json || text) : undefined });
+          continue;
+        }
+        const list = json?.data?.list || json?.data?.items || json?.items || json?.list || [];
+        const items = Array.isArray(list) ? list.map(normalize) : [];
+        if (items.length > 0 || attempts.indexOf(a) === attempts.length - 1) {
+          clearTimeout(timer);
+          return Response.json({ ok: true, items, total: json?.data?.total || json?.total, page, pageSize, url: String(url), method, attempts: debug ? tried : undefined });
+        }
+        // items empty — try next combo
+        tried.push({ url: String(url), method, status: res.status, info: 'empty-list', raw: debug ? (json || text) : undefined });
+      }
+    } finally {
+      clearTimeout(timer);
     }
-    const text = await res.text();
-    let json = null; try { json = JSON.parse(text); } catch {}
-    if (!res.ok) {
-      const msg = json?.message || json?.error || `${res.status} ${res.statusText}`;
-      return Response.json({ ok: false, error: msg, url: String(url), method, request: debug ? { paramMap: { qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam }, body: sentBody, headersUsed: Object.keys(headers) } : undefined, raw: json || text }, { status: res.status });
-    }
-    // Try common shapes
-    const list = json?.data?.list || json?.data?.items || json?.items || json?.list || [];
-    const items = list.map(normalize);
-    return Response.json({ ok: true, items, total: json?.data?.total || json?.total, page, pageSize, url: String(url), method, request: debug ? { paramMap: { qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam }, body: sentBody, headersUsed: Object.keys(headers) } : undefined });
+    return Response.json({ ok: false, error: 'All attempts failed', attempts: tried }, { status: 502 });
   } catch (e) {
     return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
   }
