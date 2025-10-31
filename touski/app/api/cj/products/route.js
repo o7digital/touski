@@ -34,21 +34,51 @@ async function getToken() {
 
 function normalize(item) {
   const toNum = (v) => (v === undefined || v === null || v === '' ? undefined : Number(v));
+  const takeFirstNumber = (s) => {
+    if (s == null) return undefined;
+    const m = String(s).match(/[0-9]+(?:\.[0-9]+)?/);
+    return m ? Number(m[0]) : undefined;
+  };
+  const parseMaybeJsonArrayString = (s) => {
+    if (!s || typeof s !== 'string') return s;
+    const trimmed = s.trim();
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      try {
+        const arr = JSON.parse(trimmed);
+        if (Array.isArray(arr) && arr.length) return String(arr[0]);
+      } catch (_) {}
+    }
+    return s;
+  };
+
+  const nameRaw = item.name || item.productNameEn || item.productName || item.title;
+  const name = parseMaybeJsonArrayString(nameRaw);
+
+  const price =
+    toNum(item.price) ??
+    takeFirstNumber(item.sellPrice) ??
+    toNum(item.salePrice) ??
+    toNum(item.retailPrice);
+
+  const weight = takeFirstNumber(item.productWeight) ?? toNum(item.weight) ?? toNum(item.grossWeight);
+
+  const imageCandidates = [];
+  if (Array.isArray(item.images)) imageCandidates.push(...item.images);
+  if (item.imageUrls) imageCandidates.push(...String(item.imageUrls).split(','));
+  if (item.productImage) imageCandidates.push(String(item.productImage));
+  if (item.image) imageCandidates.push(String(item.image));
+  if (item.imgUrl) imageCandidates.push(String(item.imgUrl));
+  const images = imageCandidates.filter(Boolean);
+
   return {
-    sku: item.sku || item.SKU || item.skuId || item.goodsSku || item.id,
-    name: item.name || item.productName || item.title,
-    description: item.description || item.productDescription || item.desc,
-    price: toNum(item.price || item.sellPrice || item.salePrice || item.retailPrice),
+    sku: item.sku || item.productSku || item.SKU || item.skuId || item.goodsSku || item.id,
+    name,
+    description: item.description || item.productDescription || item.desc || item.remark,
+    price,
     compare_price: toNum(item.listPrice || item.originalPrice),
     cost_price: toNum(item.cost_price || item.costPrice || item.purchasePrice),
-    weight: toNum(item.weight || item.grossWeight),
-    images: Array.isArray(item.images)
-      ? item.images
-      : item.imageUrls
-      ? String(item.imageUrls).split(',')
-      : item.image || item.imgUrl
-      ? [item.image || item.imgUrl]
-      : [],
+    weight,
+    images,
     raw: item,
   };
 }

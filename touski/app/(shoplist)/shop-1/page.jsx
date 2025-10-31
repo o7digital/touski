@@ -103,19 +103,24 @@ export default async function ShopPage1({ searchParams }) {
                   const cost = prod.cost_price;
                   const description = prod.description;
                   return (
-                    <li key={`${sku || idx}-cj`} className="mb-2">
-                      <strong>{title}</strong>
-                      <div className="text-secondary small">
-                        SKU: {sku || "—"} · Prix: {price ?? "—"} · Coût: {cost ?? "—"}
-                      </div>
-                      {description && (
-                        <div className="small" style={{maxWidth: '60ch'}}>
-                          {description}
-                        </div>
+                    <li key={`${sku || idx}-cj`} className="mb-3" style={{ display: 'flex', gap: 12 }}>
+                      {Array.isArray(prod.images) && prod.images[0] && (
+                        <img src={prod.images[0]} alt={title} width={80} height={80} style={{ objectFit: 'cover', borderRadius: 6 }} />
                       )}
-                      <form action={`/api/cj/import-one?sku=${encodeURIComponent(sku || '')}`} method="post" style={{ marginTop: 6 }}>
-                        <button type="submit">Importer dans Directus</button>
-                      </form>
+                      <div>
+                        <strong>{title}</strong>
+                        <div className="text-secondary small">
+                          SKU: {sku || "—"} · Prix: {price ?? "—"} · Coût: {cost ?? "—"}
+                        </div>
+                        {description && (
+                          <div className="small" style={{maxWidth: '60ch'}}>
+                            {String(description).replace(/<[^>]+>/g, '').slice(0, 200)}
+                          </div>
+                        )}
+                        <form action={`/api/cj/import-one?sku=${encodeURIComponent(sku || '')}`} method="post" style={{ marginTop: 6 }}>
+                          <button type="submit">Importer dans Directus</button>
+                        </form>
+                      </div>
                     </li>
                   );
                 }
