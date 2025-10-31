@@ -148,6 +148,45 @@ export async function GET(req) {
             tried.push({ url: String(url), method, error: String(e?.message || e) });
             continue;
           }
+          // If POST not supported by endpoint, transparently fallback to GET once
+          let text = await res.text();
+          let json = null; try { json = JSON.parse(text); } catch {}
+          if ((res.status === 405 || json?.code === 16900202 || /not supported/i.test(String(json?.message || ''))) && !retried) {
+            // build GET URL with same params
+            const getUrl = new URL(String(url));
+            if (q) getUrl.searchParams.set(a.qParam, q);
+            getUrl.searchParams.set(a.pageParam, String(page));
+            getUrl.searchParams.set(a.sizeParam, String(pageSize));
+            if (category) getUrl.searchParams.set(a.categoryParam, category);
+            if (minPrice) getUrl.searchParams.set(a.minPriceParam, String(minPrice));
+            if (maxPrice) getUrl.searchParams.set(a.maxPriceParam, String(maxPrice));
+            if (sort) getUrl.searchParams.set(a.sortParam, sort);
+            for (const [k, v] of Object.entries(a.extra || {})) getUrl.searchParams.set(k, String(v));
+            if (a.tokenInQuery) getUrl.searchParams.set(a.tokenQueryName, token);
+            method = 'GET';
+            retried = true;
+            try {
+              res = await fetch(getUrl, { headers, cache: 'no-store', signal: controller.signal });
+            } catch (e) {
+              tried.push({ url: String(getUrl), method, error: String(e?.message || e) });
+              continue;
+            }
+          } else {
+            // restore response body for standard handling below
+            // re-create a Response-like by setting text/json variables
+            // We will reuse parsed json 'json' and 'text' variables below
+          }
+          // Continue to common response handling using 'res'
+          // We set text/json after potential GET fallback
+          if (!json) { // re-parse if needed
+            const t2 = await res.text();
+            try { json = JSON.parse(t2); text = t2; } catch { text = t2; }
+          }
+          // handle below without duplicating code
+          // Inject into a temporary slot so the shared code can run
+          // We'll use a local block after this if/else to avoid double-reading
+          // To keep code simple, we assign to a symbol and skip default parsing later
+          res._parsed = { text, json };
         } else {
           if (q) url.searchParams.set(a.qParam, q);
           url.searchParams.set(a.pageParam, String(page));
@@ -171,8 +210,13 @@ export async function GET(req) {
             continue;
           }
         }
-        const text = await res.text();
-        let json = null; try { json = JSON.parse(text); } catch {}
+        // Use parsed result if produced by POST->GET fallback
+        let text = res._parsed?.text;
+        let json = res._parsed?.json;
+        if (!text) {
+          text = await res.text();
+          try { json = JSON.parse(text); } catch {}
+        }
         if (!res.ok) {
           const msg = json?.message || json?.error || `${res.status} ${res.statusText}`;
           tried.push({ url: String(url), method, status: res.status, error: msg, raw: debug ? (json || text) : undefined });
