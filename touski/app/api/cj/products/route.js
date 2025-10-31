@@ -95,8 +95,10 @@ export async function GET(req) {
     // 2) Common fallbacks (developers vs openapi, header styles, GET/POST, qParam variants)
     pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'CJ-Access-Token', '', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
     pushAttempt('https://developers.cjdropshipping.com', '/api/product/list', 'CJ-Access-Token', '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+    pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', 'CJ-Access-Token', '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
     pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'Authorization', 'Bearer', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
     pushAttempt('https://developers.cjdropshipping.com', '/api/product/list', 'Authorization', 'Bearer', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+    pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', 'Authorization', 'Bearer', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
     pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'CJ-Access-Token', '', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', false, {});
 
     const tried = [];
