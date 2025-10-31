@@ -178,8 +178,17 @@ export async function GET(req) {
           tried.push({ url: String(url), method, status: res.status, error: msg, raw: debug ? (json || text) : undefined });
           continue;
         }
-        const list = json?.data?.list || json?.data?.items || json?.items || json?.list || [];
-        const items = Array.isArray(list) ? list.map(normalize) : [];
+        const candidates = [
+          json?.data?.list,
+          json?.data?.items,
+          json?.items,
+          json?.list,
+          json?.data?.records,
+          json?.records,
+          json?.data?.data,
+        ];
+        const list = candidates.find((v) => Array.isArray(v)) || [];
+        const items = list.map(normalize);
         if (items.length > 0 || strictEnv) {
           clearTimeout(timer);
           return Response.json(
