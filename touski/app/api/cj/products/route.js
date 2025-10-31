@@ -8,8 +8,12 @@ function cfg() {
   const qParam = process.env.CJ_Q_PARAM || 'keyword';
   const pageParam = process.env.CJ_PAGE_PARAM || 'pageNum';
   const sizeParam = process.env.CJ_SIZE_PARAM || 'pageSize';
+  const categoryParam = process.env.CJ_CATEGORY_PARAM || 'category';
+  const minPriceParam = process.env.CJ_MIN_PRICE_PARAM || 'minPrice';
+  const maxPriceParam = process.env.CJ_MAX_PRICE_PARAM || 'maxPrice';
+  const sortParam = process.env.CJ_SORT_PARAM || 'sort';
   const mock = process.env.CJ_MOCK === '1' || process.env.CJ_MOCK === 'true';
-  return { base: base.replace(/\/$/, ''), productsPath, tokenHeader, qParam, pageParam, sizeParam, mock };
+  return { base: base.replace(/\/$/, ''), productsPath, tokenHeader, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, mock };
 }
 
 async function getToken() {
@@ -48,7 +52,11 @@ export async function GET(req) {
     const q = searchParams.get('q') || '';
     const page = Number(searchParams.get('page') || 1);
     const pageSize = Number(searchParams.get('pageSize') || 10);
-    const { base, productsPath, tokenHeader, qParam, pageParam, sizeParam, mock } = cfg();
+    const category = searchParams.get('category') || '';
+    const minPrice = searchParams.get('minPrice');
+    const maxPrice = searchParams.get('maxPrice');
+    const sort = searchParams.get('sort') || '';
+    const { base, productsPath, tokenHeader, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, mock } = cfg();
 
     if (mock) {
       const items = Array.from({ length: pageSize }).map((_, i) => ({
@@ -72,6 +80,10 @@ export async function GET(req) {
     if (q) url.searchParams.set(qParam, q);
     url.searchParams.set(pageParam, String(page));
     url.searchParams.set(sizeParam, String(pageSize));
+    if (category) url.searchParams.set(categoryParam, category);
+    if (minPrice) url.searchParams.set(minPriceParam, String(minPrice));
+    if (maxPrice) url.searchParams.set(maxPriceParam, String(maxPrice));
+    if (sort) url.searchParams.set(sortParam, sort);
 
     const headers = { [tokenHeader]: token };
     const res = await fetch(url, { headers, cache: 'no-store' });
@@ -89,4 +101,3 @@ export async function GET(req) {
     return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
   }
 }
-

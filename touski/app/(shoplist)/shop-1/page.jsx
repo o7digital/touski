@@ -21,6 +21,11 @@ export default async function ShopPage1({ searchParams }) {
   const q = searchParams?.q || "";
   const category = searchParams?.category || "";
   const source = (searchParams?.source || "directus").toLowerCase(); // 'directus' | 'cj'
+  const page = Number(searchParams?.page || 1);
+  const pageSize = Number(searchParams?.pageSize || 24);
+  const minPrice = searchParams?.minPrice || "";
+  const maxPrice = searchParams?.maxPrice || "";
+  const sort = searchParams?.sort || ""; // e.g., price_asc, price_desc
 
   let items = [];
   let loadError = null;
@@ -28,8 +33,12 @@ export default async function ShopPage1({ searchParams }) {
     if (source === "cj") {
       const params = new URLSearchParams();
       if (q) params.set("q", q);
-      params.set("page", "1");
-      params.set("pageSize", "50");
+      if (category) params.set("category", category);
+      if (minPrice) params.set("minPrice", minPrice);
+      if (maxPrice) params.set("maxPrice", maxPrice);
+      if (sort) params.set("sort", sort);
+      params.set("page", String(page));
+      params.set("pageSize", String(pageSize));
       const res = await fetch(`/api/cj/products?${params.toString()}`, { cache: "no-store" });
       if (!res.ok) throw new Error((await res.json()).error || `HTTP ${res.status}`);
       const data = await res.json();
@@ -53,15 +62,22 @@ export default async function ShopPage1({ searchParams }) {
       <main className="page-wrapper">
         <section className="container my-4">
           <h2 className="h4 mb-3">Produits {source === 'cj' ? 'Fournisseur (CJ)' : 'Directus'}</h2>
-          <form method="get" className="mb-3" style={{ display: 'flex', gap: 8 }}>
-            <input name="q" defaultValue={q} placeholder="Recherche (nom)" style={{ padding: 8, flex: 1 }} />
-            {source !== 'cj' && (
-              <input name="category" defaultValue={category} placeholder="Catégorie (ex: maison)" style={{ padding: 8, width: 200 }} />
-            )}
+          <form method="get" className="mb-3" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <input name="q" defaultValue={q} placeholder="Recherche (nom)" style={{ padding: 8, flex: 1, minWidth: 220 }} />
+            <input name="category" defaultValue={category} placeholder="Catégorie (ex: maison)" style={{ padding: 8, width: 180 }} />
+            <input name="minPrice" defaultValue={minPrice} placeholder="Prix min" style={{ padding: 8, width: 120 }} />
+            <input name="maxPrice" defaultValue={maxPrice} placeholder="Prix max" style={{ padding: 8, width: 120 }} />
+            <select name="sort" defaultValue={sort} style={{ padding: 8 }}>
+              <option value="">Tri (défaut)</option>
+              <option value="price_asc">Prix ↑</option>
+              <option value="price_desc">Prix ↓</option>
+            </select>
             <select name="source" defaultValue={source} style={{ padding: 8 }}>
               <option value="directus">Directus</option>
               <option value="cj">Fournisseur (CJ)</option>
             </select>
+            <input type="number" name="page" defaultValue={page} min={1} style={{ padding: 8, width: 90 }} />
+            <input type="number" name="pageSize" defaultValue={pageSize} min={6} max={60} step={6} style={{ padding: 8, width: 110 }} />
             <button type="submit">Filtrer</button>
           </form>
           {loadError && (
@@ -123,6 +139,14 @@ export default async function ShopPage1({ searchParams }) {
               })}
             </ul>
           )}
+          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+            <a href={`?${new URLSearchParams({ q, category, source, minPrice, maxPrice, sort, page: String(Math.max(1, page - 1)), pageSize: String(pageSize) }).toString()}`}>
+              ← Précédent
+            </a>
+            <a href={`?${new URLSearchParams({ q, category, source, minPrice, maxPrice, sort, page: String(page + 1), pageSize: String(pageSize) }).toString()}`}>
+              Suivant →
+            </a>
+          </div>
         </section>
         <Shop1 />
       </main>
