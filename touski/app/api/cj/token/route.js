@@ -14,6 +14,18 @@ function nowSec() {
   return Math.floor(Date.now() / 1000);
 }
 
+function sanitizeToken(raw) {
+  if (!raw) return undefined;
+  let s = String(raw);
+  // Strip HTML tags possibly pasted from UI
+  s = s.replace(/<[^>]*>/g, "");
+  // Strip quotes and trim
+  s = s.trim().replace(/^['"]|['"]$/g, "");
+  // Remove non-ASCII safety
+  s = s.replace(/[^\x00-\x7F]/g, "");
+  return s;
+}
+
 function resolveConfig() {
   const base = process.env.CJ_BASE_URL || 'https://openapi.cjdropshipping.com';
   const defaultDevTokenUrl = 'https://developers.cjdropshipping.com/api2.0/v1/authentication/getAccessToken';
@@ -79,7 +91,7 @@ export async function GET() {
     const cfg = resolveConfig();
     // Prefer a static token if provided
     if (cfg.staticToken) {
-      const token = String(cfg.staticToken).trim();
+      const token = sanitizeToken(cfg.staticToken);
       CACHE = { token, expireAt: nowSec() + 3600 };
       return Response.json({ ok: true, token, static: true, expireAt: CACHE.expireAt });
     }
@@ -89,14 +101,16 @@ export async function GET() {
     // Try CJ developers email + apiKey
     if (cfg.email && cfg.apiKey) {
       const { token, expiresIn } = await fetchTokenWithEmailApiKey(cfg);
-      CACHE = { token, expireAt: nowSec() + (expiresIn || 3600) };
-      return Response.json({ ok: true, token, expireAt: CACHE.expireAt, mode: 'email_apiKey' });
+      const clean = sanitizeToken(token);
+      CACHE = { token: clean, expireAt: nowSec() + (expiresIn || 3600) };
+      return Response.json({ ok: true, token: clean, expireAt: CACHE.expireAt, mode: 'email_apiKey' });
     }
     // Try generic client credentials
     if (cfg.clientId && cfg.clientSecret) {
       const { token, expiresIn } = await fetchTokenWithClientCreds(cfg);
-      CACHE = { token, expireAt: nowSec() + (expiresIn || 3600) };
-      return Response.json({ ok: true, token, expireAt: CACHE.expireAt, mode: 'client_credentials' });
+      const clean = sanitizeToken(token);
+      CACHE = { token: clean, expireAt: nowSec() + (expiresIn || 3600) };
+      return Response.json({ ok: true, token: clean, expireAt: CACHE.expireAt, mode: 'client_credentials' });
     }
     // Mock as a last resort
     if (cfg.mock) {

@@ -86,8 +86,8 @@ export async function GET(req) {
     const { token } = await tokenRes.json();
     // Build a list of attempts (env first, then fallbacks)
     const attempts = [];
-    const pushAttempt = (b, p, hdr, pref, qp, pp, sp, catp, minp, maxp, sortp, post, xtra) => {
-      attempts.push({ base: b, path: p, tokenHeader: hdr, tokenPrefix: pref, qParam: qp, pageParam: pp, sizeParam: sp, categoryParam: catp, minPriceParam: minp, maxPriceParam: maxp, sortParam: sortp, usePost: post, extra: xtra });
+    const pushAttempt = (b, p, hdr, pref, qp, pp, sp, catp, minp, maxp, sortp, post, xtra, tokenInQuery = false, tokenQueryName = 'accessToken') => {
+      attempts.push({ base: b, path: p, tokenHeader: hdr, tokenPrefix: pref, qParam: qp, pageParam: pp, sizeParam: sp, categoryParam: catp, minPriceParam: minp, maxPriceParam: maxp, sortParam: sortp, usePost: post, extra: xtra, tokenInQuery, tokenQueryName });
     };
 
     // 1) Env-configured attempt
@@ -100,6 +100,8 @@ export async function GET(req) {
     pushAttempt('https://developers.cjdropshipping.com', '/api/product/list', 'Authorization', 'Bearer', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
     pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', 'Authorization', 'Bearer', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
     pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'CJ-Access-Token', '', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', false, {});
+    // Some endpoints accept token as query parameter
+    pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', null, '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {}, true, 'accessToken');
 
     const tried = [];
     const controller = new AbortController();
@@ -110,10 +112,10 @@ export async function GET(req) {
       for (const a of attempts) {
         const url = new URL(`${a.base.replace(/\/$/, '')}${a.path}`);
         const headers = {
-          [a.tokenHeader]: a.tokenPrefix ? `${a.tokenPrefix} ${token}` : token,
           Accept: 'application/json',
           'User-Agent': 'TouskiCJ/1.0 (+https://touski.app)'
         };
+        if (a.tokenHeader) headers[a.tokenHeader] = a.tokenPrefix ? `${a.tokenPrefix} ${token}` : token;
         let method = 'GET';
         let sentBody = null;
         let res;
@@ -126,6 +128,7 @@ export async function GET(req) {
           if (minPrice) body[a.minPriceParam] = String(minPrice);
           if (maxPrice) body[a.maxPriceParam] = String(maxPrice);
           if (sort) body[a.sortParam] = sort;
+          if (a.tokenInQuery) body[a.tokenQueryName] = token;
           sentBody = body;
           method = 'POST';
           try {
@@ -143,6 +146,7 @@ export async function GET(req) {
           if (maxPrice) url.searchParams.set(a.maxPriceParam, String(maxPrice));
           if (sort) url.searchParams.set(a.sortParam, sort);
           for (const [k, v] of Object.entries(a.extra || {})) url.searchParams.set(k, String(v));
+          if (a.tokenInQuery) url.searchParams.set(a.tokenQueryName, token);
           try {
             res = await fetch(url, { headers, cache: 'no-store', signal: controller.signal });
           } catch (e) {
