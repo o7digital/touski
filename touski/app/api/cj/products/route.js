@@ -1,5 +1,5 @@
 // List CJ products via configurable API, normalize fields
-// Query params: q, page, pageSize
+// Query params: q, page, pageSize, category, minPrice, maxPrice, sort, debug
 
 function cfg() {
   const base = process.env.CJ_BASE_URL || 'https://openapi.cjdropshipping.com';
@@ -15,7 +15,12 @@ function cfg() {
   const tokenPrefix = process.env.CJ_TOKEN_PREFIX || '';
   const usePost = process.env.CJ_USE_POST === '1' || process.env.CJ_USE_POST === 'true';
   const mock = process.env.CJ_MOCK === '1' || process.env.CJ_MOCK === 'true';
-  return { base: base.replace(/\/$/, ''), productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock };
+  // Extra params, JSON string: e.g. '{"country":"FR","language":"FR"}'
+  let extra = {};
+  try {
+    if (process.env.CJ_EXTRA) extra = JSON.parse(process.env.CJ_EXTRA);
+  } catch (_) {}
+  return { base: base.replace(/\/$/, ''), productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock, extra };
 }
 
 async function getToken() {
@@ -58,7 +63,8 @@ export async function GET(req) {
     const minPrice = searchParams.get('minPrice');
     const maxPrice = searchParams.get('maxPrice');
     const sort = searchParams.get('sort') || '';
-    const { base, productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock } = cfg();
+    const debug = searchParams.get('debug') === '1';
+    const { base, productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock, extra } = cfg();
 
     if (mock) {
       const items = Array.from({ length: pageSize }).map((_, i) => ({
@@ -82,8 +88,10 @@ export async function GET(req) {
     const headers = { [tokenHeader]: tokenPrefix ? `${tokenPrefix} ${token}` : token, Accept: 'application/json' };
 
     let res;
+    let method = 'GET';
+    let sentBody = null;
     if (usePost) {
-      const body = {};
+      const body = { ...extra };
       if (q) body[qParam] = q;
       body[pageParam] = String(page);
       body[sizeParam] = String(pageSize);
@@ -91,6 +99,8 @@ export async function GET(req) {
       if (minPrice) body[minPriceParam] = String(minPrice);
       if (maxPrice) body[maxPriceParam] = String(maxPrice);
       if (sort) body[sortParam] = sort;
+      sentBody = body;
+      method = 'POST';
       res = await fetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body), cache: 'no-store' });
     } else {
       if (q) url.searchParams.set(qParam, q);
@@ -100,18 +110,19 @@ export async function GET(req) {
       if (minPrice) url.searchParams.set(minPriceParam, String(minPrice));
       if (maxPrice) url.searchParams.set(maxPriceParam, String(maxPrice));
       if (sort) url.searchParams.set(sortParam, sort);
+      for (const [k, v] of Object.entries(extra)) url.searchParams.set(k, String(v));
       res = await fetch(url, { headers, cache: 'no-store' });
     }
     const text = await res.text();
     let json = null; try { json = JSON.parse(text); } catch {}
     if (!res.ok) {
       const msg = json?.message || json?.error || `${res.status} ${res.statusText}`;
-      return Response.json({ ok: false, error: msg, url: String(url), raw: json || text }, { status: res.status });
+      return Response.json({ ok: false, error: msg, url: String(url), method, request: debug ? { paramMap: { qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam }, body: sentBody, headersUsed: Object.keys(headers) } : undefined, raw: json || text }, { status: res.status });
     }
     // Try common shapes
     const list = json?.data?.list || json?.data?.items || json?.items || json?.list || [];
     const items = list.map(normalize);
-    return Response.json({ ok: true, items, total: json?.data?.total || json?.total, page, pageSize, url: String(url) });
+    return Response.json({ ok: true, items, total: json?.data?.total || json?.total, page, pageSize, url: String(url), method, request: debug ? { paramMap: { qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam }, body: sentBody, headersUsed: Object.keys(headers) } : undefined });
   } catch (e) {
     return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
   }
