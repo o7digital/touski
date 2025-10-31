@@ -17,16 +17,43 @@ function pick(obj, keys) {
   return undefined;
 }
 
-export default async function ShopPage1() {
-  let directusItems = [];
-  let directusError = null;
+export default async function ShopPage1({ searchParams }) {
+  const q = searchParams?.q || "";
+  const category = searchParams?.category || "";
+  const source = (searchParams?.source || "directus").toLowerCase(); // 'directus' | 'cj'
+  const page = Number(searchParams?.page || 1);
+  const pageSize = Number(searchParams?.pageSize || 24);
+  const minPrice = searchParams?.minPrice || "";
+  const maxPrice = searchParams?.maxPrice || "";
+  const sort = searchParams?.sort || ""; // e.g., price_asc, price_desc
+
+  let items = [];
+  let loadError = null;
   try {
-    const res = await getProducts({ fields: "*", limit: 50 });
-    directusItems = res?.data || [];
+    if (source === "cj") {
+      const params = new URLSearchParams();
+      if (q) params.set("q", q);
+      if (category) params.set("category", category);
+      if (minPrice) params.set("minPrice", minPrice);
+      if (maxPrice) params.set("maxPrice", maxPrice);
+      if (sort) params.set("sort", sort);
+      params.set("page", String(page));
+      params.set("pageSize", String(pageSize));
+      const res = await fetch(`/api/cj/products?${params.toString()}`, { cache: "no-store" });
+      if (!res.ok) throw new Error((await res.json()).error || `HTTP ${res.status}`);
+      const data = await res.json();
+      items = data?.items || [];
+    } else {
+      const filter = {};
+      if (q) filter.name = { _contains: q };
+      if (category) filter.category = { _eq: category };
+      const res = await getProducts({ fields: "*", limit: 50, filter });
+      items = res?.data || [];
+    }
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error("Erreur chargement produits Directus (shop-1):", e);
-    directusError = e?.message || "Erreur inconnue";
+    console.error("Erreur chargement produits (shop-1):", e);
+    loadError = e?.message || "Erreur inconnue";
   }
 
   return (
@@ -34,17 +61,59 @@ export default async function ShopPage1() {
       <Header1 />
       <main className="page-wrapper">
         <section className="container my-4">
-          <h2 className="h4 mb-3">Produits Directus</h2>
-          {directusError && (
+          <h2 className="h4 mb-3">Produits {source === 'cj' ? 'Fournisseur (CJ)' : 'Directus'}</h2>
+          <form method="get" className="mb-3" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <input name="q" defaultValue={q} placeholder="Recherche (nom)" style={{ padding: 8, flex: 1, minWidth: 220 }} />
+            <input name="category" defaultValue={category} placeholder="Catégorie (ex: maison)" style={{ padding: 8, width: 180 }} />
+            <input name="minPrice" defaultValue={minPrice} placeholder="Prix min" style={{ padding: 8, width: 120 }} />
+            <input name="maxPrice" defaultValue={maxPrice} placeholder="Prix max" style={{ padding: 8, width: 120 }} />
+            <select name="sort" defaultValue={sort} style={{ padding: 8 }}>
+              <option value="">Tri (défaut)</option>
+              <option value="price_asc">Prix ↑</option>
+              <option value="price_desc">Prix ↓</option>
+            </select>
+            <select name="source" defaultValue={source} style={{ padding: 8 }}>
+              <option value="directus">Directus</option>
+              <option value="cj">Fournisseur (CJ)</option>
+            </select>
+            <input type="number" name="page" defaultValue={page} min={1} style={{ padding: 8, width: 90 }} />
+            <input type="number" name="pageSize" defaultValue={pageSize} min={6} max={60} step={6} style={{ padding: 8, width: 110 }} />
+            <button type="submit">Filtrer</button>
+          </form>
+          {loadError && (
             <p style={{ color: "#c00" }}>
-              Erreur de chargement Directus: {String(directusError)}
+              Erreur de chargement: {String(loadError)}
             </p>
           )}
-          {directusItems.length === 0 ? (
+          {items.length === 0 ? (
             <p>Aucun produit trouvé.</p>
           ) : (
             <ul className="list-unstyled">
-              {directusItems.map((prod) => {
+              {items.map((prod, idx) => {
+                if (source === 'cj') {
+                  const title = prod.name || 'Sans nom';
+                  const sku = prod.sku;
+                  const price = prod.price;
+                  const cost = prod.cost_price;
+                  const description = prod.description;
+                  return (
+                    <li key={`${sku || idx}-cj`} className="mb-2">
+                      <strong>{title}</strong>
+                      <div className="text-secondary small">
+                        SKU: {sku || "—"} · Prix: {price ?? "—"} · Coût: {cost ?? "—"}
+                      </div>
+                      {description && (
+                        <div className="small" style={{maxWidth: '60ch'}}>
+                          {description}
+                        </div>
+                      )}
+                      <form action={`/api/cj/import-one?sku=${encodeURIComponent(sku || '')}`} method="post" style={{ marginTop: 6 }}>
+                        <button type="submit">Importer dans Directus</button>
+                      </form>
+                    </li>
+                  );
+                }
+                // Directus rendering
                 const title =
                   pick(prod, ["name", "Name", "title", "Title", "nom", "Nom"]) ||
                   "Sans nom";
@@ -70,6 +139,14 @@ export default async function ShopPage1() {
               })}
             </ul>
           )}
+          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+            <a href={`?${new URLSearchParams({ q, category, source, minPrice, maxPrice, sort, page: String(Math.max(1, page - 1)), pageSize: String(pageSize) }).toString()}`}>
+              ← Précédent
+            </a>
+            <a href={`?${new URLSearchParams({ q, category, source, minPrice, maxPrice, sort, page: String(page + 1), pageSize: String(pageSize) }).toString()}`}>
+              Suivant →
+            </a>
+          </div>
         </section>
         <Shop1 />
       </main>

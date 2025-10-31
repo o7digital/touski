@@ -111,3 +111,4 @@ export async function GET(req) {
     return Response.json({ ok: false, error: String(e?.message || e), url, usedAuthHeader, authMode, tokenMeta, credsMeta: { hasEmail: Boolean(DIRECTUS_EMAIL), hasPassword: Boolean(DIRECTUS_PASSWORD) } }, { status: 500 });
   }
 }
+

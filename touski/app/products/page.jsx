@@ -1,4 +1,4 @@
-import { getProducts } from "@/lib/directus";
+import { getProducts } from "../../lib/directus";
 
 export const dynamic = "force-dynamic";
 

@@ -31,6 +31,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Deployment / Branches
+- Active development happens on the `dev` branch. When importing this repo on Vercel, select the `dev` branch.
+- Production can continue to use `main` until `dev` is merged via PR.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Quick setup on Vercel
+1. Import repo `o7digital/touski`
+2. Choose branch: `dev`
+3. Add env var: `NEXT_PUBLIC_DIRECTUS_URL=https://touski-admin-directus-production.up.railway.app`
+4. Framework: Next.js (auto), Root: `/`
+
+More docs: [Next.js deployment documentation](https://nextjs.org/docs/deployment).
