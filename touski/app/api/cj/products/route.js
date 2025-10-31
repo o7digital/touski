@@ -12,8 +12,10 @@ function cfg() {
   const minPriceParam = process.env.CJ_MIN_PRICE_PARAM || 'minPrice';
   const maxPriceParam = process.env.CJ_MAX_PRICE_PARAM || 'maxPrice';
   const sortParam = process.env.CJ_SORT_PARAM || 'sort';
+  const tokenPrefix = process.env.CJ_TOKEN_PREFIX || '';
+  const usePost = process.env.CJ_USE_POST === '1' || process.env.CJ_USE_POST === 'true';
   const mock = process.env.CJ_MOCK === '1' || process.env.CJ_MOCK === 'true';
-  return { base: base.replace(/\/$/, ''), productsPath, tokenHeader, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, mock };
+  return { base: base.replace(/\/$/, ''), productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock };
 }
 
 async function getToken() {
@@ -56,7 +58,7 @@ export async function GET(req) {
     const minPrice = searchParams.get('minPrice');
     const maxPrice = searchParams.get('maxPrice');
     const sort = searchParams.get('sort') || '';
-    const { base, productsPath, tokenHeader, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, mock } = cfg();
+    const { base, productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock } = cfg();
 
     if (mock) {
       const items = Array.from({ length: pageSize }).map((_, i) => ({
@@ -77,16 +79,29 @@ export async function GET(req) {
     }
     const { token } = await tokenRes.json();
     const url = new URL(`${base}${productsPath}`);
-    if (q) url.searchParams.set(qParam, q);
-    url.searchParams.set(pageParam, String(page));
-    url.searchParams.set(sizeParam, String(pageSize));
-    if (category) url.searchParams.set(categoryParam, category);
-    if (minPrice) url.searchParams.set(minPriceParam, String(minPrice));
-    if (maxPrice) url.searchParams.set(maxPriceParam, String(maxPrice));
-    if (sort) url.searchParams.set(sortParam, sort);
+    const headers = { [tokenHeader]: tokenPrefix ? `${tokenPrefix} ${token}` : token, Accept: 'application/json' };
 
-    const headers = { [tokenHeader]: token };
-    const res = await fetch(url, { headers, cache: 'no-store' });
+    let res;
+    if (usePost) {
+      const body = {};
+      if (q) body[qParam] = q;
+      body[pageParam] = String(page);
+      body[sizeParam] = String(pageSize);
+      if (category) body[categoryParam] = category;
+      if (minPrice) body[minPriceParam] = String(minPrice);
+      if (maxPrice) body[maxPriceParam] = String(maxPrice);
+      if (sort) body[sortParam] = sort;
+      res = await fetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body), cache: 'no-store' });
+    } else {
+      if (q) url.searchParams.set(qParam, q);
+      url.searchParams.set(pageParam, String(page));
+      url.searchParams.set(sizeParam, String(pageSize));
+      if (category) url.searchParams.set(categoryParam, category);
+      if (minPrice) url.searchParams.set(minPriceParam, String(minPrice));
+      if (maxPrice) url.searchParams.set(maxPriceParam, String(maxPrice));
+      if (sort) url.searchParams.set(sortParam, sort);
+      res = await fetch(url, { headers, cache: 'no-store' });
+    }
     const text = await res.text();
     let json = null; try { json = JSON.parse(text); } catch {}
     if (!res.ok) {
