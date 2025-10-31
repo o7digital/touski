@@ -19,6 +19,7 @@ function resolveConfig() {
     tokenUrl,
     clientId: process.env.CJ_CLIENT_ID,
     clientSecret: process.env.CJ_CLIENT_SECRET,
+    staticToken: process.env.CJ_STATIC_TOKEN,
     mock: process.env.CJ_MOCK === '1' || process.env.CJ_MOCK === 'true',
   };
 }
@@ -47,6 +48,12 @@ async function fetchTokenReal(cfg) {
 export async function GET() {
   try {
     const cfg = resolveConfig();
+    // Prefer a static token if provided
+    if (cfg.staticToken) {
+      const token = String(cfg.staticToken).trim();
+      CACHE = { token, expireAt: nowSec() + 3600 };
+      return Response.json({ ok: true, token, static: true, expireAt: CACHE.expireAt });
+    }
     if (CACHE.token && CACHE.expireAt > nowSec() + 30) {
       return Response.json({ ok: true, token: CACHE.token, cached: true, expireAt: CACHE.expireAt });
     }
@@ -62,4 +69,3 @@ export async function GET() {
     return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
   }
 }
-

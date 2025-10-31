@@ -19,13 +19,20 @@ async function importOne(sku) {
   return res.json();
 }
 
-export default async function CjCatalogPage() {
-  const data = await fetchCJ({});
+export default async function CjCatalogPage({ searchParams }) {
+  const q = searchParams?.q || "";
+  const page = Number(searchParams?.page || 1);
+  const pageSize = Number(searchParams?.pageSize || 12);
+  const data = await fetchCJ({ q, page, pageSize });
   const items = data?.items || [];
 
   return (
     <main style={{ padding: 24 }}>
       <h1>Catalogue CJ (démo)</h1>
+      <form method="get" style={{ margin: '12px 0', display: 'flex', gap: 8 }}>
+        <input name="q" defaultValue={q} placeholder="Rechercher (ex: maison)" style={{ padding: 8, flex: 1 }} />
+        <button type="submit">Rechercher</button>
+      </form>
       {!data?.ok && (
         <p style={{ color: '#c00' }}>Erreur: {String(data?.error || 'inconnue')} (utilisez CJ_MOCK=1 pour données fictives)</p>
       )}
@@ -52,4 +59,3 @@ export default async function CjCatalogPage() {
     </main>
   );
 }
-

@@ -17,11 +17,16 @@ function pick(obj, keys) {
   return undefined;
 }
 
-export default async function ShopPage1() {
+export default async function ShopPage1({ searchParams }) {
+  const q = searchParams?.q || "";
+  const category = searchParams?.category || "";
   let directusItems = [];
   let directusError = null;
   try {
-    const res = await getProducts({ fields: "*", limit: 50 });
+    const filter = {};
+    if (q) filter.name = { _contains: q };
+    if (category) filter.category = { _eq: category };
+    const res = await getProducts({ fields: "*", limit: 50, filter });
     directusItems = res?.data || [];
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -35,6 +40,11 @@ export default async function ShopPage1() {
       <main className="page-wrapper">
         <section className="container my-4">
           <h2 className="h4 mb-3">Produits Directus</h2>
+          <form method="get" className="mb-3" style={{ display: 'flex', gap: 8 }}>
+            <input name="q" defaultValue={q} placeholder="Recherche (nom)" style={{ padding: 8, flex: 1 }} />
+            <input name="category" defaultValue={category} placeholder="Catégorie (ex: maison)" style={{ padding: 8, width: 200 }} />
+            <button type="submit">Filtrer</button>
+          </form>
           {directusError && (
             <p style={{ color: "#c00" }}>
               Erreur de chargement Directus: {String(directusError)}
