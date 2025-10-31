@@ -4,6 +4,7 @@ import Header1 from "@/components/headers/Header1";
 import Shop1 from "@/components/shoplist/Shop1";
 import { getProducts } from "@/lib/directus";
 import React from "react";
+import { headers } from "next/headers";
 
 export const metadata = {
   title: "Shop 1 || Uomo eCommerce React Nextjs Template",
@@ -39,7 +40,11 @@ export default async function ShopPage1({ searchParams }) {
       if (sort) params.set("sort", sort);
       params.set("page", String(page));
       params.set("pageSize", String(pageSize));
-      const res = await fetch(`/api/cj/products?${params.toString()}`, { cache: "no-store" });
+      const h = headers();
+      const proto = h.get("x-forwarded-proto") || "https";
+      const host = h.get("x-forwarded-host") || h.get("host");
+      const origin = `${proto}://${host}`;
+      const res = await fetch(`${origin}/api/cj/products?${params.toString()}`, { cache: "no-store" });
       if (!res.ok) throw new Error((await res.json()).error || `HTTP ${res.status}`);
       const data = await res.json();
       items = data?.items || [];

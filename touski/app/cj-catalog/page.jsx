@@ -1,13 +1,18 @@
 import Link from "next/link";
+import { headers } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
 async function fetchCJ({ q = "", page = 1, pageSize = 12 } = {}) {
-  const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/cj/products`, 'http://localhost');
+  const h = headers();
+  const proto = h.get('x-forwarded-proto') || 'https';
+  const host = h.get('x-forwarded-host') || h.get('host');
+  const origin = `${proto}://${host}`;
+  const url = new URL(`${origin}/api/cj/products`);
   if (q) url.searchParams.set('q', q);
   url.searchParams.set('page', String(page));
   url.searchParams.set('pageSize', String(pageSize));
-  const res = await fetch(`/api/cj/products?q=${encodeURIComponent(q)}&page=${page}&pageSize=${pageSize}`, { cache: 'no-store' });
+  const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) {
     return { ok: false, items: [], error: `HTTP ${res.status}` };
   }
