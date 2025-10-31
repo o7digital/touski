@@ -110,6 +110,7 @@ export async function GET(req) {
     const controller = new AbortController();
     const timeoutMs = 15000;
     const timer = setTimeout(() => controller.abort(), timeoutMs);
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
     try {
       for (const a of attempts) {
@@ -122,6 +123,7 @@ export async function GET(req) {
         let method = 'GET';
         let sentBody = null;
         let res;
+        let retried = false;
         if (a.usePost) {
           const body = { ...(a.extra || {}) };
           if (q) body[a.qParam] = q;
@@ -136,6 +138,12 @@ export async function GET(req) {
           method = 'POST';
           try {
             res = await fetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body), cache: 'no-store', signal: controller.signal });
+            if (res.status === 429 && !retried) {
+              const ra = Number(res.headers.get('retry-after'));
+              await sleep(!Number.isNaN(ra) && ra > 0 ? ra * 1000 : 1200);
+              retried = true;
+              res = await fetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body), cache: 'no-store', signal: controller.signal });
+            }
           } catch (e) {
             tried.push({ url: String(url), method, error: String(e?.message || e) });
             continue;
@@ -152,6 +160,12 @@ export async function GET(req) {
           if (a.tokenInQuery) url.searchParams.set(a.tokenQueryName, token);
           try {
             res = await fetch(url, { headers, cache: 'no-store', signal: controller.signal });
+            if (res.status === 429 && !retried) {
+              const ra = Number(res.headers.get('retry-after'));
+              await sleep(!Number.isNaN(ra) && ra > 0 ? ra * 1000 : 1200);
+              retried = true;
+              res = await fetch(url, { headers, cache: 'no-store', signal: controller.signal });
+            }
           } catch (e) {
             tried.push({ url: String(url), method, error: String(e?.message || e) });
             continue;
