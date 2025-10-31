@@ -93,7 +93,10 @@ export async function GET() {
     if (cfg.staticToken) {
       const token = sanitizeToken(cfg.staticToken);
       CACHE = { token, expireAt: nowSec() + 3600 };
-      return Response.json({ ok: true, token, static: true, expireAt: CACHE.expireAt });
+      return Response.json(
+        { ok: true, token, static: true, expireAt: CACHE.expireAt },
+        { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+      );
     }
     if (CACHE.token && CACHE.expireAt > nowSec() + 30) {
       return Response.json({ ok: true, token: CACHE.token, cached: true, expireAt: CACHE.expireAt });
@@ -103,14 +106,20 @@ export async function GET() {
       const { token, expiresIn } = await fetchTokenWithEmailApiKey(cfg);
       const clean = sanitizeToken(token);
       CACHE = { token: clean, expireAt: nowSec() + (expiresIn || 3600) };
-      return Response.json({ ok: true, token: clean, expireAt: CACHE.expireAt, mode: 'email_apiKey' });
+      return Response.json(
+        { ok: true, token: clean, expireAt: CACHE.expireAt, mode: 'email_apiKey' },
+        { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+      );
     }
     // Try generic client credentials
     if (cfg.clientId && cfg.clientSecret) {
       const { token, expiresIn } = await fetchTokenWithClientCreds(cfg);
       const clean = sanitizeToken(token);
       CACHE = { token: clean, expireAt: nowSec() + (expiresIn || 3600) };
-      return Response.json({ ok: true, token: clean, expireAt: CACHE.expireAt, mode: 'client_credentials' });
+      return Response.json(
+        { ok: true, token: clean, expireAt: CACHE.expireAt, mode: 'client_credentials' },
+        { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+      );
     }
     // Mock as a last resort
     if (cfg.mock) {
@@ -118,8 +127,14 @@ export async function GET() {
       CACHE = { token: fake, expireAt: nowSec() + 600 };
       return Response.json({ ok: true, token: fake, mock: true, expireAt: CACHE.expireAt });
     }
-    return Response.json({ ok: false, error: 'No CJ auth configured (set CJ_STATIC_TOKEN or CJ_EMAIL/CJ_API_KEY or CJ_CLIENT_ID/CJ_CLIENT_SECRET)' }, { status: 400 });
+    return Response.json(
+      { ok: false, error: 'No CJ auth configured (set CJ_STATIC_TOKEN or CJ_EMAIL/CJ_API_KEY or CJ_CLIENT_ID/CJ_CLIENT_SECRET)' },
+      { status: 400, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+    );
   } catch (e) {
-    return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
+    return Response.json(
+      { ok: false, error: String(e?.message || e) },
+      { status: 500, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+    );
   }
 }

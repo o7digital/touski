@@ -168,7 +168,10 @@ export async function GET(req) {
         const items = Array.isArray(list) ? list.map(normalize) : [];
         if (items.length > 0 || strictEnv) {
           clearTimeout(timer);
-          return Response.json({ ok: true, items, total: json?.data?.total || json?.total, page, pageSize, url: String(url), method, attempts: debug ? tried : undefined });
+          return Response.json(
+            { ok: true, items, total: json?.data?.total || json?.total, page, pageSize, url: String(url), method, attempts: debug ? tried : undefined },
+            { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+          );
         }
         // items empty — try next combo
         tried.push({ url: String(url), method, status: res.status, info: 'empty-list', raw: debug ? (json || text) : undefined });
@@ -176,8 +179,14 @@ export async function GET(req) {
     } finally {
       clearTimeout(timer);
     }
-    return Response.json({ ok: false, error: 'All attempts failed', attempts: tried }, { status: 502 });
+    return Response.json(
+      { ok: false, error: 'All attempts failed', attempts: tried },
+      { status: 502, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+    );
   } catch (e) {
-    return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
+    return Response.json(
+      { ok: false, error: String(e?.message || e) },
+      { status: 500, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+    );
   }
 }

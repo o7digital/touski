@@ -161,3 +161,4 @@ export default async function ShopPage1({ searchParams }) {
     </>
   );
 }
+export const dynamic = "force-dynamic";
