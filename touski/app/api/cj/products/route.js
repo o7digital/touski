@@ -65,6 +65,7 @@ export async function GET(req) {
     const sort = searchParams.get('sort') || '';
     const debug = searchParams.get('debug') === '1';
     const { base, productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock, extra } = cfg();
+    const strictEnv = process.env.CJ_STRICT === '1' || process.env.CJ_STRICT === 'true' || searchParams.get('strict') === '1';
 
     if (mock) {
       const items = Array.from({ length: pageSize }).map((_, i) => ({
@@ -90,18 +91,20 @@ export async function GET(req) {
       attempts.push({ base: b, path: p, tokenHeader: hdr, tokenPrefix: pref, qParam: qp, pageParam: pp, sizeParam: sp, categoryParam: catp, minPriceParam: minp, maxPriceParam: maxp, sortParam: sortp, usePost: post, extra: xtra, tokenInQuery, tokenQueryName });
     };
 
-    // 1) Env-configured attempt
+    // 1) Always try the env-configured attempt first
     pushAttempt(base, productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, extra);
-    // 2) Common fallbacks (developers vs openapi, header styles, GET/POST, qParam variants)
-    pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'CJ-Access-Token', '', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
-    pushAttempt('https://developers.cjdropshipping.com', '/api/product/list', 'CJ-Access-Token', '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
-    pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', 'CJ-Access-Token', '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
-    pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'Authorization', 'Bearer', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
-    pushAttempt('https://developers.cjdropshipping.com', '/api/product/list', 'Authorization', 'Bearer', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
-    pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', 'Authorization', 'Bearer', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
-    pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'CJ-Access-Token', '', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', false, {});
-    // Some endpoints accept token as query parameter
-    pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', null, '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {}, true, 'accessToken');
+    // 2) Optionally try fallbacks (disabled when CJ_STRICT=1 or ?strict=1 to avoid rate-limit)
+    if (!strictEnv) {
+      pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'CJ-Access-Token', '', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+      pushAttempt('https://developers.cjdropshipping.com', '/api/product/list', 'CJ-Access-Token', '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+      pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', 'CJ-Access-Token', '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+      pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'Authorization', 'Bearer', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+      pushAttempt('https://developers.cjdropshipping.com', '/api/product/list', 'Authorization', 'Bearer', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+      pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', 'Authorization', 'Bearer', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {});
+      pushAttempt('https://openapi.cjdropshipping.com', '/product/list', 'CJ-Access-Token', '', 'keyword', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', false, {});
+      // Some endpoints accept token as query parameter
+      pushAttempt('https://developers.cjdropshipping.com', '/api2.0/v1/product/list', null, '', 'keyWord', 'pageNum', 'pageSize', 'category', 'minPrice', 'maxPrice', 'sort', true, {}, true, 'accessToken');
+    }
 
     const tried = [];
     const controller = new AbortController();
@@ -163,7 +166,7 @@ export async function GET(req) {
         }
         const list = json?.data?.list || json?.data?.items || json?.items || json?.list || [];
         const items = Array.isArray(list) ? list.map(normalize) : [];
-        if (items.length > 0 || attempts.indexOf(a) === attempts.length - 1) {
+        if (items.length > 0 || strictEnv) {
           clearTimeout(timer);
           return Response.json({ ok: true, items, total: json?.data?.total || json?.total, page, pageSize, url: String(url), method, attempts: debug ? tried : undefined });
         }

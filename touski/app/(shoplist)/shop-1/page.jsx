@@ -44,6 +44,7 @@ export default async function ShopPage1({ searchParams }) {
       const proto = h.get("x-forwarded-proto") || "https";
       const host = h.get("x-forwarded-host") || h.get("host");
       const origin = `${proto}://${host}`;
+      params.set('strict', '1');
       const res = await fetch(`${origin}/api/cj/products?${params.toString()}`, { cache: "no-store" });
       if (!res.ok) throw new Error((await res.json()).error || `HTTP ${res.status}`);
       const data = await res.json();
