@@ -183,31 +183,17 @@ export default function BestSelling() {
                 <div className="product-card mb-3 mb-md-4 mb-xxl-5">
                   <div className="pc__img-wrapper">
                     {(currentCategory === "Featured" && cjItems.length) ? (
-                      // CJ card image (single image, maintain 330x400 ratio)
-                      <div style={{ position: "relative", width: "100%" }}>
-                        <div
-                          style={{
-                            width: "100%",
-                            position: "relative",
-                            paddingTop: `${(400 / 330) * 100}%`,
-                            background: "#fafafa",
-                            borderRadius: 8,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {Array.isArray(elm.images) && elm.images[0] ? (
-                            <img
-                              loading="lazy"
-                              src={elm.images[0]}
-                              width={330}
-                              height={400}
-                              alt={elm.name || "Produit"}
-                              className="pc__img"
-                              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                            />
-                          ) : null}
-                        </div>
-                      </div>
+                      // CJ card image: direct child of pc__img-wrapper to reuse theme ratio
+                      <>
+                        {Array.isArray(elm.images) && elm.images[0] ? (
+                          <img
+                            loading="lazy"
+                            src={elm.images[0]}
+                            alt={elm.name || "Produit"}
+                            className="pc__img"
+                          />
+                        ) : null}
+                      </>
                     ) : (
                       // Original demo with swiper (mock data)
                       <Swiper
