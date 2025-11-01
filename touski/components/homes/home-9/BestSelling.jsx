@@ -196,7 +196,7 @@ export default function BestSelling() {
                           }}
                         >
                           {Array.isArray(elm.images) && elm.images[0] ? (
-                            <Image
+                            <img
                               loading="lazy"
                               src={elm.images[0]}
                               width={330}
