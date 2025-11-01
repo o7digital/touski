@@ -89,38 +89,7 @@ export default function BestSelling() {
       const res = await fetch(url, { cache: "no-store" });
       const j = await res.json();
       if (!res.ok || !j?.ok) throw new Error(j?.error || `HTTP ${res.status}`);
-      let items = Array.isArray(j.items) ? j.items : [];
-      // Client-side filter complements CJ API (which is broad)
-      const includeIf = (it, term) =>
-        [it?.raw?.categoryName, it?.name, it?.description]
-          .filter(Boolean)
-          .some((v) => String(v).toLowerCase().includes(term));
-      // Apply query filter (if provided)
-      if (qnMapped) {
-        const t = qnMapped.toLowerCase();
-        items = items.filter((it) => includeIf(it, t));
-      }
-      // Apply category textual filter (broad mapping for "maison/house/home")
-      if (cn0) {
-        const t = cn0;
-        const homeTags = ["home", "house", "kitchen", "bath", "furniture", "garden", "lighting", "storage", "clean", "detergent"];
-        if (["maison", "house", "home"].includes(t)) {
-          items = items.filter((it) => {
-            const catn = String(it?.raw?.categoryName || "").toLowerCase();
-            return homeTags.some((k) => catn.includes(k));
-          });
-        } else {
-          items = items.filter((it) => includeIf(it, t));
-        }
-      }
-      // Price filters client-side
-      const n = (v) => (v == null || isNaN(Number(v)) ? undefined : Number(v));
-      const minN = n(min), maxN = n(max);
-      if (minN != null) items = items.filter((it) => n(it.price) == null || n(it.price) >= minN);
-      if (maxN != null) items = items.filter((it) => n(it.price) == null || n(it.price) <= maxN);
-      // Sort client-side
-      if (s === "price_asc") items = items.slice().sort((a,b)=> (n(a.price)??Infinity) - (n(b.price)??Infinity));
-      if (s === "price_desc") items = items.slice().sort((a,b)=> (n(b.price)??-Infinity) - (n(a.price)??-Infinity));
+      const items = Array.isArray(j.items) ? j.items : [];
       setCjItems(items);
     } catch (e) {
       setError(String(e?.message || e));
