@@ -14,8 +14,8 @@ export default function BestSelling() {
   const [currentCategory, setCurrentCategory] = useState(filterCategories4[0]);
   const [filtered, setFiltered] = useState(products16);
   // CJ state
-  const [q, setQ] = useState("home");
-  const [category, setCategory] = useState("");
+  const [q, setQ] = useState("");
+  const [universe, setUniverse] = useState("home");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sort, setSort] = useState("");
@@ -34,15 +34,15 @@ export default function BestSelling() {
   }, [currentCategory]);
 
   useEffect(() => {
-    // Load CJ at mount; show something by default
-    loadCJ({ query: "home", size: 12 });
+    // Load CJ at mount with default universe
+    loadCJ({ query: q, size: pageSize, preset: universe });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function loadCJ({
     query = q,
     size = pageSize,
-    category: cat = category,
+    preset: p = universe,
     min = minPrice,
     max = maxPrice,
     s = sort,
@@ -53,10 +53,7 @@ export default function BestSelling() {
       // Normalize search terms (FR → EN, synonyms)
       const norm = (str) => String(str || "").trim().toLowerCase();
       const qn0 = norm(query);
-      const cn0 = norm(cat);
       let qn = qn0;
-      // If no query, try using category as a query term
-      if (!qn && cn0) qn = cn0;
       // Map common FR/EN tokens to CJ-friendly search
       const map = {
         maison: "home",
@@ -80,9 +77,8 @@ export default function BestSelling() {
       url.searchParams.set("page", "1");
       url.searchParams.set("pageSize", String(size));
       url.searchParams.set("strict", "1");
-      // Always scope Featured section to home-related preset
-      url.searchParams.set("preset", "home");
-      if (cn0) url.searchParams.set("category", cn0);
+      // Scope by selected universe
+      url.searchParams.set("preset", p || "home");
       // Force language to English to get richer results
       url.searchParams.set("language", "EN");
       if (min) url.searchParams.set("minPrice", String(min));
@@ -91,26 +87,7 @@ export default function BestSelling() {
       const res = await fetch(url, { cache: "no-store" });
       const j = await res.json();
       if (!res.ok || !j?.ok) throw new Error(j?.error || `HTTP ${res.status}`);
-      let items = Array.isArray(j.items) ? j.items : [];
-      // Mode "home" strict par défaut ou si l’intention est maison/house/home
-      const isHomeIntent = [qnMapped, cn0].some((t) => ["home", "house", "maison"].includes(t));
-      const homeTags = [
-        "home", "house", "kitchen", "cook", "bath", "toilet", "lighting",
-        "lamp", "furniture", "sofa", "chair", "table", "storage", "organizer",
-        "garden", "outdoor", "clean", "detergent", "bedding"
-      ];
-      if (isHomeIntent || !qnMapped && !cn0) {
-        items = items.filter((it) => {
-          const c = String(it?.raw?.categoryName || "").toLowerCase();
-          const name = String(it?.name || "").toLowerCase();
-          const desc = String(it?.description || "").toLowerCase();
-          return (
-            homeTags.some((k) => c.includes(k)) ||
-            homeTags.some((k) => name.includes(k)) ||
-            homeTags.some((k) => desc.includes(k))
-          );
-        });
-      }
+      const items = Array.isArray(j.items) ? j.items : [];
       setCjItems(items);
     } catch (e) {
       setError(String(e?.message || e));
@@ -143,7 +120,7 @@ export default function BestSelling() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          loadCJ({ query: q, size: pageSize, category, min: minPrice, max: maxPrice, s: sort });
+          loadCJ({ query: q, size: pageSize, preset: universe, min: minPrice, max: maxPrice, s: sort });
         }}
         className="mb-3 pb-3 mb-xl-4"
         style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center" }}
@@ -151,15 +128,18 @@ export default function BestSelling() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Recherche (ex: house, home, kitchen)"
+          placeholder="Recherche (ex: house, kitchen, lamp)"
           style={{ padding: 8, minWidth: 260, flex: 1 }}
         />
-        <input
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          placeholder="Catégorie"
-          style={{ padding: 8, width: 180 }}
-        />
+        <select value={universe} onChange={(e) => setUniverse(e.target.value)} style={{ padding: 8 }}>
+          <option value="home">Univers: Maison</option>
+          <option value="kitchen">Cuisine</option>
+          <option value="bath">Salle de bain</option>
+          <option value="lighting">Luminaires</option>
+          <option value="furniture">Meubles</option>
+          <option value="storage">Rangement</option>
+          <option value="garden">Jardin</option>
+        </select>
         <input
           value={minPrice}
           onChange={(e) => setMinPrice(e.target.value)}

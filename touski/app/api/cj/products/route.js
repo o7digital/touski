@@ -147,7 +147,7 @@ export async function GET(req) {
     const qLower = q.toLowerCase();
     const qMap = { maison: 'home', house: 'home', domicile: 'home', cuisine: 'kitchen', bain: 'bath', 'salle de bain': 'bath' };
     const qNorm = qMap[qLower] || q;
-    const preset = searchParams.get('preset') || '';
+    const preset = (searchParams.get('preset') || '').toLowerCase();
     const nofilter = searchParams.get('nofilter') === '1';
     const aggregated = searchParams.get('aggregated') === '1';
     const strictEnv = process.env.CJ_STRICT === '1' || process.env.CJ_STRICT === 'true' || searchParams.get('strict') === '1';
@@ -166,12 +166,18 @@ export async function GET(req) {
 
     // Preset aggregator (e.g., preset=home) – merges multiple keyword queries
     if (preset && !aggregated) {
-      const map = {
+      const PRESET_TERMS = {
         home: [
           'home','kitchen','bath','lighting','lamp','furniture','sofa','chair','table','storage','organizer','garden','outdoor','clean','detergent','bedding'
         ],
+        kitchen: ['kitchen','cook','cooking','utensil','pan','pot','knife','storage','organizer'],
+        bath: ['bath','toilet','wash','soap','towel','shower','bathroom'],
+        lighting: ['lighting','lamp','light','bulb','lantern','led'],
+        furniture: ['furniture','sofa','chair','table','desk','shelf','cabinet','stool'],
+        storage: ['storage','organizer','box','basket','rack','hanger','hook','shelf'],
+        garden: ['garden','outdoor','patio','plant','watering','hose','tool'],
       };
-      const terms = map[preset] || [];
+      const terms = PRESET_TERMS[preset] || PRESET_TERMS.home;
       const unique = new Map();
       // 0) Try category-based aggregation when possible
       try {
@@ -181,7 +187,8 @@ export async function GET(req) {
         if (cr.ok) {
           const cj = await cr.json();
           const list = Array.isArray(cj.items) ? cj.items : [];
-          const wanted = ['home','garden','furniture','kitchen','bath','lighting','storage','organizer','clean','detergent','bedding'];
+          const wanted = (preset === 'home') ? ['home','garden','furniture','kitchen','bath','lighting','storage','organizer','clean','detergent','bedding']
+                        : terms;
           const pick = list.filter((c) => {
             const p = (c.path || []).join(' ').toLowerCase();
             const n = String(c.name||'').toLowerCase();
