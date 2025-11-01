@@ -147,6 +147,7 @@ export async function GET(req) {
     const qMap = { maison: 'home', house: 'home', domicile: 'home', cuisine: 'kitchen', bain: 'bath', 'salle de bain': 'bath' };
     const qNorm = qMap[qLower] || q;
     const preset = searchParams.get('preset') || '';
+    const nofilter = searchParams.get('nofilter') === '1';
     const aggregated = searchParams.get('aggregated') === '1';
     const strictEnv = process.env.CJ_STRICT === '1' || process.env.CJ_STRICT === 'true' || searchParams.get('strict') === '1';
 
@@ -195,7 +196,7 @@ export async function GET(req) {
         } catch {}
       }
       let items = Array.from(unique.values());
-      if (preset === 'home') items = homeFilter(items);
+      if (preset === 'home' && !nofilter) items = homeFilter(items);
       items = items.slice(0, pageSize);
       return Response.json({ ok: true, items, page, pageSize, preset }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
     }
@@ -354,7 +355,7 @@ export async function GET(req) {
         ];
         const list = candidates.find((v) => Array.isArray(v)) || [];
         let items = list.map(normalize);
-        if (preset === 'home') items = homeFilter(items);
+        if (preset === 'home' && !nofilter) items = homeFilter(items);
         if (items.length > 0 || strictEnv) {
           clearTimeout(timer);
           return Response.json(
