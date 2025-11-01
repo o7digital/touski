@@ -182,19 +182,22 @@ export default function BestSelling() {
               <div key={i} className="col-6 col-md-4 col-lg-3">
                 <div className="product-card mb-3 mb-md-4 mb-xxl-5">
                   <div className="pc__img-wrapper">
-                    {(currentCategory === "Featured" && cjItems.length) ? (
+            {(currentCategory === "Featured" && cjItems.length) ? (
                       // CJ card image: direct child of pc__img-wrapper to reuse theme ratio
                       <>
-                        {Array.isArray(elm.images) && elm.images[0] ? (
+                        {(() => {
+                          const imgSrc = (Array.isArray(elm.images) && elm.images[0]) || elm?.raw?.productImage || elm?.raw?.image || elm?.raw?.imgUrl || elm?.raw?.imageUrls?.split?.(",")?.[0];
+                          return imgSrc ? (
                           <img
                             loading="lazy"
                             decoding="async"
                             referrerPolicy="no-referrer"
-                            src={elm.images[0]}
+                            src={imgSrc}
                             alt={elm.name || "Produit"}
                             className="pc__img"
                           />
-                        ) : null}
+                          ) : null;
+                        })()}
                       </>
                     ) : (
                       // Original demo with swiper (mock data)
