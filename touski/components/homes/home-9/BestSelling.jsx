@@ -14,7 +14,7 @@ export default function BestSelling() {
   const [currentCategory, setCurrentCategory] = useState(filterCategories4[0]);
   const [filtered, setFiltered] = useState(products16);
   // CJ state
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState("home");
   const [category, setCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -89,7 +89,26 @@ export default function BestSelling() {
       const res = await fetch(url, { cache: "no-store" });
       const j = await res.json();
       if (!res.ok || !j?.ok) throw new Error(j?.error || `HTTP ${res.status}`);
-      const items = Array.isArray(j.items) ? j.items : [];
+      let items = Array.isArray(j.items) ? j.items : [];
+      // Mode "home" strict par défaut ou si l’intention est maison/house/home
+      const isHomeIntent = [qnMapped, cn0].some((t) => ["home", "house", "maison"].includes(t));
+      const homeTags = [
+        "home", "house", "kitchen", "cook", "bath", "toilet", "lighting",
+        "lamp", "furniture", "sofa", "chair", "table", "storage", "organizer",
+        "garden", "outdoor", "clean", "detergent", "bedding"
+      ];
+      if (isHomeIntent || !qnMapped && !cn0) {
+        items = items.filter((it) => {
+          const c = String(it?.raw?.categoryName || "").toLowerCase();
+          const name = String(it?.name || "").toLowerCase();
+          const desc = String(it?.description || "").toLowerCase();
+          return (
+            homeTags.some((k) => c.includes(k)) ||
+            homeTags.some((k) => name.includes(k)) ||
+            homeTags.some((k) => desc.includes(k))
+          );
+        });
+      }
       setCjItems(items);
     } catch (e) {
       setError(String(e?.message || e));
