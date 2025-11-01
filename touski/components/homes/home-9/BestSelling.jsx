@@ -188,6 +188,8 @@ export default function BestSelling() {
                         {Array.isArray(elm.images) && elm.images[0] ? (
                           <img
                             loading="lazy"
+                            decoding="async"
+                            referrerPolicy="no-referrer"
                             src={elm.images[0]}
                             alt={elm.name || "Produit"}
                             className="pc__img"
