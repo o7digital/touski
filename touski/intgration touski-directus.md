@@ -32,5 +32,8 @@ Le projet Touski utilise Directus comme backend headless pour gérer les donnée
 - Mettre en place des logs et alertes sur les imports.
 - Finaliser la documentation technique et fonctionnelle.
 
+## Référence complémentaire
+- Pour le flux Front + Dropshipping (v2) et l’agrégation CJ côté serveur, voir: `touski/docs/Integration_Front_Dropshipping_v2.md`
+
 ---
 Document rédigé par GitHub Copilot – 2025.

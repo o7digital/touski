@@ -113,3 +113,6 @@ Note token: éviter tout collage tronqué avec “…”; utiliser `printf '%s' 
 - Les champs mixtes Maj/Min (ex: `Description`) sont gérés côté affichage.
 - Le helper Directus nettoie les tokens non ASCII et tente l’auth auto si besoin.
 
+## Voir aussi
+
+- Nouvelle note d’intégration (Front + Dropshipping v2): `touski/docs/Integration_Front_Dropshipping_v2.md`
