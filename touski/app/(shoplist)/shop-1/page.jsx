@@ -5,6 +5,7 @@ import Shop1 from "@/components/shoplist/Shop1";
 import { getProducts } from "@/lib/directus";
 import React from "react";
 import { headers } from "next/headers";
+import CjGrid from "@/components/cj/CjGrid";
 
 export const metadata = {
   title: "Shop 1 || Uomo eCommerce React Nextjs Template",
@@ -93,38 +94,11 @@ export default async function ShopPage1({ searchParams }) {
           )}
           {items.length === 0 ? (
             <p>Aucun produit trouvé.</p>
+          ) : source === 'cj' ? (
+            <CjGrid items={items} />
           ) : (
             <ul className="list-unstyled">
-              {items.map((prod, idx) => {
-                if (source === 'cj') {
-                  const title = prod.name || 'Sans nom';
-                  const sku = prod.sku;
-                  const price = prod.price;
-                  const cost = prod.cost_price;
-                  const description = prod.description;
-                  return (
-                    <li key={`${sku || idx}-cj`} className="mb-3" style={{ display: 'flex', gap: 12 }}>
-                      {Array.isArray(prod.images) && prod.images[0] && (
-                        <img src={prod.images[0]} alt={title} width={80} height={80} style={{ objectFit: 'cover', borderRadius: 6 }} />
-                      )}
-                      <div>
-                        <strong>{title}</strong>
-                        <div className="text-secondary small">
-                          SKU: {sku || "—"} · Prix: {price ?? "—"} · Coût: {cost ?? "—"}
-                        </div>
-                        {description && (
-                          <div className="small" style={{maxWidth: '60ch'}}>
-                            {String(description).replace(/<[^>]+>/g, '').slice(0, 200)}
-                          </div>
-                        )}
-                        <form action={`/api/cj/import-one?sku=${encodeURIComponent(sku || '')}`} method="post" style={{ marginTop: 6 }}>
-                          <button type="submit">Importer dans Directus</button>
-                        </form>
-                      </div>
-                    </li>
-                  );
-                }
-                // Directus rendering
+              {items.map((prod) => {
                 const title =
                   pick(prod, ["name", "Name", "title", "Title", "nom", "Nom"]) ||
                   "Sans nom";
