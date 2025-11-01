@@ -1,0 +1,104 @@
+Mémoire technique — Touski × Directus × CJ Dropshipping (31 nov 2026)
+
+1) Contexte & périmètre
+- Frontend: Next.js sous `touski/` (app router). Déploiement Vercel (branche main, Root Directory: `touski`).
+- Backend/Admin: Directus sous `touski-directus-admin/` (schema + scripts). Hébergé Railway.
+- Objectif courant: afficher un catalogue fournisseur (CJ) en direct côté front, avec filtres et pagination, sans importer 50k produits; possibilité d’import ponctuel vers Directus + création de commande démo.
+
+2) Changements principaux (front)
+- Intégration Directus (auth + pages sécurisées)
+  - `touski/app/api/auth/login/route.js`: login Directus, cookies httpOnly.
+  - `touski/app/api/auth/logout/route.js`: logout.
+  - `touski/app/admin/page.jsx`: tableau de bord admin (redir si non admin).
+  - `touski/app/supplier/page.jsx`: espace fournisseur (redir si admin).
+  - `touski/app/login/page.jsx`: formulaire de connexion.
+  - `touski/middleware.js`: protection `/admin`, `/supplier`, `/login`.
+  - `touski/lib/directus.js`: helpers REST (users/me, items/products, etc.).
+
+- Intégration fournisseur CJ (catalogue en direct)
+  - Endpoints API:
+    - `touski/app/api/cj/token/route.js`
+      * Modes: token statique (CJ_STATIC_TOKEN), email+apiKey (CJ developers), client credentials (fallback générique).
+      * Normalise/assainit le token (suppression balises HTML, quotes, non‑ASCII).
+      * No‑store + cache mémoire court.
+    - `touski/app/api/cj/products/route.js`
+      * Lecture catalogue CJ avec mapping de paramètres (q, page, pageSize, category, minPrice, maxPrice, sort).
+      * Strict mode: `CJ_STRICT=1` ou `?strict=1` → un seul endpoint (évite rate‑limit).
+      * Backoff sur 429 (QPS 1/s) et retry unique; bascule auto POST→GET si nécessaire (code 16900202).
+      * Support `CJ_EXTRA` (JSON) pour paramètres additionnels (ex: `{"language":"EN"}`).
+      * Parsing étendu des schémas CJ (data.list/items/records/data/etc.).
+      * Normalisation champs: name (JSON‑array → 1er label), sku, price (extraction de range "32.84 -- 39.47"), images (productImage/… ), weight.
+  - Pages UI:
+    - `touski/app/(shoplist)/shop-1/page.jsx`
+      * Source commutable `source=cj|directus`.
+      * Filtres: `q`, `category`, `minPrice`, `maxPrice`, `sort`, `page`, `pageSize`.
+      * Mode strict activé par défaut; affichage image + titre + extrait.
+      * Bouton "Importer dans Directus" (upsert par SKU) → `touski/app/api/cj/import-one/route.js`.
+    - `touski/app/cj-catalog/page.jsx`: page catalogue CJ simple + recherche.
+  - Import/Commande démo:
+    - `touski/app/api/cj/import-one/route.js`: upsert d’un produit CJ en `products` par `sku`.
+    - `touski/app/api/orders/create/route.js`: création d’une commande simple dans Directus (si collection `orders` disponible).
+    - `touski/app/demo-order/page.jsx`: formulaire de commande fictive.
+
+3) Variables d’environnement (Vercel – Production)
+- Directus (import/commande):
+  - `NEXT_PUBLIC_DIRECTUS_URL` = URL Directus
+  - `DIRECTUS_EMAIL`, `DIRECTUS_PASSWORD` (ou `DIRECTUS_STATIC_TOKEN` si usage token serveur)
+
+- CJ (catalogue direct) — profil validé
+  - `CJ_STATIC_TOKEN` = accessToken developers collé en texte brut (ex: `API@CJ4741693@CJ:…`)
+  - `CJ_BASE_URL` = `https://developers.cjdropshipping.com`
+  - `CJ_PRODUCTS_PATH` = `/api2.0/v1/product/list`
+  - `CJ_TOKEN_HEADER` = `CJ-Access-Token`
+  - `CJ_TOKEN_PREFIX` = (vide)
+  - `CJ_USE_POST` = `0` (v2.0 GET) — le code sait basculer si POST non supporté
+  - `CJ_Q_PARAM` = `keyWord`
+  - `CJ_STRICT` = `1` (évite de tenter d’autres endpoints)
+  - `CJ_EXTRA` = `{"language":"EN"}` (recommandé; sinon tests en EN via query)
+
+Notes:
+- Éviter d’appeler `/api/cj/token` trop souvent (rate‑limit 1/5min). Avec `CJ_STATIC_TOKEN`, l’API produits n’appelle pas le token.
+- Si l’accessToken est copié depuis une UI web, vérifier qu’il n’y a pas de balises HTML; notre code nettoie, mais coller en texte brut reste la bonne pratique.
+
+4) URLs de test utiles
+- Catalogue CJ (JSON): `/api/cj/products?q=house&page=1&pageSize=24&strict=1`
+- Vue front CJ (liste): `/shop-1?source=cj&q=house&page=1&pageSize=24`
+- Import 1 produit CJ → Directus: `POST /api/cj/import-one?sku=CJxxxx`
+- Produits Directus (liste simple): `/products`
+- Catalogue CJ (page démo): `/cj-catalog`
+- Commande démo → Directus: `/demo-order` (POST `/api/orders/create`)
+
+5) Débogage & erreurs fréquentes
+- 401/"Invalid API key or access token": vérifier que `CJ_STATIC_TOKEN` est un accessToken (pas l’API Key). Regénérer via `getAccessToken` (email + apiKey developers), puis recoller.
+- 429/"Too Many Requests": laisser 1–2 s entre appels; le backend backoff/retry une fois.
+- "POST not supported": pour v2.0 nous passons en GET automatiquement, sinon mettre `CJ_USE_POST=0`.
+- Liste vide avec mots français ("maison"): essayer en anglais (house, home, kitchen…). Ajouter `CJ_EXTRA={"language":"EN"}` si nécessaire.
+- Token collé avec HTML (ex: `<font>…</font>`): notre endpoint `cj/token` le nettoie; néanmoins coller toujours le token en texte brut dans Vercel.
+
+6) Déploiement & structure
+- Branche: `main`.
+- Root Directory Vercel: `touski`.
+- Build: `next build` (auto). Caching contrôlé côté API par `Cache-Control: no-store`.
+
+7) Backlog / prochaines étapes
+- UI e‑commerce "propre" (cartes/grille) sur `/shop-1?source=cj` (actuellement: liste enrichie).
+- Page dédiée `/maison` pré‑filtrée (source CJ, q/category pré‑remplis).
+- Ajout schema `orders` (Directus) si absent, et mapping de lignes (SKU/qty/prix).
+- Images distantes: autoriser domaines CJ dans `next.config.mjs` (remotePatterns) et améliorer rendu responsive.
+- Filtres UI avancés: catégories CJ, bornes de prix avec slider, tri avancé.
+- Import différé: "import on purchase" (ne pas stocker tant que non commandé).
+
+8) Commandes cURL de référence
+- Obtenir un accessToken developers (rate‑limit 1/300s)
+  `curl -sS -X POST 'https://developers.cjdropshipping.com/api2.0/v1/authentication/getAccessToken' -H 'Content-Type: application/json' --data-raw '{"email":"<EMAIL_CJ>","apiKey":"<API_KEY>"}'`
+
+- Lister produits (GET v2.0, CJ‑Access‑Token)
+  `curl -sS 'https://developers.cjdropshipping.com/api2.0/v1/product/list?keyWord=house&pageNum=1&pageSize=24&language=EN' -H 'CJ-Access-Token: <ACCESS_TOKEN>'`
+
+9) Sécurité & bonnes pratiques
+- Ne jamais commiter d’API Key/Access Token. Saisir en ENV Vercel.
+- Régénérer les clés/tokens partagés en clair après la phase de test.
+- Laisser `CJ_STRICT=1` pour limiter le nombre d’appels et éviter le rate‑limit.
+
+— Fin de note —
+
