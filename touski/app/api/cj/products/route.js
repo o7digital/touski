@@ -96,7 +96,7 @@ function toList(input, fallback = []) {
     .filter(Boolean);
 }
 
-function homeFilter(items) {
+function homeFilter(items, mode = 'strict') {
   const allow = toList(process.env.CJ_HOME_ALLOW, [
     'home','house','kitchen','cook','utensil','bath','toilet','wash','soap','detergent',
     'lighting','lamp','light','bulb','lantern','furniture','sofa','chair','table','desk',
@@ -119,6 +119,7 @@ function homeFilter(items) {
   return items.filter((it) => {
     const fields = [it?.raw?.categoryName, it?.name, it?.description];
     if (fields.some((f) => containsAny(f, block))) return false;
+    if (mode === 'block_only') return true; // only blocklist applies
     return fields.some((f) => containsAny(f, allow));
   });
 }
@@ -147,7 +148,7 @@ export async function GET(req) {
     const qLower = q.toLowerCase();
     const qMap = { maison: 'home', house: 'home', domicile: 'home', cuisine: 'kitchen', bain: 'bath', 'salle de bain': 'bath' };
     const qNorm = qMap[qLower] || q;
-    const preset = (searchParams.get('preset') || '').toLowerCase();
+    const preset = searchParams.get('preset') || '';
     const nofilter = searchParams.get('nofilter') === '1';
     const aggregated = searchParams.get('aggregated') === '1';
     const strictEnv = process.env.CJ_STRICT === '1' || process.env.CJ_STRICT === 'true' || searchParams.get('strict') === '1';
@@ -166,18 +167,12 @@ export async function GET(req) {
 
     // Preset aggregator (e.g., preset=home) – merges multiple keyword queries
     if (preset && !aggregated) {
-      const PRESET_TERMS = {
+      const map = {
         home: [
           'home','kitchen','bath','lighting','lamp','furniture','sofa','chair','table','storage','organizer','garden','outdoor','clean','detergent','bedding'
         ],
-        kitchen: ['kitchen','cook','cooking','utensil','pan','pot','knife','storage','organizer'],
-        bath: ['bath','toilet','wash','soap','towel','shower','bathroom'],
-        lighting: ['lighting','lamp','light','bulb','lantern','led'],
-        furniture: ['furniture','sofa','chair','table','desk','shelf','cabinet','stool'],
-        storage: ['storage','organizer','box','basket','rack','hanger','hook','shelf'],
-        garden: ['garden','outdoor','patio','plant','watering','hose','tool'],
       };
-      const terms = PRESET_TERMS[preset] || PRESET_TERMS.home;
+      const terms = map[preset] || [];
       const unique = new Map();
       // 0) Try category-based aggregation when possible
       try {
@@ -187,8 +182,7 @@ export async function GET(req) {
         if (cr.ok) {
           const cj = await cr.json();
           const list = Array.isArray(cj.items) ? cj.items : [];
-          const wanted = (preset === 'home') ? ['home','garden','furniture','kitchen','bath','lighting','storage','organizer','clean','detergent','bedding']
-                        : terms;
+          const wanted = ['home','garden','furniture','kitchen','bath','lighting','storage','organizer','clean','detergent','bedding'];
           const pick = list.filter((c) => {
             const p = (c.path || []).join(' ').toLowerCase();
             const n = String(c.name||'').toLowerCase();
@@ -243,10 +237,39 @@ export async function GET(req) {
           if (unique.size >= pageSize) break;
         } catch {}
       }
-      let items = Array.from(unique.values());
-      if (preset === 'home' && !nofilter) items = homeFilter(items);
+      // 2) If still not enough, try widening with extra generic home terms
+      if (unique.size < pageSize) {
+        const WIDE = ['decor','decoration','organizer','storage box','dish rack','spice rack','knife set','cutlery','pan','pot','trash bin','broom','brush','towel','soap dispenser','bath mat','vase','candle','rug','curtain','pillow','blanket'];
+        for (const term of WIDE) {
+          const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
+          u.searchParams.set('aggregated','1');
+          u.searchParams.set('strict','1');
+          u.searchParams.set('page','1');
+          u.searchParams.set('pageSize', String(pageSize));
+          u.searchParams.set('q', term);
+          if (lang) u.searchParams.set('language', lang);
+          try {
+            const r = await fetch(u, { cache: 'no-store' });
+            if (!r.ok) continue;
+            const j = await r.json();
+            const list = Array.isArray(j.items) ? j.items : [];
+            for (const it of list) {
+              const key = String(it?.sku || it?.raw?.productSku || Math.random());
+              if (!unique.has(key)) unique.set(key, it);
+            }
+            if (unique.size >= pageSize) break;
+          } catch {}
+        }
+      }
+      const rawItems = Array.from(unique.values());
+      let items = rawItems;
+      if (preset === 'home' && !nofilter) {
+        const strict = homeFilter(rawItems, 'strict');
+        // If strict yields too few results, relax to block-only to avoid empty UI
+        if (strict.length >= Math.min(pageSize, 8)) items = strict; else items = homeFilter(rawItems, 'block_only');
+      }
       items = items.slice(0, pageSize);
-      return Response.json({ ok: true, items, page, pageSize, preset }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
+      return Response.json({ ok: true, items, page, pageSize, preset, totalCandidates: rawItems.length }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
     }
 
     const tokenRes = await fetch(`${req.nextUrl.origin}/api/cj/token`);
