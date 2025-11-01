@@ -61,7 +61,7 @@ CJ_HOME_BLOCK=["clothing","jeans","dress","jewelry","bag","shoes","wallet"]
     1) Tente par catégories CJ (via `/api/cj/categories`) → requêtes avec `categoryId`.
     2) Complète par mots‑clés (selon preset).
     3) Déduplique par SKU, filtre maison (allow/block). Si trop peu d’items, fallback « block‑only » pour éviter le vide.
-  - Retour: `{ ok, items, page, pageSize, preset, totalCandidates? }`.
+  - Retour: `{ ok, items, invalidCount?, page, pageSize, preset, totalCandidates? }`.
 
 - `GET /api/cj/categories`
   - Proxy/fallbacks pour récupérer l’arborescence 3 niveaux et renvoyer un flat list `{ id, name, level, path[] }`.
@@ -104,6 +104,23 @@ CJ_HOME_BLOCK=["clothing","jeans","dress","jewelry","bag","shoes","wallet"]
 - Agrégateur: `GET /api/cj/products?preset=home&pageSize=24&language=EN`
 - Debug preset: `GET /api/cj/preset-debug?preset=home&pageSize=24`
 
+## 9 bis) Validation & types (Zod)
+
+- Dépendance: `zod` (installée).
+- Schémas: `touski/lib/schemas/cj.js`
+  - `ProductSchema` (forme produit normalisée: `sku`, `name`, `price`, `images[]`, …)
+  - `QuerySchema` (params sûrs: `q`, `page`, `pageSize`, `minPrice`, `maxPrice`, `sort`, `language`, `preset`, `categoryId`, …)
+  - `validateProducts(items)` filtre les éléments invalides et expose `invalidCount`.
+- Application: `touski/app/api/cj/products/route.js`
+  - Valide les query params; réponses 400 avec `issues` si invalide.
+  - Valide/formate la liste finale; `invalidCount` présent pour diagnostic.
+
+Tests rapides
+```
+curl -sS "https://<host>/api/cj/products?preset=home&pageSize=24&language=EN" | jq '.invalidCount,.items[0]'
+curl -sS "https://<host>/api/cj/products?pageSize=0" | jq '.issues'   # doit renvoyer 400 en local
+```
+
 ## 10) Sécurité
 
 - Ne jamais commiter de token/API key; saisir en ENV (Vercel).
@@ -114,6 +131,13 @@ CJ_HOME_BLOCK=["clothing","jeans","dress","jewelry","bag","shoes","wallet"]
 - Ajouter presets additionnels (Décoration, Entretien) si besoin.
 - Exposer un mapping stable catégorie → `categoryId` pour chaque univers après réponse officielle CJ.
 - Ajouter cache (60–120s) côté serveur sur `/api/cj/products` pour lisser les temps de réponse.
+
+## 13) Changelog (extraits)
+
+- 2025‑11‑01
+  - Ajout Zod (validation runtime) et schémas sous `touski/lib/schemas/cj.js`.
+  - `/api/cj/products` valide les query params et la forme des produits; ajoute `invalidCount` dans la réponse.
+  - Correction build Next (suppression d’un `\` résiduel dans le fichier de schéma).
 
 ## 12) cURL utiles
 
@@ -132,4 +156,3 @@ curl -sS 'https://<HOST>/api/cj/products?preset=home&pageSize=24&language=EN'
 ```
 
 — Fin —
-

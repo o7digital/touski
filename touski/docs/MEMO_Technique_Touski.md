@@ -116,3 +116,4 @@ Note token: éviter tout collage tronqué avec “…”; utiliser `printf '%s' 
 ## Voir aussi
 
 - Nouvelle note d’intégration (Front + Dropshipping v2): `touski/docs/Integration_Front_Dropshipping_v2.md`
+- Validation runtime (Zod) intégrée côté API CJ (`/api/cj/products`).
