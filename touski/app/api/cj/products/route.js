@@ -106,6 +106,8 @@ export async function GET(req) {
     const qLower = q.toLowerCase();
     const qMap = { maison: 'home', house: 'home', domicile: 'home', cuisine: 'kitchen', bain: 'bath', 'salle de bain': 'bath' };
     const qNorm = qMap[qLower] || q;
+    const preset = searchParams.get('preset') || '';
+    const aggregated = searchParams.get('aggregated') === '1';
     const strictEnv = process.env.CJ_STRICT === '1' || process.env.CJ_STRICT === 'true' || searchParams.get('strict') === '1';
 
     if (mock) {
@@ -118,6 +120,42 @@ export async function GET(req) {
         images: [],
       }));
       return Response.json({ ok: true, items, mock: true, page, pageSize });
+    }
+
+    // Preset aggregator (e.g., preset=home) – merges multiple keyword queries
+    if (preset && !aggregated) {
+      const map = {
+        home: [
+          'home','kitchen','bath','lighting','lamp','furniture','sofa','chair','table','storage','organizer','garden','outdoor','clean','detergent','bedding'
+        ],
+      };
+      const terms = map[preset] || [];
+      const unique = new Map();
+      for (const term of terms) {
+        const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
+        u.searchParams.set('aggregated','1');
+        u.searchParams.set('strict','1');
+        u.searchParams.set('page','1');
+        u.searchParams.set('pageSize', String(pageSize));
+        u.searchParams.set('q', term);
+        if (lang) u.searchParams.set('language', lang);
+        if (minPrice) u.searchParams.set('minPrice', String(minPrice));
+        if (maxPrice) u.searchParams.set('maxPrice', String(maxPrice));
+        if (sort) u.searchParams.set('sort', sort);
+        try {
+          const r = await fetch(u, { cache: 'no-store' });
+          if (!r.ok) continue;
+          const j = await r.json();
+          const list = Array.isArray(j.items) ? j.items : [];
+          for (const it of list) {
+            const key = String(it?.sku || it?.raw?.productSku || Math.random());
+            if (!unique.has(key)) unique.set(key, it);
+          }
+          if (unique.size >= pageSize) break;
+        } catch {}
+      }
+      const items = Array.from(unique.values()).slice(0, pageSize);
+      return Response.json({ ok: true, items, page, pageSize, preset }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
     }
 
     const tokenRes = await fetch(`${req.nextUrl.origin}/api/cj/token`);

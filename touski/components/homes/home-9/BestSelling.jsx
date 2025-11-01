@@ -80,6 +80,8 @@ export default function BestSelling() {
       url.searchParams.set("page", "1");
       url.searchParams.set("pageSize", String(size));
       url.searchParams.set("strict", "1");
+      // Always scope Featured section to home-related preset
+      url.searchParams.set("preset", "home");
       if (cn0) url.searchParams.set("category", cn0);
       // Force language to English to get richer results
       url.searchParams.set("language", "EN");
