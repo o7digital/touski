@@ -94,7 +94,18 @@ export async function GET(req) {
     const maxPrice = searchParams.get('maxPrice');
     const sort = searchParams.get('sort') || '';
     const debug = searchParams.get('debug') === '1';
-    const { base, productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock, extra } = cfg();
+    const { base, productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock } = cfg();
+    // Merge dynamic extras from query (language/lang)
+    let extra = {};
+    try {
+      if (process.env.CJ_EXTRA) extra = JSON.parse(process.env.CJ_EXTRA);
+    } catch {}
+    const lang = searchParams.get('language') || searchParams.get('lang');
+    if (lang) extra.language = lang;
+    // Normalize search for common FR/EN terms
+    const qLower = q.toLowerCase();
+    const qMap = { maison: 'home', house: 'home', domicile: 'home', cuisine: 'kitchen', bain: 'bath', 'salle de bain': 'bath' };
+    const qNorm = qMap[qLower] || q;
     const strictEnv = process.env.CJ_STRICT === '1' || process.env.CJ_STRICT === 'true' || searchParams.get('strict') === '1';
 
     if (mock) {
@@ -156,7 +167,7 @@ export async function GET(req) {
         let retried = false;
         if (a.usePost) {
           const body = { ...(a.extra || {}) };
-          if (q) body[a.qParam] = q;
+          if (qNorm) body[a.qParam] = qNorm;
           body[a.pageParam] = String(page);
           body[a.sizeParam] = String(pageSize);
           if (category) body[a.categoryParam] = category;
@@ -184,7 +195,7 @@ export async function GET(req) {
           if ((res.status === 405 || json?.code === 16900202 || /not supported/i.test(String(json?.message || ''))) && !retried) {
             // build GET URL with same params
             const getUrl = new URL(String(url));
-            if (q) getUrl.searchParams.set(a.qParam, q);
+            if (qNorm) getUrl.searchParams.set(a.qParam, qNorm);
             getUrl.searchParams.set(a.pageParam, String(page));
             getUrl.searchParams.set(a.sizeParam, String(pageSize));
             if (category) getUrl.searchParams.set(a.categoryParam, category);
@@ -218,7 +229,7 @@ export async function GET(req) {
           // To keep code simple, we assign to a symbol and skip default parsing later
           res._parsed = { text, json };
         } else {
-          if (q) url.searchParams.set(a.qParam, q);
+          if (qNorm) url.searchParams.set(a.qParam, qNorm);
           url.searchParams.set(a.pageParam, String(page));
           url.searchParams.set(a.sizeParam, String(pageSize));
           if (category) url.searchParams.set(a.categoryParam, category);

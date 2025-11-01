@@ -50,19 +50,78 @@ export default function BestSelling() {
     setLoading(true);
     setError("");
     try {
+      // Normalize search terms (FR → EN, synonyms)
+      const norm = (str) => String(str || "").trim().toLowerCase();
+      const qn0 = norm(query);
+      const cn0 = norm(cat);
+      let qn = qn0;
+      // If no query, try using category as a query term
+      if (!qn && cn0) qn = cn0;
+      // Map common FR/EN tokens to CJ-friendly search
+      const map = {
+        maison: "home",
+        house: "home",
+        domicile: "home",
+        salle: "bath",
+        "salle de bain": "bath",
+        bain: "bath",
+        cuisine: "kitchen",
+        luminaire: "lighting",
+        lumiere: "lighting",
+        eclairage: "lighting",
+        jardin: "garden",
+        meuble: "furniture",
+        meubles: "furniture",
+      };
+      const qnMapped = map[qn] || qn;
+
       const url = new URL(`/api/cj/products`, window.location.origin);
-      if (query) url.searchParams.set("q", query);
+      if (qnMapped) url.searchParams.set("q", qnMapped);
       url.searchParams.set("page", "1");
       url.searchParams.set("pageSize", String(size));
       url.searchParams.set("strict", "1");
-      if (cat) url.searchParams.set("category", cat);
+      if (cn0) url.searchParams.set("category", cn0);
+      // Force language to English to get richer results
+      url.searchParams.set("language", "EN");
       if (min) url.searchParams.set("minPrice", String(min));
       if (max) url.searchParams.set("maxPrice", String(max));
       if (s) url.searchParams.set("sort", s);
       const res = await fetch(url, { cache: "no-store" });
       const j = await res.json();
       if (!res.ok || !j?.ok) throw new Error(j?.error || `HTTP ${res.status}`);
-      setCjItems(Array.isArray(j.items) ? j.items : []);
+      let items = Array.isArray(j.items) ? j.items : [];
+      // Client-side filter complements CJ API (which is broad)
+      const includeIf = (it, term) =>
+        [it?.raw?.categoryName, it?.name, it?.description]
+          .filter(Boolean)
+          .some((v) => String(v).toLowerCase().includes(term));
+      // Apply query filter (if provided)
+      if (qnMapped) {
+        const t = qnMapped.toLowerCase();
+        items = items.filter((it) => includeIf(it, t));
+      }
+      // Apply category textual filter (broad mapping for "maison/house/home")
+      if (cn0) {
+        const t = cn0;
+        const homeTags = ["home", "house", "kitchen", "bath", "furniture", "garden", "lighting", "storage", "clean", "detergent"];
+        if (["maison", "house", "home"].includes(t)) {
+          items = items.filter((it) => {
+            const catn = String(it?.raw?.categoryName || "").toLowerCase();
+            return homeTags.some((k) => catn.includes(k));
+          });
+        } else {
+          items = items.filter((it) => includeIf(it, t));
+        }
+      }
+      // Price filters client-side
+      const n = (v) => (v == null || isNaN(Number(v)) ? undefined : Number(v));
+      const minN = n(min), maxN = n(max);
+      if (minN != null) items = items.filter((it) => n(it.price) == null || n(it.price) >= minN);
+      if (maxN != null) items = items.filter((it) => n(it.price) == null || n(it.price) <= maxN);
+      // Sort client-side
+      if (s === "price_asc") items = items.slice().sort((a,b)=> (n(a.price)??Infinity) - (n(b.price)??Infinity));
+      if (s === "price_desc") items = items.slice().sort((a,b)=> (n(b.price)??-Infinity) - (n(a.price)??-Infinity));
+      setCjItems(items);
     } catch (e) {
       setError(String(e?.message || e));
       setCjItems([]);
