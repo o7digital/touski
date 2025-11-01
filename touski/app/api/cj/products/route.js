@@ -83,6 +83,46 @@ function normalize(item) {
   };
 }
 
+function toList(input, fallback = []) {
+  if (!input) return fallback;
+  if (Array.isArray(input)) return input;
+  try {
+    const j = JSON.parse(input);
+    if (Array.isArray(j)) return j;
+  } catch {}
+  return String(input)
+    .split(/[,|]/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function homeFilter(items) {
+  const allow = toList(process.env.CJ_HOME_ALLOW, [
+    'home','house','kitchen','cook','utensil','bath','toilet','wash','soap','detergent',
+    'lighting','lamp','light','bulb','lantern','furniture','sofa','chair','table','desk',
+    'storage','organizer','shelf','rack','box','basket','hanger','hook',
+    'garden','outdoor','patio','plant','tool','bedding','pillow','blanket','duvet','sheet',
+    'curtain','rug','mat','towel','clean','cleaner','mop','broom','brush','trash','bin','can'
+  ]).map((s) => s.toLowerCase());
+  const block = toList(process.env.CJ_HOME_BLOCK, [
+    'clothing','clothes','apparel','t-shirt','shirt','jeans','pants','trousers','sweater','hoodie','jacket','coat','suit','dress','skirt','shorts',
+    'women','men','girl','boy',
+    'bag','backpack','wallet','purse',
+    'hat','cap','beanie','scarf','glove','sock','shoe','sneaker','boot','slipper',
+    'jewelry','ring','earring','necklace','bracelet','watch','makeup','cosmetic','beauty'
+  ]).map((s) => s.toLowerCase());
+
+  const containsAny = (text, words) => {
+    const t = String(text || '').toLowerCase();
+    return words.some((w) => t.includes(w));
+  };
+  return items.filter((it) => {
+    const fields = [it?.raw?.categoryName, it?.name, it?.description];
+    if (fields.some((f) => containsAny(f, block))) return false;
+    return fields.some((f) => containsAny(f, allow));
+  });
+}
+
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -154,7 +194,9 @@ export async function GET(req) {
           if (unique.size >= pageSize) break;
         } catch {}
       }
-      const items = Array.from(unique.values()).slice(0, pageSize);
+      let items = Array.from(unique.values());
+      if (preset === 'home') items = homeFilter(items);
+      items = items.slice(0, pageSize);
       return Response.json({ ok: true, items, page, pageSize, preset }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
     }
 
@@ -311,7 +353,8 @@ export async function GET(req) {
           json?.data?.data,
         ];
         const list = candidates.find((v) => Array.isArray(v)) || [];
-        const items = list.map(normalize);
+        let items = list.map(normalize);
+        if (preset === 'home') items = homeFilter(items);
         if (items.length > 0 || strictEnv) {
           clearTimeout(timer);
           return Response.json(
