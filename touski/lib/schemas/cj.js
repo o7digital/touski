@@ -36,7 +36,7 @@ export const QuerySchema = z.object({
   sort: z.string().optional(),
   language: z.string().optional(),
   preset: z
-    .enum(["home", "kitchen", "bath", "lighting", "furniture", "storage", "garden"]) \
+    .enum(["home", "kitchen", "bath", "lighting", "furniture", "storage", "garden"]) 
     .optional(),
   category: z.string().optional(),
   categoryId: z.string().optional(),
@@ -44,4 +44,3 @@ export const QuerySchema = z.object({
   aggregated: z.enum(["0", "1"]).optional(),
   nofilter: z.enum(["0", "1"]).optional(),
 });
-
