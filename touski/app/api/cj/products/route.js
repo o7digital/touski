@@ -130,6 +130,7 @@ export async function GET(req) {
     const page = Number(searchParams.get('page') || 1);
     const pageSize = Number(searchParams.get('pageSize') || 10);
     const category = searchParams.get('category') || '';
+    const categoryIdParam = searchParams.get('categoryId') || '';
     const minPrice = searchParams.get('minPrice');
     const maxPrice = searchParams.get('maxPrice');
     const sort = searchParams.get('sort') || '';
@@ -172,6 +173,46 @@ export async function GET(req) {
       };
       const terms = map[preset] || [];
       const unique = new Map();
+      // 0) Try category-based aggregation when possible
+      try {
+        const catUrl = new URL(`${req.nextUrl.origin}/api/cj/categories`);
+        catUrl.searchParams.set('strict','1');
+        const cr = await fetch(catUrl, { cache: 'no-store' });
+        if (cr.ok) {
+          const cj = await cr.json();
+          const list = Array.isArray(cj.items) ? cj.items : [];
+          const wanted = ['home','garden','furniture','kitchen','bath','lighting','storage','organizer','clean','detergent','bedding'];
+          const pick = list.filter((c) => {
+            const p = (c.path || []).join(' ').toLowerCase();
+            const n = String(c.name||'').toLowerCase();
+            return wanted.some((w) => p.includes(w) || n.includes(w));
+          }).slice(0, 14);
+          for (const c of pick) {
+            const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
+            u.searchParams.set('aggregated','1');
+            u.searchParams.set('strict','1');
+            u.searchParams.set('page','1');
+            u.searchParams.set('pageSize', String(pageSize));
+            u.searchParams.set('preset', preset);
+            if (lang) u.searchParams.set('language', lang);
+            // set both names to maximize compatibility
+            u.searchParams.set('categoryId', String(c.id));
+            u.searchParams.set('category', String(c.id));
+            try {
+              const r = await fetch(u, { cache: 'no-store' });
+              if (!r.ok) continue;
+              const j = await r.json();
+              const arr = Array.isArray(j.items) ? j.items : [];
+              for (const it of arr) {
+                const key = String(it?.sku || it?.raw?.productSku || Math.random());
+                if (!unique.has(key)) unique.set(key, it);
+              }
+              if (unique.size >= pageSize) break;
+            } catch {}
+          }
+        }
+      } catch {}
+      // 1) If still not enough, fallback to keyword aggregation
       for (const term of terms) {
         const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
         u.searchParams.set('aggregated','1');
@@ -251,7 +292,9 @@ export async function GET(req) {
           if (qNorm) body[a.qParam] = qNorm;
           body[a.pageParam] = String(page);
           body[a.sizeParam] = String(pageSize);
-          if (category) body[a.categoryParam] = category;
+          const catV = categoryIdParam || category;
+          if (catV) body[a.categoryParam] = catV;
+          if (catV) body['categoryId'] = catV; // set both to maximize compatibility
           if (minPrice) body[a.minPriceParam] = String(minPrice);
           if (maxPrice) body[a.maxPriceParam] = String(maxPrice);
           if (sort) body[a.sortParam] = sort;
@@ -279,7 +322,9 @@ export async function GET(req) {
             if (qNorm) getUrl.searchParams.set(a.qParam, qNorm);
             getUrl.searchParams.set(a.pageParam, String(page));
             getUrl.searchParams.set(a.sizeParam, String(pageSize));
-            if (category) getUrl.searchParams.set(a.categoryParam, category);
+            const catV2 = categoryIdParam || category;
+            if (catV2) getUrl.searchParams.set(a.categoryParam, catV2);
+            if (catV2) getUrl.searchParams.set('categoryId', catV2);
             if (minPrice) getUrl.searchParams.set(a.minPriceParam, String(minPrice));
             if (maxPrice) getUrl.searchParams.set(a.maxPriceParam, String(maxPrice));
             if (sort) getUrl.searchParams.set(a.sortParam, sort);
@@ -313,7 +358,9 @@ export async function GET(req) {
           if (qNorm) url.searchParams.set(a.qParam, qNorm);
           url.searchParams.set(a.pageParam, String(page));
           url.searchParams.set(a.sizeParam, String(pageSize));
-          if (category) url.searchParams.set(a.categoryParam, category);
+          const catV3 = categoryIdParam || category;
+          if (catV3) url.searchParams.set(a.categoryParam, catV3);
+          if (catV3) url.searchParams.set('categoryId', catV3);
           if (minPrice) url.searchParams.set(a.minPriceParam, String(minPrice));
           if (maxPrice) url.searchParams.set(a.maxPriceParam, String(maxPrice));
           if (sort) url.searchParams.set(a.sortParam, sort);
