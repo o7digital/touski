@@ -1,5 +1,6 @@
 // List CJ products via configurable API, normalize fields
 // Query params: q, page, pageSize, category, minPrice, maxPrice, sort, debug
+import { QuerySchema, validateProducts } from "@/lib/schemas/cj";
 
 function cfg() {
   const base = process.env.CJ_BASE_URL || 'https://openapi.cjdropshipping.com';
@@ -127,31 +128,35 @@ function homeFilter(items, mode = 'strict') {
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
-    const q = searchParams.get('q') || '';
-    const page = Number(searchParams.get('page') || 1);
-    const pageSize = Number(searchParams.get('pageSize') || 10);
-    const category = searchParams.get('category') || '';
-    const categoryIdParam = searchParams.get('categoryId') || '';
-    const minPrice = searchParams.get('minPrice');
-    const maxPrice = searchParams.get('maxPrice');
-    const sort = searchParams.get('sort') || '';
+    const qpObj = Object.fromEntries(searchParams.entries());
+    const qp = QuerySchema.safeParse(qpObj);
+    if (!qp.success) {
+      return Response.json({ ok: false, error: 'Invalid query params', issues: qp.error.issues }, { status: 400 });
+    }
+    const data = qp.data;
+    const q = data.q || '';
+    const page = data.page ?? Number(searchParams.get('page') || 1);
+    const pageSize = data.pageSize ?? Number(searchParams.get('pageSize') || 10);
+    const category = data.category || '';
+    const categoryIdParam = data.categoryId || '';
+    const minPrice = data.minPrice;
+    const maxPrice = data.maxPrice;
+    const sort = data.sort || '';
     const debug = searchParams.get('debug') === '1';
     const { base, productsPath, tokenHeader, tokenPrefix, qParam, pageParam, sizeParam, categoryParam, minPriceParam, maxPriceParam, sortParam, usePost, mock } = cfg();
     // Merge dynamic extras from query (language/lang)
     let extra = {};
-    try {
-      if (process.env.CJ_EXTRA) extra = JSON.parse(process.env.CJ_EXTRA);
-    } catch {}
-    const lang = searchParams.get('language') || searchParams.get('lang');
+    try { if (process.env.CJ_EXTRA) extra = JSON.parse(process.env.CJ_EXTRA); } catch {}
+    const lang = data.language || searchParams.get('lang');
     if (lang) extra.language = lang;
     // Normalize search for common FR/EN terms
     const qLower = q.toLowerCase();
     const qMap = { maison: 'home', house: 'home', domicile: 'home', cuisine: 'kitchen', bain: 'bath', 'salle de bain': 'bath' };
     const qNorm = qMap[qLower] || q;
-    const preset = searchParams.get('preset') || '';
-    const nofilter = searchParams.get('nofilter') === '1';
-    const aggregated = searchParams.get('aggregated') === '1';
-    const strictEnv = process.env.CJ_STRICT === '1' || process.env.CJ_STRICT === 'true' || searchParams.get('strict') === '1';
+    const preset = (data.preset || '').toLowerCase();
+    const nofilter = data.nofilter === '1';
+    const aggregated = data.aggregated === '1';
+    const strictEnv = process.env.CJ_STRICT === '1' || process.env.CJ_STRICT === 'true' || data.strict === '1';
 
     if (mock) {
       const items = Array.from({ length: pageSize }).map((_, i) => ({
@@ -269,7 +274,8 @@ export async function GET(req) {
         if (strict.length >= Math.min(pageSize, 8)) items = strict; else items = homeFilter(rawItems, 'block_only');
       }
       items = items.slice(0, pageSize);
-      return Response.json({ ok: true, items, page, pageSize, preset, totalCandidates: rawItems.length }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
+      const { valid, invalid } = validateProducts(items);
+      return Response.json({ ok: true, items: valid, invalidCount: invalid, page, pageSize, preset, totalCandidates: rawItems.length }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
     }
 
     const tokenRes = await fetch(`${req.nextUrl.origin}/api/cj/token`);
