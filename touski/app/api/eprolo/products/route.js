@@ -4,7 +4,7 @@ import { QuerySchema, validateProducts } from "@/lib/schemas/cj";
 
 function cfg() {
   const base = (process.env.EPROLO_BASE_URL || 'https://openapi.eprolo.com').replace(/\/$/, '');
-  const searchUrl = process.env.EPROLO_SEARCH_URL || base; // many EPROLO deployments respond on root
+  const searchUrl = (process.env.EPROLO_SEARCH_URL || base).replace(/\/$/, ''); // configurable entrypoint
   const mock = process.env.EPROLO_MOCK === '1' || process.env.EPROLO_MOCK === 'true';
   const apiKey = process.env.EPROLO_API_KEY || '';
   const email = process.env.EPROLO_EMAIL || '';
@@ -149,8 +149,19 @@ export async function GET(req) {
     }
 
     const tried = [];
-    // Build a matrix of attempts (headers vs query vs body)
+    // Build a matrix of attempts (multiple URL candidates × headers × payload form)
     const candidates = [];
+    const urlCandidates = Array.from(new Set([
+      searchUrl,
+      `${base}`,
+      `${base}/product/list`,
+      `${base}/api/product/list`,
+      `${base}/api2.0/v1/product/list`,
+      `${base}/api/products`,
+      `${base}/openapi/product/list`,
+      `${base}/openapi/goods/list`,
+      `${base}/product/search`,
+    ]));
     const headerSets = [
       { 'apiKey': apiKey },
       { 'apiKey': apiKey, 'email': email },
@@ -167,24 +178,25 @@ export async function GET(req) {
     candidates.push({ method: 'GET', headers: { Accept: 'application/json' }, query: { apiKey, keyword: q, page, pageSize, minPrice, maxPrice, sort, category, ...extra } });
     candidates.push({ method: 'GET', headers: { Accept: 'application/json', apiKey }, query: { keyword: q, page, pageSize, minPrice, maxPrice, sort, category, ...extra } });
 
-    for (const a of candidates) {
+    for (const urlCandidate of urlCandidates) for (const a of candidates) {
       let res;
       try {
-        const url = new URL(searchUrl);
+        const url = new URL(urlCandidate);
         if (a.method === 'GET') {
           const qp = a.query || {};
           for (const [k,v] of Object.entries(qp)) if (v != null && v !== '') url.searchParams.set(k, String(v));
         }
+        const hdrDebug = Object.fromEntries(Object.entries(a.headers || {}).map(([k,v]) => [k, String(v).includes(apiKey) ? `${String(v).slice(0,6)}…redacted` : v]));
         res = await fetch(url, { method: a.method, headers: a.headers, body: a.body, cache: 'no-store' });
         const text = await res.text();
         let j = null; try { j = JSON.parse(text); } catch {}
         if (!res.ok) {
-          tried.push({ url: String(url), status: res.status, error: j?.msg || j?.message || text?.slice(0,120) });
+          tried.push({ url: String(url), method: a.method, status: res.status, headers: hdrDebug, code: j?.code, msg: j?.msg, error: j?.message || text?.slice(0,200) });
           continue;
         }
         const list = extractList(j);
         if (!Array.isArray(list) || list.length === 0) {
-          tried.push({ url: String(url), info: 'empty-list' });
+          tried.push({ url: String(url), method: a.method, headers: hdrDebug, code: j?.code, msg: j?.msg, info: 'empty-list' });
           continue;
         }
         let items = list.map(normalize);
@@ -211,7 +223,7 @@ export async function GET(req) {
         const { valid, invalid } = validateProducts(items);
         return Response.json({ ok: true, items: valid, invalidCount: invalid, page, pageSize, sort, preset, source: String(url) }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
       } catch (e) {
-        tried.push({ attempt: a.method, error: String(e?.message || e) });
+        tried.push({ url: urlCandidate, attempt: a.method, error: String(e?.message || e) });
       }
     }
 
