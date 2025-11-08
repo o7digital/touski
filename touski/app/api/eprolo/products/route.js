@@ -130,6 +130,13 @@ export async function GET(req) {
     const debug = searchParams.get('debug') === '1';
     const { searchUrl, mock, apiKey, email, extra } = cfg();
 
+    if (!mock && (!apiKey || apiKey.trim() === '')) {
+      return Response.json(
+        { ok: false, error: 'EPROLO_API_KEY missing on server env', hint: 'Set EPROLO_API_KEY in Vercel project settings and redeploy.' },
+        { status: 400, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+      );
+    }
+
     if (mock) {
       const items = Array.from({ length: pageSize }).map((_, i) => normalize({
         id: `EPMOCK-${page}-${i}-${q || 'all'}`,
