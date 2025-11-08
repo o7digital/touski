@@ -16,10 +16,12 @@ export default async function SupplierDashboard() {
       <h1>Espace Fournisseur</h1>
       <p>Connecté: {me.email}</p>
       <p>Rôle: {me.role?.name || me.role?.id || "supplier"}</p>
+      <div style={{ margin: '12px 0', display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+        <a href="/eprolo-catalog" style={{ textDecoration: 'underline' }}>Catalogue EPROLO (démo)</a>
+      </div>
       <form action="/api/auth/logout" method="post">
         <button type="submit">Se déconnecter</button>
       </form>
     </main>
   );
 }
-

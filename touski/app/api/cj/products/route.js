@@ -2,6 +2,24 @@
 // Query params: q, page, pageSize, category, minPrice, maxPrice, sort, debug
 import { QuerySchema, validateProducts } from "@/lib/schemas/cj";
 
+// Allow pausing CJ without removing code
+function isPaused() {
+  const v = process.env.CJ_ENABLED;
+  if (v == null) return false; // default enabled if not set
+  return v === '0' || v === 'false' || v === 'False';
+}
+
+export async function GET(req) {
+  if (isPaused()) {
+    return Response.json(
+      { ok: false, error: 'CJ integration paused' },
+      { status: 503, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+    );
+  }
+  // Fallback to legacy handler when enabled
+  return _LEGACY_GET(req);
+}
+
 function cfg() {
   const base = process.env.CJ_BASE_URL || 'https://openapi.cjdropshipping.com';
   const productsPath = process.env.CJ_PRODUCTS_PATH || '/product/list';
@@ -125,7 +143,7 @@ function homeFilter(items, mode = 'strict') {
   });
 }
 
-export async function GET(req) {
+export async function _LEGACY_GET(req) {
   try {
     const { searchParams } = new URL(req.url);
     const qpObj = Object.fromEntries(searchParams.entries());

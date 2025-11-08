@@ -40,7 +40,19 @@ function flattenCategories(json) {
   return out;
 }
 
+function isPaused() {
+  const v = process.env.CJ_ENABLED;
+  if (v == null) return false; // default enabled if not set
+  return v === '0' || v === 'false' || v === 'False';
+}
+
 export async function GET(req) {
+  if (isPaused()) {
+    return Response.json(
+      { ok: false, error: 'CJ integration paused' },
+      { status: 503, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+    );
+  }
   try {
     const { base } = cfg();
     const { searchParams } = new URL(req.url);
@@ -79,4 +91,3 @@ export async function GET(req) {
     return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
   }
 }
-

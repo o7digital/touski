@@ -86,7 +86,19 @@ async function fetchTokenWithClientCreds(cfg) {
   return { token: access, expiresIn };
 }
 
+function isPaused() {
+  const v = process.env.CJ_ENABLED;
+  if (v == null) return false; // default enabled if not set
+  return v === '0' || v === 'false' || v === 'False';
+}
+
 export async function GET() {
+  if (isPaused()) {
+    return Response.json(
+      { ok: false, error: 'CJ integration paused' },
+      { status: 503, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+    );
+  }
   try {
     const cfg = resolveConfig();
     // Prefer a static token if provided

@@ -58,7 +58,19 @@ function homeFilter(items) {
   return { kept, dropped };
 }
 
+function isPaused() {
+  const v = process.env.CJ_ENABLED;
+  if (v == null) return false; // default enabled if not set
+  return v === '0' || v === 'false' || v === 'False';
+}
+
 export async function GET(req) {
+  if (isPaused()) {
+    return Response.json(
+      { ok: false, error: 'CJ integration paused' },
+      { status: 503, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+    );
+  }
   try {
     const { searchParams } = new URL(req.url);
     const preset = searchParams.get('preset') || 'home';
@@ -97,4 +109,3 @@ export async function GET(req) {
     return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
   }
 }
-
