@@ -12,6 +12,7 @@ async function fetchEPROLO({ q = "", page = 1, pageSize = 12 } = {}) {
   if (q) url.searchParams.set('q', q);
   url.searchParams.set('page', String(page));
   url.searchParams.set('pageSize', String(pageSize));
+  url.searchParams.set('preset', 'home');
   const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) {
     return { ok: false, items: [], error: `HTTP ${res.status}` };
@@ -56,4 +57,3 @@ export default async function EproloCatalogPage({ searchParams }) {
     </main>
   );
 }
-

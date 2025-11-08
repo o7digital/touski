@@ -11,9 +11,10 @@ Variables d’environnement (mettre dans `touski/.env.local` — ne pas commiter
 
 Endpoints ajoutés:
 
-- `GET /api/eprolo/products?q=house&page=1&pageSize=24`
+- `GET /api/eprolo/products?q=house&page=1&pageSize=24[&preset=home][&nofilter=1]`
   - Retourne `{ ok, items[], page, pageSize }` avec normalisation (sku, name, price, images[], raw).
   - Fallback mock activable via `EPROLO_MOCK=1`.
+  - `preset=home` applique un filtre maison (allow/block). Utilise `EPROLO_HOME_ALLOW` / `EPROLO_HOME_BLOCK` ou, par défaut, les mêmes mots‑clés que CJ. `nofilter=1` désactive le filtre.
 
 Page démo:
 

@@ -60,6 +60,57 @@ function extractList(json) {
   return [];
 }
 
+function toList(input, fallback = []) {
+  if (!input) return fallback;
+  if (Array.isArray(input)) return input;
+  try {
+    const j = JSON.parse(input);
+    if (Array.isArray(j)) return j;
+  } catch {}
+  return String(input)
+    .split(/[,|]/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function homeFilter(items, mode = 'strict') {
+  const allow = toList(process.env.EPROLO_HOME_ALLOW || process.env.CJ_HOME_ALLOW, [
+    'home','house','kitchen','cook','utensil','bath','toilet','wash','soap','detergent',
+    'lighting','lamp','light','bulb','lantern','furniture','sofa','chair','table','desk',
+    'storage','organizer','shelf','rack','box','basket','hanger','hook',
+    'garden','outdoor','patio','plant','tool','bedding','pillow','blanket','duvet','sheet',
+    'curtain','rug','mat','towel','clean','cleaner','mop','broom','brush','trash','bin','can'
+  ]).map((s) => s.toLowerCase());
+  const block = toList(process.env.EPROLO_HOME_BLOCK || process.env.CJ_HOME_BLOCK, [
+    'clothing','clothes','apparel','t-shirt','shirt','jeans','pants','trousers','sweater','hoodie','jacket','coat','suit','dress','skirt','shorts',
+    'women','men','girl','boy',
+    'bag','backpack','wallet','purse',
+    'hat','cap','beanie','scarf','glove','sock','shoe','sneaker','boot','slipper',
+    'jewelry','ring','earring','necklace','bracelet','watch','makeup','cosmetic','beauty'
+  ]).map((s) => s.toLowerCase());
+
+  const containsAny = (text, words) => {
+    const t = String(text || '').toLowerCase();
+    return words.some((w) => t.includes(w));
+  };
+
+  if (mode === 'block_only') {
+    return items.filter((it) => {
+      const fields = [it?.raw?.categoryName, it?.name, it?.description];
+      return !fields.some((f) => containsAny(f, block));
+    });
+  }
+
+  // strict: keep only items matching allow and not matching block
+  const kept = [];
+  for (const it of items) {
+    const fields = [it?.raw?.categoryName, it?.name, it?.description];
+    if (fields.some((f) => containsAny(f, block))) continue;
+    if (fields.some((f) => containsAny(f, allow))) kept.push(it);
+  }
+  return kept;
+}
+
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -70,6 +121,8 @@ export async function GET(req) {
     const q = parsed.data.q || '';
     const page = parsed.data.page || 1;
     const pageSize = parsed.data.pageSize || 24;
+    const preset = parsed.data.preset || undefined;
+    const nofilter = parsed.data.nofilter === '1';
     const debug = searchParams.get('debug') === '1';
     const { searchUrl, mock, apiKey, email, extra } = cfg();
 
@@ -123,9 +176,14 @@ export async function GET(req) {
           tried.push({ url: String(url), info: 'empty-list' });
           continue;
         }
-        const normalized = list.map(normalize);
-        const { valid, invalid } = validateProducts(normalized);
-        return Response.json({ ok: true, items: valid, invalidCount: invalid, page, pageSize, source: String(url) }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
+        let items = list.map(normalize);
+        // Optional preset filtering (e.g., home)
+        if (preset === 'home' && !nofilter) {
+          const strict = homeFilter(items, 'strict');
+          items = strict.length >= Math.min(pageSize, 8) ? strict : homeFilter(items, 'block_only');
+        }
+        const { valid, invalid } = validateProducts(items);
+        return Response.json({ ok: true, items: valid, invalidCount: invalid, page, pageSize, source: String(url), preset }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
       } catch (e) {
         tried.push({ attempt: a.method, error: String(e?.message || e) });
       }
