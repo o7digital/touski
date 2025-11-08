@@ -123,6 +123,10 @@ export async function GET(req) {
     const pageSize = parsed.data.pageSize || 24;
     const preset = parsed.data.preset || undefined;
     const nofilter = parsed.data.nofilter === '1';
+    const minPrice = typeof parsed.data.minPrice === 'number' ? parsed.data.minPrice : undefined;
+    const maxPrice = typeof parsed.data.maxPrice === 'number' ? parsed.data.maxPrice : undefined;
+    const sort = parsed.data.sort || '';
+    const category = parsed.data.category || '';
     const debug = searchParams.get('debug') === '1';
     const { searchUrl, mock, apiKey, email, extra } = cfg();
 
@@ -147,14 +151,14 @@ export async function GET(req) {
       { 'X-API-KEY': apiKey },
       { 'Authorization': `Bearer ${apiKey}` },
     ];
-    const bodyBase = { keyword: q, page, pageSize, ...extra };
+    const bodyBase = { keyword: q, page, pageSize, minPrice, maxPrice, sort, category, ...extra };
     // Prefer POST JSON with different header variants
     for (const hs of headerSets) {
       candidates.push({ method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', ...hs }, body: JSON.stringify({ apiKey, email, ...bodyBase }) });
     }
     // Fallback GET with query parameters
-    candidates.push({ method: 'GET', headers: { Accept: 'application/json' }, query: { apiKey, keyword: q, page, pageSize, ...extra } });
-    candidates.push({ method: 'GET', headers: { Accept: 'application/json', apiKey }, query: { keyword: q, page, pageSize, ...extra } });
+    candidates.push({ method: 'GET', headers: { Accept: 'application/json' }, query: { apiKey, keyword: q, page, pageSize, minPrice, maxPrice, sort, category, ...extra } });
+    candidates.push({ method: 'GET', headers: { Accept: 'application/json', apiKey }, query: { keyword: q, page, pageSize, minPrice, maxPrice, sort, category, ...extra } });
 
     for (const a of candidates) {
       let res;
@@ -182,8 +186,23 @@ export async function GET(req) {
           const strict = homeFilter(items, 'strict');
           items = strict.length >= Math.min(pageSize, 8) ? strict : homeFilter(items, 'block_only');
         }
+        // Apply local filters if provided
+        if (typeof minPrice === 'number') items = items.filter((it) => typeof it.price === 'number' ? it.price >= minPrice : true);
+        if (typeof maxPrice === 'number') items = items.filter((it) => typeof it.price === 'number' ? it.price <= maxPrice : true);
+        if (category) {
+          const needle = String(category).toLowerCase();
+          items = items.filter((it) => {
+            const fields = [it?.raw?.categoryName, it?.raw?.category, it?.name, it?.description];
+            return fields.some((f) => String(f || '').toLowerCase().includes(needle));
+          });
+        }
+        // Sorting
+        if (sort === 'price_asc') items = items.sort((a,b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+        if (sort === 'price_desc') items = items.sort((a,b) => (b.price ?? -Infinity) - (a.price ?? -Infinity));
+        // Ensure page size (in case vendor returns more)
+        items = items.slice(0, pageSize);
         const { valid, invalid } = validateProducts(items);
-        return Response.json({ ok: true, items: valid, invalidCount: invalid, page, pageSize, source: String(url), preset }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
+        return Response.json({ ok: true, items: valid, invalidCount: invalid, page, pageSize, sort, preset, source: String(url) }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
       } catch (e) {
         tried.push({ attempt: a.method, error: String(e?.message || e) });
       }

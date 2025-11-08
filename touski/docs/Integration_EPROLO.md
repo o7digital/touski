@@ -15,6 +15,7 @@ Endpoints ajoutés:
   - Retourne `{ ok, items[], page, pageSize }` avec normalisation (sku, name, price, images[], raw).
   - Fallback mock activable via `EPROLO_MOCK=1`.
   - `preset=home` applique un filtre maison (allow/block). Utilise `EPROLO_HOME_ALLOW` / `EPROLO_HOME_BLOCK` ou, par défaut, les mêmes mots‑clés que CJ. `nofilter=1` désactive le filtre.
+  - Supporte `minPrice`, `maxPrice`, `category` (filtre local), `sort=price_asc|price_desc` (tri local si l’API ne le gère pas).
 
 Page démo:
 
