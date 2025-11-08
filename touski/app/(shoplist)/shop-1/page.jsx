@@ -5,7 +5,7 @@ import Shop1 from "@/components/shoplist/Shop1";
 import { getProducts } from "@/lib/directus";
 import React from "react";
 import { headers } from "next/headers";
-import CjGrid from "@/components/cj/CjGrid";
+// Note: CJ est en pause; EPROLO devient la source fournisseur
 
 export const metadata = {
   title: "Shop 1 || Uomo eCommerce React Nextjs Template",
@@ -22,7 +22,7 @@ function pick(obj, keys) {
 export default async function ShopPage1({ searchParams }) {
   const q = searchParams?.q || "";
   const category = searchParams?.category || "";
-  const source = (searchParams?.source || "directus").toLowerCase(); // 'directus' | 'cj'
+  const source = (searchParams?.source || "eprolo").toLowerCase(); // 'directus' | 'eprolo'
   const page = Number(searchParams?.page || 1);
   const pageSize = Number(searchParams?.pageSize || 24);
   const minPrice = searchParams?.minPrice || "";
@@ -32,7 +32,7 @@ export default async function ShopPage1({ searchParams }) {
   let items = [];
   let loadError = null;
   try {
-    if (source === "cj") {
+    if (source === "eprolo") {
       const params = new URLSearchParams();
       if (q) params.set("q", q);
       if (category) params.set("category", category);
@@ -41,14 +41,14 @@ export default async function ShopPage1({ searchParams }) {
       if (sort) params.set("sort", sort);
       params.set("page", String(page));
       params.set("pageSize", String(pageSize));
+      params.set("preset", "home");
       const h = headers();
       const proto = h.get("x-forwarded-proto") || "https";
       const host = h.get("x-forwarded-host") || h.get("host");
       const origin = `${proto}://${host}`;
-      params.set('strict', '1');
-      const res = await fetch(`${origin}/api/cj/products?${params.toString()}`, { cache: "no-store" });
-      if (!res.ok) throw new Error((await res.json()).error || `HTTP ${res.status}`);
+      const res = await fetch(`${origin}/api/eprolo/products?${params.toString()}`, { cache: "no-store" });
       const data = await res.json();
+      if (!res.ok || data?.ok === false) throw new Error(String(data?.error || `HTTP ${res.status}`));
       items = data?.items || [];
     } else {
       const filter = {};
@@ -68,7 +68,7 @@ export default async function ShopPage1({ searchParams }) {
       <Header1 />
       <main className="page-wrapper">
         <section className="container my-4">
-          <h2 className="h4 mb-3">Produits {source === 'cj' ? 'Fournisseur (CJ)' : 'Directus'}</h2>
+          <h2 className="h4 mb-3">Produits {source === 'eprolo' ? 'Fournisseur (EPROLO)' : 'Directus'}</h2>
           <form method="get" className="mb-3" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <input name="q" defaultValue={q} placeholder="Recherche (nom)" style={{ padding: 8, flex: 1, minWidth: 220 }} />
             <input name="category" defaultValue={category} placeholder="Catégorie (ex: maison)" style={{ padding: 8, width: 180 }} />
@@ -80,8 +80,8 @@ export default async function ShopPage1({ searchParams }) {
               <option value="price_desc">Prix ↓</option>
             </select>
             <select name="source" defaultValue={source} style={{ padding: 8 }}>
+              <option value="eprolo">Fournisseur (EPROLO)</option>
               <option value="directus">Directus</option>
-              <option value="cj">Fournisseur (CJ)</option>
             </select>
             <input type="number" name="page" defaultValue={page} min={1} style={{ padding: 8, width: 90 }} />
             <input type="number" name="pageSize" defaultValue={pageSize} min={6} max={60} step={6} style={{ padding: 8, width: 110 }} />
@@ -94,8 +94,58 @@ export default async function ShopPage1({ searchParams }) {
           )}
           {items.length === 0 ? (
             <p>Aucun produit trouvé.</p>
-          ) : source === 'cj' ? (
-            <CjGrid items={items} />
+          ) : source === 'eprolo' ? (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+                gap: 16,
+              }}
+            >
+              {items.map((it, i) => {
+                const title = it?.name || "Sans nom";
+                const img = Array.isArray(it?.images) ? it.images[0] : null;
+                const sku = it?.sku || `ep-${i}`;
+                const price = it?.price;
+                return (
+                  <div
+                    key={`${sku}-${i}`}
+                    style={{
+                      border: "1px solid #eee",
+                      borderRadius: 10,
+                      padding: 12,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      background: "#fff",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        paddingTop: "75%",
+                        background: "#fafafa",
+                        borderRadius: 8,
+                        overflow: "hidden",
+                      }}
+                    >
+                      {img ? (
+                        <img
+                          src={img}
+                          alt={title}
+                          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      ) : null}
+                    </div>
+                    <div style={{ fontWeight: 600, fontSize: 14, lineHeight: 1.3 }}>{title}</div>
+                    <div className="text-secondary" style={{ fontSize: 12 }}>
+                      SKU: {sku} {price != null ? `· ${price}` : ""}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           ) : (
             <ul className="list-unstyled">
               {items.map((prod) => {
