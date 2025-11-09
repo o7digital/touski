@@ -10,8 +10,10 @@ export async function GET(req) {
     const apiKey = process.env.EPROLO_API_KEY || '';
     const email = process.env.EPROLO_EMAIL || '';
     const tried = [];
+    const endpointOverride = searchParams.get('endpoint');
+    const effectiveSearchUrl = endpointOverride ? String(endpointOverride).replace(/\/$/, '') : searchUrl;
     const urlCandidates = Array.from(new Set([
-      searchUrl,
+      effectiveSearchUrl,
       `${base}`,
       `${base}/product/list`,
       `${base}/api/product/list`,
@@ -63,4 +65,3 @@ export async function GET(req) {
     return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
   }
 }
-

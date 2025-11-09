@@ -129,6 +129,9 @@ export async function GET(req) {
     const category = parsed.data.category || '';
     const debug = searchParams.get('debug') === '1';
     const { base, searchUrl, mock, apiKey, email, extra } = cfg();
+    // Optional runtime override for quick testing without redeploy
+    const endpointOverride = searchParams.get('endpoint');
+    const effectiveSearchUrl = endpointOverride ? String(endpointOverride).replace(/\/$/, '') : searchUrl;
 
     if (!mock && (!apiKey || apiKey.trim() === '')) {
       return Response.json(
@@ -152,7 +155,7 @@ export async function GET(req) {
     // Build a matrix of attempts (multiple URL candidates × headers × payload form)
     const candidates = [];
     const urlCandidates = Array.from(new Set([
-      searchUrl,
+      effectiveSearchUrl,
       `${base}`,
       `${base}/product/list`,
       `${base}/api/product/list`,
