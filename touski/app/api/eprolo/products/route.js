@@ -113,6 +113,14 @@ function homeFilter(items, mode = 'strict') {
 
 export async function GET(req) {
   try {
+    // Allow pausing EPROLO without removing code
+    const v = process.env.EPROLO_ENABLED;
+    if (v === '0' || v === 'false' || v === 'False') {
+      return Response.json(
+        { ok: false, error: 'EPROLO integration paused' },
+        { status: 503, headers: { 'Cache-Control': 'no-store, must-revalidate' } }
+      );
+    }
     const { searchParams } = new URL(req.url);
     const parsed = QuerySchema.safeParse(Object.fromEntries(searchParams));
     if (!parsed.success) {

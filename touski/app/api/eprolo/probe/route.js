@@ -1,6 +1,10 @@
 // Probe EPROLO endpoints to discover the correct path/shape (secrets redacted)
 export async function GET(req) {
   try {
+    const v = process.env.EPROLO_ENABLED;
+    if (v === '0' || v === 'false' || v === 'False') {
+      return Response.json({ ok: false, error: 'EPROLO integration paused' }, { status: 503 });
+    }
     const { searchParams } = new URL(req.url);
     const q = searchParams.get('q') || 'house';
     const page = Number(searchParams.get('page') || 1);

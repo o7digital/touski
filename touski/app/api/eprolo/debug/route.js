@@ -1,6 +1,10 @@
 // Quick diagnostics for EPROLO setup (redacts secrets)
 export async function GET() {
   try {
+    const v = process.env.EPROLO_ENABLED;
+    if (v === '0' || v === 'false' || v === 'False') {
+      return Response.json({ ok: false, error: 'EPROLO integration paused' }, { status: 503 });
+    }
     const base = (process.env.EPROLO_BASE_URL || 'https://openapi.eprolo.com').replace(/\/$/, '');
     const searchUrl = (process.env.EPROLO_SEARCH_URL || base).replace(/\/$/, '');
     const apiKey = process.env.EPROLO_API_KEY || '';
@@ -32,4 +36,3 @@ export async function GET() {
     return Response.json({ ok: false, error: String(e?.message || e) }, { status: 500 });
   }
 }
-

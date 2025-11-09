@@ -22,7 +22,7 @@ function pick(obj, keys) {
 export default async function ShopPage1({ searchParams }) {
   const q = searchParams?.q || "";
   const category = searchParams?.category || "";
-  const source = (searchParams?.source || "eprolo").toLowerCase(); // 'directus' | 'eprolo'
+  const source = (searchParams?.source || "directus").toLowerCase(); // 'directus' | 'eprolo'
   const page = Number(searchParams?.page || 1);
   const pageSize = Number(searchParams?.pageSize || 24);
   const minPrice = searchParams?.minPrice || "";
@@ -80,7 +80,6 @@ export default async function ShopPage1({ searchParams }) {
               <option value="price_desc">Prix ↓</option>
             </select>
             <select name="source" defaultValue={source} style={{ padding: 8 }}>
-              <option value="eprolo">Fournisseur (EPROLO)</option>
               <option value="directus">Directus</option>
             </select>
             <input type="number" name="page" defaultValue={page} min={1} style={{ padding: 8, width: 90 }} />
