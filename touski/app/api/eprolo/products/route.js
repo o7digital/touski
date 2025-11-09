@@ -128,7 +128,7 @@ export async function GET(req) {
     const sort = parsed.data.sort || '';
     const category = parsed.data.category || '';
     const debug = searchParams.get('debug') === '1';
-    const { searchUrl, mock, apiKey, email, extra } = cfg();
+    const { base, searchUrl, mock, apiKey, email, extra } = cfg();
 
     if (!mock && (!apiKey || apiKey.trim() === '')) {
       return Response.json(
