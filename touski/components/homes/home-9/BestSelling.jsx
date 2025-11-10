@@ -23,6 +23,7 @@ export default function BestSelling() {
   const [cjItems, setCjItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [cjCategories, setCjCategories] = useState([]);
   useEffect(() => {
     if (currentCategory == "All") {
       setFiltered(products16);
@@ -34,8 +35,18 @@ export default function BestSelling() {
   }, [currentCategory]);
 
   useEffect(() => {
-    // Load CJ at mount; show something by default
-    loadCJ({ query: "home", size: 48 });
+    // Preload CJ categories (flattened) and initial products
+    (async () => {
+      try {
+        const r = await fetch(`/api/cj/categories?strict=1`, { cache: 'no-store' });
+        if (r.ok) {
+          const j = await r.json();
+          const items = Array.isArray(j.items) ? j.items : [];
+          setCjCategories(items);
+        }
+      } catch {}
+      loadCJ({ query: "home", size: 48 });
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -72,6 +83,12 @@ export default function BestSelling() {
         jardin: "garden",
         meuble: "furniture",
         meubles: "furniture",
+        furnishing: "furniture",
+        furniture: "furniture",
+        fourniture: "furniture",
+        fournitures: "furniture",
+        detergent: "detergent",
+        detergents: "detergent",
       };
       const qnMapped = map[qn] || qn;
 
@@ -80,8 +97,32 @@ export default function BestSelling() {
       url.searchParams.set("page", "1");
       url.searchParams.set("pageSize", String(size));
       url.searchParams.set("strict", "1");
-      // No preset filter: show the full supplier catalog based on query only
-      if (cn0) url.searchParams.set("category", cn0);
+      // Prefer categoryId when we can resolve it; fallback to `category` text otherwise
+      if (cn0) {
+        // If numeric id was typed, use it directly
+        const isNumericId = /^\d+$/.test(cat.trim());
+        if (isNumericId) {
+          url.searchParams.set("categoryId", cat.trim());
+        } else {
+          // Try to resolve by category name from CJ categories
+          const match = (() => {
+            if (!Array.isArray(cjCategories) || !cjCategories.length) return null;
+            const candidates = cjCategories.filter((c) => {
+              const n = String(c?.name || '').toLowerCase();
+              const p = (c?.path || []).join(' ').toLowerCase();
+              return n.includes(cn0) || p.includes(cn0);
+            });
+            // Prefer deeper levels (more specific)
+            candidates.sort((a,b) => (b.level||0) - (a.level||0));
+            return candidates[0] || null;
+          })();
+          if (match?.id) {
+            url.searchParams.set("categoryId", String(match.id));
+          } else {
+            url.searchParams.set("category", cn0);
+          }
+        }
+      }
       // Force language to English to get richer results
       url.searchParams.set("language", "EN");
       if (min) url.searchParams.set("minPrice", String(min));
