@@ -19,7 +19,7 @@ export default function BestSelling() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sort, setSort] = useState("");
-  const [pageSize, setPageSize] = useState(12);
+  const [pageSize, setPageSize] = useState(24);
   const [cjItems, setCjItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -35,7 +35,7 @@ export default function BestSelling() {
 
   useEffect(() => {
     // Load CJ at mount; show something by default
-    loadCJ({ query: "home", size: 12 });
+    loadCJ({ query: "home", size: 24 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -92,25 +92,7 @@ export default function BestSelling() {
       const j = await res.json();
       if (!res.ok || !j?.ok) throw new Error(j?.error || `HTTP ${res.status}`);
       let items = Array.isArray(j.items) ? j.items : [];
-      // Mode "home" strict par défaut ou si l’intention est maison/house/home
-      const isHomeIntent = [qnMapped, cn0].some((t) => ["home", "house", "maison"].includes(t));
-      const homeTags = [
-        "home", "house", "kitchen", "cook", "bath", "toilet", "lighting",
-        "lamp", "furniture", "sofa", "chair", "table", "storage", "organizer",
-        "garden", "outdoor", "clean", "detergent", "bedding"
-      ];
-      if (isHomeIntent || !qnMapped && !cn0) {
-        items = items.filter((it) => {
-          const c = String(it?.raw?.categoryName || "").toLowerCase();
-          const name = String(it?.name || "").toLowerCase();
-          const desc = String(it?.description || "").toLowerCase();
-          return (
-            homeTags.some((k) => c.includes(k)) ||
-            homeTags.some((k) => name.includes(k)) ||
-            homeTags.some((k) => desc.includes(k))
-          );
-        });
-      }
+      // Do not re-filter on client; server already applies preset=home filtering
       setCjItems(items);
     } catch (e) {
       setError(String(e?.message || e));
@@ -347,7 +329,7 @@ export default function BestSelling() {
           <div className="text-center mt-2">
             <Link
               className="btn-link btn-link_lg default-underline text-uppercase fw-medium"
-              href="/shop-1"
+              href="/shop-1?source=cj"
             >
               See All Products
             </Link>

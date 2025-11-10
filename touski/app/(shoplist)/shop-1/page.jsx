@@ -5,7 +5,6 @@ import Shop1 from "@/components/shoplist/Shop1";
 import { getProducts } from "@/lib/directus";
 import React from "react";
 import { headers } from "next/headers";
-// Note: CJ est en pause; EPROLO devient la source fournisseur
 
 export const metadata = {
   title: "Shop 1 || Uomo eCommerce React Nextjs Template",
@@ -22,7 +21,7 @@ function pick(obj, keys) {
 export default async function ShopPage1({ searchParams }) {
   const q = searchParams?.q || "";
   const category = searchParams?.category || "";
-  const source = (searchParams?.source || "directus").toLowerCase(); // 'directus' | 'eprolo'
+  const source = (searchParams?.source || "directus").toLowerCase(); // 'directus' | 'eprolo' | 'cj'
   const page = Number(searchParams?.page || 1);
   const pageSize = Number(searchParams?.pageSize || 24);
   const minPrice = searchParams?.minPrice || "";
@@ -32,7 +31,7 @@ export default async function ShopPage1({ searchParams }) {
   let items = [];
   let loadError = null;
   try {
-    if (source === "eprolo") {
+    if (source === "eprolo" || source === "cj") {
       const params = new URLSearchParams();
       if (q) params.set("q", q);
       if (category) params.set("category", category);
@@ -46,7 +45,8 @@ export default async function ShopPage1({ searchParams }) {
       const proto = h.get("x-forwarded-proto") || "https";
       const host = h.get("x-forwarded-host") || h.get("host");
       const origin = `${proto}://${host}`;
-      const res = await fetch(`${origin}/api/eprolo/products?${params.toString()}`, { cache: "no-store" });
+      const endpoint = source === "cj" ? "/api/cj/products" : "/api/eprolo/products";
+      const res = await fetch(`${origin}${endpoint}?${params.toString()}`, { cache: "no-store" });
       const data = await res.json();
       if (!res.ok || data?.ok === false) throw new Error(String(data?.error || `HTTP ${res.status}`));
       items = data?.items || [];
@@ -68,7 +68,7 @@ export default async function ShopPage1({ searchParams }) {
       <Header1 />
       <main className="page-wrapper">
         <section className="container my-4">
-          <h2 className="h4 mb-3">Produits {source === 'eprolo' ? 'Fournisseur (EPROLO)' : 'Directus'}</h2>
+          <h2 className="h4 mb-3">Produits {source === 'eprolo' ? 'Fournisseur (EPROLO)' : source === 'cj' ? 'Fournisseur (CJ)' : 'Directus'}</h2>
           <form method="get" className="mb-3" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <input name="q" defaultValue={q} placeholder="Recherche (nom)" style={{ padding: 8, flex: 1, minWidth: 220 }} />
             <input name="category" defaultValue={category} placeholder="Catégorie (ex: maison)" style={{ padding: 8, width: 180 }} />
@@ -81,6 +81,8 @@ export default async function ShopPage1({ searchParams }) {
             </select>
             <select name="source" defaultValue={source} style={{ padding: 8 }}>
               <option value="directus">Directus</option>
+              <option value="cj">CJ</option>
+              <option value="eprolo">EPROLO</option>
             </select>
             <input type="number" name="page" defaultValue={page} min={1} style={{ padding: 8, width: 90 }} />
             <input type="number" name="pageSize" defaultValue={pageSize} min={6} max={60} step={6} style={{ padding: 8, width: 110 }} />
