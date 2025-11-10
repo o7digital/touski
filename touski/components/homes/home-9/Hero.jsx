@@ -43,14 +43,13 @@ export default function Hero() {
                 <span
                   style={{
                     display: "inline-block",
-                    backgroundColor: "#FF9445",
+                    backgroundColor: "rgb(239, 99, 40)",
                     color: "#fff",
                     paddingLeft: "0.6em",
                     paddingRight: "0.6em",
                     paddingTop: "max(0px, calc(0.25em - 0.15cm))",
                     paddingBottom: "max(0px, calc(0.25em - 0.15cm))",
                     borderRadius: "0.25rem",
-                    boxShadow: "0 0 0 3px rgb(239, 99, 40)",
                   }}
                 >
                   {elm.subtitle}
@@ -62,7 +61,7 @@ export default function Hero() {
                 className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-7"
                 style={{
                   display: 'inline-block',
-                  backgroundColor: '#FF9445',
+                  backgroundColor: 'rgb(239, 99, 40)',
                   color: '#fff',
                   padding: '0.4em 0.9em',
                   borderRadius: '6px',
