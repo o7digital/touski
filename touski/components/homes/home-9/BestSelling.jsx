@@ -161,8 +161,17 @@ export default function BestSelling() {
           <option value="price_asc">Prix ↑</option>
           <option value="price_desc">Prix ↓</option>
         </select>
-        <select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} style={{ padding: 8 }}>
-          {[12, 16, 20, 24, 28, 32].map((n) => (
+        <select
+          value={pageSize}
+          onChange={(e) => {
+            const n = Number(e.target.value);
+            setPageSize(n);
+            // refresh immediately when page size changes
+            loadCJ({ query: q, size: n, category, min: minPrice, max: maxPrice, s: sort });
+          }}
+          style={{ padding: 8 }}
+        >
+          {[12, 24, 36, 48, 60].map((n) => (
             <option key={n} value={n}>
               {n}
             </option>
