@@ -92,7 +92,7 @@ a {
 .page-wrapper {
   padding-top: 90px;
   @media (max-width: 1000px) {
-    padding-top: 60px;
+    padding-top: 120px; // account for taller mobile header
   }
 }
 .page-wrapper-3 {

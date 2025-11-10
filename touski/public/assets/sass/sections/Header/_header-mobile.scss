@@ -9,7 +9,7 @@
   }
 
   .logo__image {
-    max-height: $mobile-header-height - .75rem;
+    max-height: $mobile-header-height; // allow full height of header for logo
   }
 
   @include media-breakpoint-up(lg) {
