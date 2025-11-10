@@ -38,8 +38,11 @@ export default function Hero() {
               />
             </div>
             <div className="slideshow-text container position-absolute start-50 top-50 translate-middle">
-              <h6 className="text_dash text-uppercase fs-base fw-medium animate animate_fade animate_btt animate_delay-3">
-                {elm.imageAlt}
+              <h6
+                className="text-uppercase fs-base fw-bold animate animate_fade animate_btt animate_delay-3"
+                style={{ color: '#FF9445', letterSpacing: '0.04em' }}
+              >
+                DECOUVREZ NOS OFFRES
               </h6>
               <h2 className="text-uppercase h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">
                 <span
@@ -55,16 +58,19 @@ export default function Hero() {
                   {elm.subtitle}
                 </span>
               </h2>
-              <p className="animate animate_fade animate_btt animate_delay-6">
-                {elm.description.split(" ").slice(0, 7).join(" ")}
-                <br />
-                {elm.description.split(" ").slice(7).join(" ")}
-              </p>
+              {/* Description removed per request */}
               <Link
                 href="/shop-1"
-                className="btn-link btn-link_sm default-underline text-uppercase fw-medium animate animate_fade animate_btt animate_delay-7"
+                className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-7"
+                style={{
+                  display: 'inline-block',
+                  backgroundColor: '#FF9445',
+                  color: '#fff',
+                  padding: '0.4em 0.9em',
+                  borderRadius: '6px',
+                }}
               >
-                Buy Now
+                BUY NOW
               </Link>
             </div>
           </div>
