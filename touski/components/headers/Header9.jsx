@@ -54,11 +54,12 @@ export default function Header9() {
         <div className="logo">
           <Link href="/">
             <Image
-              src="/assets/images/logo-dark-blue.png"
+              src="/assets/images/touski-logo.jpeg"
               width={112}
-              height={28}
-              alt="Uomo"
+              height={112}
+              alt="Touski"
               className="logo__image d-block"
+              style={{ height: 28, width: 'auto' }}
             />
           </Link>
         </div>

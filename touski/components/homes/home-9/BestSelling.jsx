@@ -19,7 +19,7 @@ export default function BestSelling() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sort, setSort] = useState("");
-  const [pageSize, setPageSize] = useState(24);
+  const [pageSize, setPageSize] = useState(48);
   const [cjItems, setCjItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -35,7 +35,7 @@ export default function BestSelling() {
 
   useEffect(() => {
     // Load CJ at mount; show something by default
-    loadCJ({ query: "home", size: 24 });
+    loadCJ({ query: "home", size: 48 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
