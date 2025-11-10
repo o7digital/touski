@@ -48,11 +48,11 @@ export default function Hero() {
                 <span
                   style={{
                     display: "inline-block",
-                    backgroundColor: "#FF9445", // solid (no transparency)
+                    backgroundColor: "rgba(255, 148, 69, 0.10)", // 10% transparency
                     color: "#fff",
                     padding: "0.25em 0.6em",
                     borderRadius: "0.25rem",
-                    boxShadow: "0 0 0 3px #FF9445",
+                    boxShadow: "0 0 0 3px rgba(255, 148, 69, 0.10)",
                   }}
                 >
                   {elm.subtitle}
