@@ -3,52 +3,15 @@ import { currencyOptions, languageOptions } from "@/data/footer";
 
 import { socialLinks } from "@/data/socials";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CartLength from "./components/CartLength";
 import { openCart } from "@/utlis/openCart";
 import MobileNav from "./components/MobileNav";
 import Image from "next/image";
 
 export default function MobileHeader() {
-  const [scrollDirection, setScrollDirection] = useState("down");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > 250) {
-        if (currentScrollY > lastScrollY.current) {
-          // Scrolling down
-          setScrollDirection("down");
-        } else {
-          // Scrolling up
-          setScrollDirection("up");
-        }
-      } else {
-        // Below 250px
-        setScrollDirection("down");
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    const lastScrollY = { current: window.scrollY };
-
-    // Add scroll event listener
-    window.addEventListener("scroll", handleScroll);
-
-    // Cleanup: remove event listener when component unmounts
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <div
-      className={`header-mobile header_sticky ${
-        scrollDirection == "up" ? "header_sticky-active" : "position-absolute"
-      } `}
-    >
+    <div className={`header-mobile header_sticky header_sticky-active`}>
       <div className="container d-flex align-items-center h-100">
         <a className="mobile-nav-activator d-block position-relative" href="#">
           <svg

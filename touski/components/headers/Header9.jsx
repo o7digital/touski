@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 
-import { useEffect, useState } from "react";
 import Nav from "./components/Nav";
 import { openCart } from "@/utlis/openCart";
 import CartLength from "./components/CartLength";
@@ -11,44 +10,10 @@ import SearchPopup from "./components/SearchPopup";
 import CategorySelect from "./components/CategorySelect";
 
 export default function Header9() {
-  const [scrollDirection, setScrollDirection] = useState("down");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > 250) {
-        if (currentScrollY > lastScrollY.current) {
-          // Scrolling down
-          setScrollDirection("down");
-        } else {
-          // Scrolling up
-          setScrollDirection("up");
-        }
-      } else {
-        // Below 250px
-        setScrollDirection("down");
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    const lastScrollY = { current: window.scrollY };
-
-    // Add scroll event listener
-    window.addEventListener("scroll", handleScroll);
-
-    // Cleanup: remove event listener when component unmounts
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   return (
     <header
       id="header"
-      className={`header header_sticky header-fullwidth    header_sticky ${
-        scrollDirection == "up" ? "header_sticky-active" : "position-absolute"
-      }`}
+      className={`header header_sticky header-fullwidth header_sticky header_sticky-active`}
     >
       <div className="header-desk header-desk_type_5">
         <div className="logo">
