@@ -54,11 +54,11 @@ export default function Header1() {
             <Link href="/">
               <Image
                 src="/assets/images/touski-logo.jpeg"
-                width={292}
-                height={292}
+                width={438}
+                height={438}
                 alt="Touski"
                 className="logo__image d-block"
-                style={{ height: 146, width: 'auto' }}
+                style={{ height: 219, width: 'auto' }}
               />
             </Link>
           </div>

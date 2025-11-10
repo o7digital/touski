@@ -46,11 +46,11 @@ export default function Hero() {
                 <span
                   style={{
                     display: "inline-block",
-                  backgroundColor: "rgba(23, 61, 50, 0.6)",
+                    backgroundColor: "rgba(255, 148, 69, 0.82)", // Touski Orange with transparency
                     color: "#fff",
                     padding: "0.25em 0.6em",
                     borderRadius: "0.25rem",
-                    boxShadow: "0 0 0 3px rgba(23, 61, 50, 0.25)",
+                    boxShadow: "0 0 0 3px rgba(255, 148, 69, 0.4)",
                   }}
                 >
                   {elm.subtitle}
