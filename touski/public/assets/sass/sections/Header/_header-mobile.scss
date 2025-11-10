@@ -6,6 +6,9 @@
 
   .logo {
     margin: 0 auto;
+    background: #fff; // white rectangle behind the logo on mobile
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
   }
 
   .logo__image {

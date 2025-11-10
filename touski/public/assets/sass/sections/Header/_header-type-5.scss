@@ -1,8 +1,14 @@
 .header-desk_type_5 {
-  padding: $header-type-5-padding;
+  // Reduce vertical padding so non-logo areas look tighter
+  padding: 0.5rem 0;
 
   .logo {
     margin-right: $header-type-5-logo-space;
+    // White rectangle behind the logo
+    background: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   }
 
   .header-search {
