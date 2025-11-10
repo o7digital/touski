@@ -55,11 +55,11 @@ export default function Header9() {
           <Link href="/">
             <Image
               src="/assets/images/touski-logo.jpeg"
-              width={224}
-              height={224}
+              width={292}
+              height={292}
               alt="Touski"
               className="logo__image d-block"
-              style={{ height: 112, width: 'auto' }}
+              style={{ height: 146, width: 'auto' }}
             />
           </Link>
         </div>

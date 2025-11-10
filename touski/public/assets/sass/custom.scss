@@ -131,6 +131,15 @@ body {
   }
 }
 
+/* Touski accent color for link-style buttons and underscores */
+.btn-link {
+  color: #FF9445 !important; /* matches logo orange */
+}
+.nav-link.nav-link_underscore.active,
+.nav-link.nav-link_underscore:hover {
+  color: #FF9445;
+}
+
 @media (max-width: 991px) {
   .product-single__type-4 {
     max-width: 100vw;

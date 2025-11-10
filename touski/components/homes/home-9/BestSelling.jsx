@@ -335,23 +335,17 @@ export default function BestSelling() {
           </div>
           {/* <!-- /.row --> */}
           <div className="text-center mt-2">
-            {(() => {
-              const qs = new URLSearchParams();
-              if (q) qs.set('q', q);
-              if (category) qs.set('category', category);
-              if (minPrice) qs.set('minPrice', String(minPrice));
-              if (maxPrice) qs.set('maxPrice', String(maxPrice));
-              if (sort) qs.set('sort', sort);
-              qs.set('page', '1');
-              qs.set('pageSize', String(pageSize));
-              qs.set('source','cj');
-              const href = `/shop-1?${qs.toString()}`;
-              return (
-                <Link className="btn-link btn-link_lg default-underline text-uppercase fw-medium" href={href}>
-                  See All Products
-                </Link>
-              );
-            })()}
+            <button
+              type="button"
+              className="btn-link btn-link_lg default-underline text-uppercase fw-medium"
+              onClick={() => {
+                const more = pageSize + 24;
+                setPageSize(more);
+                loadCJ({ query: q, size: more, category, min: minPrice, max: maxPrice, s: sort });
+              }}
+            >
+              {loading ? 'Loading…' : 'See All Products'}
+            </button>
           </div>
         </div>
       </div>
