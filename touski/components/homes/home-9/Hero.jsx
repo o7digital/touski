@@ -38,21 +38,19 @@ export default function Hero() {
               />
             </div>
             <div className="slideshow-text container position-absolute start-50 top-50 translate-middle">
-              <h6
-                className="text-uppercase fs-base fw-bold animate animate_fade animate_btt animate_delay-3"
-                style={{ color: '#FF9445', letterSpacing: '0.04em' }}
-              >
-                DECOUVREZ NOS OFFRES
-              </h6>
+              {/** Tagline removed per request */}
               <h2 className="text-uppercase h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">
                 <span
                   style={{
                     display: "inline-block",
                     backgroundColor: "#FF9445",
                     color: "#fff",
-                    padding: "0.25em 0.6em",
+                    paddingLeft: "0.6em",
+                    paddingRight: "0.6em",
+                    paddingTop: "max(0px, calc(0.25em - 0.15cm))",
+                    paddingBottom: "max(0px, calc(0.25em - 0.15cm))",
                     borderRadius: "0.25rem",
-                    boxShadow: "0 0 0 3px #FF9445",
+                    boxShadow: "0 0 0 3px rgb(239, 99, 40)",
                   }}
                 >
                   {elm.subtitle}
@@ -70,7 +68,7 @@ export default function Hero() {
                   borderRadius: '6px',
                 }}
               >
-                BUY NOW
+                DECOUVREZ MAINTENANT NOS OFFRES CLIC ICI →
               </Link>
             </div>
           </div>
