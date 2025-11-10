@@ -40,7 +40,7 @@ export default async function ShopPage1({ searchParams }) {
       if (sort) params.set("sort", sort);
       params.set("page", String(page));
       params.set("pageSize", String(pageSize));
-      params.set("preset", "home");
+      // No preset filter: let backend return full results for the query
       const h = headers();
       const proto = h.get("x-forwarded-proto") || "https";
       const host = h.get("x-forwarded-host") || h.get("host");

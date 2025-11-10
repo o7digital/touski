@@ -80,8 +80,7 @@ export default function BestSelling() {
       url.searchParams.set("page", "1");
       url.searchParams.set("pageSize", String(size));
       url.searchParams.set("strict", "1");
-      // Always scope Featured section to home-related preset
-      url.searchParams.set("preset", "home");
+      // No preset filter: show the full supplier catalog based on query only
       if (cn0) url.searchParams.set("category", cn0);
       // Force language to English to get richer results
       url.searchParams.set("language", "EN");
@@ -336,12 +335,23 @@ export default function BestSelling() {
           </div>
           {/* <!-- /.row --> */}
           <div className="text-center mt-2">
-            <Link
-              className="btn-link btn-link_lg default-underline text-uppercase fw-medium"
-              href="/shop-1?source=cj"
-            >
-              See All Products
-            </Link>
+            {(() => {
+              const qs = new URLSearchParams();
+              if (q) qs.set('q', q);
+              if (category) qs.set('category', category);
+              if (minPrice) qs.set('minPrice', String(minPrice));
+              if (maxPrice) qs.set('maxPrice', String(maxPrice));
+              if (sort) qs.set('sort', sort);
+              qs.set('page', '1');
+              qs.set('pageSize', String(pageSize));
+              qs.set('source','cj');
+              const href = `/shop-1?${qs.toString()}`;
+              return (
+                <Link className="btn-link btn-link_lg default-underline text-uppercase fw-medium" href={href}>
+                  See All Products
+                </Link>
+              );
+            })()}
           </div>
         </div>
       </div>
