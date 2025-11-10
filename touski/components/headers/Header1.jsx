@@ -58,7 +58,7 @@ export default function Header1() {
                 height={438}
                 alt="Touski"
                 className="logo__image d-block"
-                style={{ height: 219, width: 'auto' }}
+                style={{ height: 438, width: 'auto' }}
               />
             </Link>
           </div>
