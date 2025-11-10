@@ -254,7 +254,7 @@ export const collectionsData = [
   {
     id: 1,
     imageSrc: "/assets/images/furnitures.jpg",
-    title: "Furniture",
+    title: "Fournitures",
     productCount: "954 Products",
   },
   {
