@@ -7,17 +7,16 @@ import Image from "next/image";
 
 export default function Hero() {
   const swiperOptions = {
-    autoplay: {
-      delay: 5000,
-    },
-    modules: [Autoplay, EffectFade, Pagination],
+    autoplay: false, // disable auto sliding
+    allowTouchMove: false, // disable swipe left/right
+    modules: [EffectFade, Pagination],
     slidesPerView: 1,
     effect: "fade",
-    loop: true,
+    loop: false,
     pagination: {
       el: ".slideshow-pagination",
       type: "bullets",
-      clickable: true,
+      clickable: false,
     },
   };
   return (

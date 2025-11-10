@@ -66,11 +66,12 @@ export default function MobileHeader() {
         <div className="logo">
           <a href="/">
             <Image
-              src="/assets/images/logo.png"
-              width={112}
-              height={28}
-              alt="Uomo"
+              src="/assets/images/touski-logo.jpeg"
+              width={160}
+              height={160}
+              alt="Touski"
               className="logo__image d-block"
+              style={{ height: 28, width: 'auto' }}
             />
           </a>
         </div>
