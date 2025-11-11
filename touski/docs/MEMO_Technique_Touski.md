@@ -64,6 +64,24 @@ Objectif: montrer le catalogue CJ côté front rapidement, sans importer en mass
    - Normalisation champs (insensible à la casse): `sku`, `name`, `description`, `price`, `compare_price`, `cost_price`, `weight`, `images`
    - Variables Vercel à prévoir: `CJ_BASE_URL`, `CJ_CLIENT_ID`, `CJ_CLIENT_SECRET` (ou équivalents de leur doc)
 
+### Mise à jour 2025‑11 — Agrégateur par « preset »
+- Presets supportés: `home`, `garden`, `furniture`.
+- Sélection de catégories CJ par racine « Home, Garden & Furniture » + mots‑clés.
+- Paramètre CJ par défaut: `categoryId` (au lieu de `category`).
+- Pagination agrégée (page/pageSize) sur un pool élargi.
+- Filtrage texte assoupli: mode `block_only` pour ne pas écarter des produits valides.
+- Variables ENV de tuning (défauts actuels entre parenthèses):
+  - `CJ_PAGES_PER_CAT` (8) — nb de pages récupérées par catégorie sélectionnée
+  - `CJ_PRESET_MULT` (10) — multiplicateur de taille du pool cible
+  - `CJ_PICK_LIMIT` (80) — nbre max de catégories prises en compte
+
+UI Home 9
+- « Univers » (Maison/Jardin/Meubles) → `preset` + résolution fuzzy `categoryId`.
+- Chips de sous‑catégories (résolution fuzzy → `categoryId`).
+- Menu déroulant « Catégories CJ » alimenté par `/api/cj/categories` (`strict=1`).
+- Charge incrémentale (append) via « Voir tous les produits » (page++).
+- Sélecteur de taille exposant 24/48/96/120/180/240; défaut 180.
+
 2) Page front catalogue CJ
    - `touski/app/cj-catalog/page.jsx` — consomme `/api/cj/products`, affiche cartes + pagination
 
@@ -117,3 +135,4 @@ Note token: éviter tout collage tronqué avec “…”; utiliser `printf '%s' 
 
 - Nouvelle note d’intégration (Front + Dropshipping v2): `touski/docs/Integration_Front_Dropshipping_v2.md`
 - Validation runtime (Zod) intégrée côté API CJ (`/api/cj/products`).
+- Changelog: `touski/docs/CHANGELOG_2025-11-11.md`
