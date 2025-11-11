@@ -107,7 +107,7 @@ export default function BestSelling() {
       if (qnMapped) url.searchParams.set("q", qnMapped);
       url.searchParams.set("page", "1");
       url.searchParams.set("pageSize", String(size));
-      url.searchParams.set("strict", "1");
+      // Allow server to try multiple CJ endpoints by default (no strict)
       // Prefer categoryId (explicit override), else resolve from text; fallback to `category` text
       if (catId) {
         url.searchParams.set("categoryId", String(catId));
