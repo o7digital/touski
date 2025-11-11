@@ -24,6 +24,14 @@ export default function BestSelling() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [cjCategories, setCjCategories] = useState([]);
+  const universList = [
+    { label: "Fournitures", key: "furniture" },
+    { label: "Cuisine", key: "kitchen" },
+    { label: "Salle de bain", key: "bath" },
+    { label: "Lighting", key: "lighting" },
+    { label: "Detergents", key: "detergent" },
+  ];
+  const [universSelected, setUniversSelected] = useState("");
   useEffect(() => {
     if (currentCategory == "All") {
       setFiltered(products16);
@@ -54,6 +62,7 @@ export default function BestSelling() {
     query = q,
     size = pageSize,
     category: cat = category,
+    categoryId: catId,
     min = minPrice,
     max = maxPrice,
     s = sort,
@@ -97,8 +106,10 @@ export default function BestSelling() {
       url.searchParams.set("page", "1");
       url.searchParams.set("pageSize", String(size));
       url.searchParams.set("strict", "1");
-      // Prefer categoryId when we can resolve it; fallback to `category` text otherwise
-      if (cn0) {
+      // Prefer categoryId (explicit override), else resolve from text; fallback to `category` text
+      if (catId) {
+        url.searchParams.set("categoryId", String(catId));
+      } else if (cn0) {
         // If numeric id was typed, use it directly
         const isNumericId = /^\d+$/.test(cat.trim());
         if (isNumericId) {
@@ -142,6 +153,34 @@ export default function BestSelling() {
     }
   }
 
+  function resolveUniversId(key) {
+    if (!Array.isArray(cjCategories) || !cjCategories.length) return null;
+    const tokens = {
+      furniture: ["furniture"],
+      kitchen: ["kitchen"],
+      bath: ["bath", "bathroom"],
+      lighting: ["lighting", "lamp", "light"],
+      detergent: ["detergent", "clean", "cleaning"],
+    }[key] || [key];
+    const lowerTokens = tokens.map((t) => t.toLowerCase());
+    const scored = cjCategories
+      .map((c) => {
+        const name = String(c?.name || "").toLowerCase();
+        const path = (c?.path || []).join(" ").toLowerCase();
+        let score = 0;
+        for (const t of lowerTokens) {
+          if (name.includes(t)) score += 3;
+          if (path.includes(t)) score += 2;
+        }
+        // Prefer deeper levels for specificity
+        score += (c.level || 0) * 0.5;
+        return { c, score };
+      })
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score);
+    return scored.length ? scored[0].c.id : null;
+  }
+
   function money(v) {
     if (v == null || Number.isNaN(Number(v))) return "";
     try {
@@ -159,6 +198,39 @@ export default function BestSelling() {
       <h2 className="section-title text-center fw-normal text-uppercase mb-1 mb-md-3 pb-xl-3">
         Best Selling Products
       </h2>
+
+      {/* Univers selector (mapped to CJ categoryId) */}
+      <div className="mb-2" style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+        {universList.map((u) => {
+          const active = universSelected === u.key;
+          return (
+            <button
+              key={u.key}
+              type="button"
+              onClick={() => {
+                const id = resolveUniversId(u.key);
+                setUniversSelected(u.key);
+                // Clear free-text query to rely on category filter
+                setQ("");
+                setCategory("");
+                loadCJ({ query: "", size: pageSize, category: "", categoryId: id });
+              }}
+              style={{
+                border: active ? "none" : "1px solid #ccc",
+                backgroundColor: active ? "rgb(239, 99, 40)" : "#fff",
+                color: active ? "#fff" : "#222",
+                borderRadius: 8,
+                padding: "6px 10px",
+                cursor: "pointer",
+                fontWeight: 600,
+                textTransform: "uppercase",
+              }}
+            >
+              {u.label}
+            </button>
+          );
+        })}
+      </div>
 
       {/* Filtre CJ (dans l’onglet Featured) */}
       {currentCategory === "Featured" && (
