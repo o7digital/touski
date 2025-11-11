@@ -32,6 +32,7 @@ export default function BestSelling() {
     { label: "Detergents", key: "detergent" },
   ];
   const [universSelected, setUniversSelected] = useState("");
+  const [resolvedCategory, setResolvedCategory] = useState(null);
   useEffect(() => {
     if (currentCategory == "All") {
       setFiltered(products16);
@@ -153,7 +154,7 @@ export default function BestSelling() {
     }
   }
 
-  function resolveUniversId(key) {
+  function resolveUnivers(key) {
     if (!Array.isArray(cjCategories) || !cjCategories.length) return null;
     const tokens = {
       furniture: ["furniture"],
@@ -178,7 +179,7 @@ export default function BestSelling() {
       })
       .filter((x) => x.score > 0)
       .sort((a, b) => b.score - a.score);
-    return scored.length ? scored[0].c.id : null;
+    return scored.length ? scored[0].c : null;
   }
 
   function money(v) {
@@ -208,8 +209,10 @@ export default function BestSelling() {
               key={u.key}
               type="button"
               onClick={() => {
-                const id = resolveUniversId(u.key);
+                const cat = resolveUnivers(u.key);
+                const id = cat?.id;
                 setUniversSelected(u.key);
+                setResolvedCategory(cat || null);
                 // Clear free-text query to rely on category filter
                 setQ("");
                 setCategory("");
@@ -231,6 +234,13 @@ export default function BestSelling() {
           );
         })}
       </div>
+      {resolvedCategory ? (
+        <div className="text-center mb-3" style={{ fontSize: 13, color: "#666" }}>
+          Catégorie CJ: {Array.isArray(resolvedCategory.path) && resolvedCategory.path.length
+            ? resolvedCategory.path.join(" > ")
+            : (resolvedCategory.name || "")} (#{resolvedCategory.id})
+        </div>
+      ) : null}
 
       {/* Filtre CJ (dans l’onglet Featured) */}
       {currentCategory === "Featured" && (
