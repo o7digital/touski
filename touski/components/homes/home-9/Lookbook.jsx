@@ -9,12 +9,13 @@ export default function Lookbook() {
   return (
     <section className="lookbook-products position-relative">
       <Image
-        className="w-100 h-auto"
+        className="h-auto"
         loading="lazy"
         src="/assets/gemini-offer.png"
         width="1903"
         height="709"
         alt="Offre salon"
+        style={{ width: "75%", height: "auto", display: "block", margin: "0 auto" }}
       />
       <h2
         className="section-title position-absolute position-top-center fw-normal text-center"
