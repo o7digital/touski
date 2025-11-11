@@ -300,6 +300,7 @@ export default function BestSelling() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          setCurrentCategory("Featured");
           loadCJ({ query: q, size: pageSize, category, min: minPrice, max: maxPrice, s: sort });
         }}
         className="mb-3 pb-3 mb-xl-4"
@@ -342,6 +343,7 @@ export default function BestSelling() {
             const n = Number(e.target.value);
             setPageSize(n);
             // refresh immediately when page size changes
+            setCurrentCategory("Featured");
             loadCJ({ query: q, size: n, category, min: minPrice, max: maxPrice, s: sort });
           }}
           style={{ padding: 8 }}
@@ -392,12 +394,15 @@ export default function BestSelling() {
           role="tabpanel"
           aria-labelledby="collections-tab-1-trigger"
         >
+          {currentCategory === "Featured" && !loading && !error && cjItems.length === 0 ? (
+            <p className="text-center mb-2">Aucun produit CJ pour ces filtres.</p>
+          ) : null}
           <div className="row">
-            {((currentCategory === "Featured" && cjItems.length) ? cjItems : filtered).map((elm, i) => (
+            {((currentCategory === "Featured") ? cjItems : filtered).map((elm, i) => (
               <div key={i} className="col-6 col-md-4 col-lg-3">
                 <div className="product-card mb-3 mb-md-4 mb-xxl-5">
                   <div className="pc__img-wrapper">
-            {(currentCategory === "Featured" && cjItems.length) ? (
+            {(currentCategory === "Featured") ? (
                       // CJ card image: direct child of pc__img-wrapper to reuse theme ratio
                       <>
                         {(() => {
@@ -452,7 +457,7 @@ export default function BestSelling() {
                       </Swiper>
                     )}
 
-                    {!(currentCategory === "Featured" && cjItems.length) && (
+                    {!(currentCategory === "Featured") && (
                       <button
                         className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
                         onClick={() => addProductToCart(elm.id)}
@@ -471,7 +476,7 @@ export default function BestSelling() {
                   </div>
 
                   <div className="pc__info position-relative">
-                    {cjItems.length ? (
+                    {currentCategory === "Featured" ? (
                       <>
                         <p className="pc__category">Fournisseur</p>
                         <h6 className="pc__title mb-2">
@@ -517,6 +522,7 @@ export default function BestSelling() {
               onClick={() => {
                 const more = pageSize + 24;
                 setPageSize(more);
+                setCurrentCategory("Featured");
                 loadCJ({ query: q, size: more, category, min: minPrice, max: maxPrice, s: sort });
               }}
             >
