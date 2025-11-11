@@ -28,6 +28,7 @@ export default function BestSelling() {
   const [cjCandidates, setCjCandidates] = useState(0);
   const reqIdRef = useRef(0);
   const abortRef = useRef(null);
+  const [hadNonEmpty, setHadNonEmpty] = useState(false);
   const universList = [
     { label: "Home", key: "home" },
     { label: "Garden", key: "garden" },
@@ -190,7 +191,13 @@ export default function BestSelling() {
       let items = Array.isArray(j.items) ? j.items : [];
       // Do not re-filter on client; server already applies any preset filtering
       if (myId === reqIdRef.current) {
-        setCjItems((prev) => (append ? [...prev, ...items] : items));
+        if (items.length > 0) {
+          setCjItems((prev) => (append ? [...prev, ...items] : items));
+          setHadNonEmpty(true);
+        } else if (!append) {
+          // Keep previous items visible when a request returns empty
+          // to avoid flicker; message will still indicate 0 if none ever loaded
+        }
         setCjTotal(Number(j.total || 0));
         setCjCandidates(Number(j.totalCandidates || 0));
       }
@@ -285,6 +292,7 @@ export default function BestSelling() {
                 setPreset(u.key);
                 setPage(1);
                 setSubSelected("");
+                setHadNonEmpty(false);
                 // Clear free-text query to rely on preset/category
                 setQ("");
                 setCategory("");
@@ -404,6 +412,7 @@ export default function BestSelling() {
             setQ("");
             setCategory("");
             setCurrentCategory("Featured");
+            setHadNonEmpty(false);
             loadCJ({ query: "", size: pageSize, category: "", categoryId: id || undefined });
           }}
           style={{ padding: 8, minWidth: 280 }}
@@ -539,7 +548,7 @@ export default function BestSelling() {
           role="tabpanel"
           aria-labelledby="collections-tab-1-trigger"
         >
-          {currentCategory === "Featured" && !loading && !error && cjItems.length === 0 ? (
+          {currentCategory === "Featured" && !loading && !error && cjItems.length === 0 && !hadNonEmpty ? (
             <p className="text-center mb-2">Aucun produit CJ pour ces filtres.</p>
           ) : null}
           <div className="row">
