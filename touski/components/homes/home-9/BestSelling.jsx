@@ -244,6 +244,20 @@ export default function BestSelling() {
         </div>
       ) : null}
 
+      {/* Etat chargement + compteur de résultats */}
+      {currentCategory === "Featured" && (
+        <div className="text-center mb-2" aria-live="polite">
+          {loading ? (
+            <>
+              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
+              Chargement…
+            </>
+          ) : (
+            <small style={{ color: "#666" }}>Résultats CJ: {cjItems.length}</small>
+          )}
+        </div>
+      )}
+
       {/* Menu déroulant des catégories CJ */}
       <div className="mb-3 pb-1" style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
         <select
