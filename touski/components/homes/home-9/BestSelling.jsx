@@ -215,10 +215,10 @@ export default function BestSelling() {
                 setUniversSelected(u.key);
                 setResolvedCategory(cat || null);
                 // Clear free-text query to rely on category filter
-                setQ("");
+                setQ(id ? "" : u.key);
                 setCategory("");
                 setCurrentCategory("Featured");
-                loadCJ({ query: "", size: pageSize, category: "", categoryId: id });
+                loadCJ({ query: id ? "" : u.key, size: pageSize, category: "", categoryId: id });
               }}
               style={{
                 border: active ? "none" : "1px solid #ccc",
