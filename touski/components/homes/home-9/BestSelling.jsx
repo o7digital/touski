@@ -19,7 +19,7 @@ export default function BestSelling() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sort, setSort] = useState("");
-  const [pageSize, setPageSize] = useState(48);
+  const [pageSize, setPageSize] = useState(96);
   const [cjItems, setCjItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -83,7 +83,7 @@ export default function BestSelling() {
       setPreset('home');
       setUniversSelected('home');
       setPage(1);
-      loadCJ({ query: '', size: 60, preset: 'home', pageNum: 1 });
+      loadCJ({ query: '', size: pageSize, preset: 'home', pageNum: 1 });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -272,7 +272,7 @@ export default function BestSelling() {
                 setQ("");
                 setCategory("");
                 setCurrentCategory("Featured");
-                loadCJ({ query: "", size: 60, category: "", categoryId: id, preset: u.key, pageNum: 1, append: false });
+                loadCJ({ query: "", size: pageSize, category: "", categoryId: id, preset: u.key, pageNum: 1, append: false });
               }}
               style={{
                 border: active ? "none" : "1px solid #ccc",
@@ -473,7 +473,7 @@ export default function BestSelling() {
           }}
           style={{ padding: 8 }}
         >
-          {[12, 24, 36, 48, 60].map((n) => (
+          {[24, 48, 96, 120, 180, 240].map((n) => (
             <option key={n} value={n}>
               {n}
             </option>
@@ -650,7 +650,7 @@ export default function BestSelling() {
             if (preset || selectedCatId || resolvedCategory?.id || q || category) {
               const next = page + 1;
               setPage(next);
-              loadCJ({ query: q, size: 60, category, categoryId: selectedCatId || resolvedCategory?.id, min: minPrice, max: maxPrice, s: sort, preset, pageNum: next, append: true });
+              loadCJ({ query: q, size: pageSize, category, categoryId: selectedCatId || resolvedCategory?.id, min: minPrice, max: maxPrice, s: sort, preset, pageNum: next, append: true });
             } else {
               // fallback: increase page size on demo data
               const more = pageSize + 24;

@@ -30,7 +30,8 @@ export function validateProducts(items) {
 export const QuerySchema = z.object({
   q: z.string().optional(),
   page: z.coerce.number().int().positive().default(1),
-  pageSize: z.coerce.number().int().min(1).max(60).default(24),
+  // Allow large pages (supports 96, 120, 180, 240)
+  pageSize: z.coerce.number().int().min(1).max(240).default(24),
   minPrice: z.coerce.number().nonnegative().optional(),
   maxPrice: z.coerce.number().nonnegative().optional(),
   sort: z.string().optional(),
