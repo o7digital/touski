@@ -167,3 +167,13 @@ body {
 .product-single__thumbnail .swiper-slide {
   height: fit-content !important;
 }
+/* Prevent horizontal scroll/jerk on mobile */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+.page-wrapper {
+  overflow-x: hidden;
+}
