@@ -477,7 +477,7 @@ export async function _LEGACY_GET(req) {
         ];
         const list = candidates.find((v) => Array.isArray(v)) || [];
         let items = list.map(normalize);
-        if (preset === 'home' && !nofilter) items = homeFilter(items);
+        if (preset === 'home' && !nofilter) items = homeFilter(items, 'block_only');
         if (items.length > 0 || strictEnv) {
           clearTimeout(timer);
           return Response.json(
