@@ -296,7 +296,7 @@ export default function BestSelling() {
                 // Clear free-text query to rely on preset/category
                 setQ("");
                 setCategory("");
-                setCurrentCategory("Featured");
+                setCurrentCategory(filterCategories4[0]);
                 loadCJ({ query: "", size: pageSize, category: "", categoryId: id, preset: u.key, pageNum: 1, append: false });
               }}
               style={{
@@ -353,7 +353,7 @@ export default function BestSelling() {
                   setSelectedCatId(id ? String(id) : "");
                   setResolvedCategory(match || null);
                   setPage(1);
-                  setCurrentCategory("Featured");
+                  setCurrentCategory(filterCategories4[0]);
                   loadCJ({ query: id ? "" : (s.tokens?.[0] || ""), size: 60, category: "", categoryId: id, preset: universSelected, pageNum: 1, append: false });
                 }}
                 style={{
@@ -463,7 +463,7 @@ export default function BestSelling() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Recherche (ex: house, home, kitchen)"
+          placeholder="Recherche (ex: maison, cuisine, bain)"
           style={{ padding: 8, minWidth: 260, flex: 1 }}
         />
         <input
@@ -497,7 +497,7 @@ export default function BestSelling() {
             const n = Number(e.target.value);
             setPageSize(n);
             // refresh immediately when page size changes
-            setCurrentCategory("Featured");
+            setCurrentCategory(filterCategories4[0]);
             loadCJ({ query: q, size: n, category, min: minPrice, max: maxPrice, s: sort });
           }}
           style={{ padding: 8 }}
@@ -674,8 +674,8 @@ export default function BestSelling() {
           type="button"
           className="btn-link btn-link_lg default-underline text-uppercase fw-medium"
           onClick={() => {
-            // Load next page when using CJ results (Featured)
-            setCurrentCategory("Featured");
+            // Load next page when using CJ results (À la une)
+            setCurrentCategory(filterCategories4[0]);
             if (preset || selectedCatId || resolvedCategory?.id || q || category) {
               const next = page + 1;
               setPage(next);

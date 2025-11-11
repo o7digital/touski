@@ -11,10 +11,10 @@ export default function Lookbook() {
       <Image
         className="w-100 h-auto"
         loading="lazy"
-        src="/assets/images/home/demo9/lookbook-bg.jpg"
+        src="/assets/gemini-offer.png"
         width="1903"
         height="709"
-        alt="image"
+        alt="Offre salon"
       />
       <h2
         className="section-title position-absolute position-top-center fw-normal text-center"
