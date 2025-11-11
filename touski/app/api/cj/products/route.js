@@ -204,9 +204,10 @@ export async function _LEGACY_GET(req) {
       };
       const terms = map[preset] || [];
       const unique = new Map();
-      const MULT = Number(process.env.CJ_PRESET_MULT || 4);
+      const MULT = Number(process.env.CJ_PRESET_MULT || 8);
       const targetCount = Math.max(pageSize, page * pageSize * MULT);
-      const PAGES_PER_CAT = Math.max(1, Number(process.env.CJ_PAGES_PER_CAT || 2));
+      const PAGES_PER_CAT = Math.max(1, Number(process.env.CJ_PAGES_PER_CAT || 5));
+      const PICK_LIMIT = Math.max(1, Number(process.env.CJ_PICK_LIMIT || 50));
       // 0) Try category-based aggregation when possible
       try {
         const catUrl = new URL(`${req.nextUrl.origin}/api/cj/categories`);
@@ -224,8 +225,10 @@ export async function _LEGACY_GET(req) {
           const pick = list.filter((c) => {
             const p = (c.path || []).join(' ').toLowerCase();
             const n = String(c.name||'').toLowerCase();
-            return wanted.some((w) => p.includes(w) || n.includes(w));
-          }).slice(0, 14);
+            const root = String((c.path || [])[0] || '').toLowerCase().replace(/[,&]+/g,' ');
+            const rootOk = root.includes('home') && (root.includes('garden') || root.includes('furniture'));
+            return rootOk || wanted.some((w) => p.includes(w) || n.includes(w));
+          }).slice(0, PICK_LIMIT);
           for (const c of pick) {
             for (let pn = 1; pn <= PAGES_PER_CAT; pn++) {
               const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
