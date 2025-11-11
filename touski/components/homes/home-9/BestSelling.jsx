@@ -25,15 +25,15 @@ export default function BestSelling() {
   const [error, setError] = useState("");
   const [cjCategories, setCjCategories] = useState([]);
   const universList = [
-    { label: "Fournitures", key: "furniture" },
-    { label: "Cuisine", key: "kitchen" },
-    { label: "Salle de bain", key: "bath" },
-    { label: "Lighting", key: "lighting" },
-    { label: "Detergents", key: "detergent" },
+    { label: "Home", key: "home" },
+    { label: "Garden", key: "garden" },
+    { label: "Furniture", key: "furniture" },
   ];
   const [universSelected, setUniversSelected] = useState("");
   const [resolvedCategory, setResolvedCategory] = useState(null);
   const [selectedCatId, setSelectedCatId] = useState("");
+  const [preset, setPreset] = useState("");
+  const [page, setPage] = useState(1);
   useEffect(() => {
     if (currentCategory == "All") {
       setFiltered(products16);
@@ -55,7 +55,10 @@ export default function BestSelling() {
           setCjCategories(items);
         }
       } catch {}
-      loadCJ({ query: "home", size: 48 });
+      setPreset('home');
+      setUniversSelected('home');
+      setPage(1);
+      loadCJ({ query: '', size: 60, preset: 'home', pageNum: 1 });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -68,6 +71,9 @@ export default function BestSelling() {
     min = minPrice,
     max = maxPrice,
     s = sort,
+    preset: presetKey = preset,
+    pageNum = page,
+    append = false,
   } = {}) {
     setLoading(true);
     setError("");
@@ -105,8 +111,9 @@ export default function BestSelling() {
 
       const url = new URL(`/api/cj/products`, window.location.origin);
       if (qnMapped) url.searchParams.set("q", qnMapped);
-      url.searchParams.set("page", "1");
+      url.searchParams.set("page", String(pageNum || 1));
       url.searchParams.set("pageSize", String(size));
+      if (presetKey) url.searchParams.set("preset", presetKey);
       // Allow server to try multiple CJ endpoints by default (no strict)
       // Prefer categoryId (explicit override), else resolve from text; fallback to `category` text
       if (catId) {
@@ -145,8 +152,8 @@ export default function BestSelling() {
       const j = await res.json();
       if (!res.ok || !j?.ok) throw new Error(j?.error || `HTTP ${res.status}`);
       let items = Array.isArray(j.items) ? j.items : [];
-      // Do not re-filter on client; server already applies preset=home filtering
-      setCjItems(items);
+      // Do not re-filter on client; server already applies any preset filtering
+      setCjItems((prev) => (append ? [...prev, ...items] : items));
     } catch (e) {
       setError(String(e?.message || e));
       setCjItems([]);
@@ -158,11 +165,9 @@ export default function BestSelling() {
   function resolveUnivers(key) {
     if (!Array.isArray(cjCategories) || !cjCategories.length) return null;
     const tokens = {
-      furniture: ["furniture"],
-      kitchen: ["kitchen"],
-      bath: ["bath", "bathroom"],
-      lighting: ["lighting", "lamp", "light"],
-      detergent: ["detergent", "clean", "cleaning"],
+      home: ["home","kitchen","bath","lighting","decor","bedding"],
+      garden: ["garden","outdoor","patio","plant","lawn"],
+      furniture: ["furniture","sofa","chair","table","desk","bed","wardrobe","cabinet","shelf"],
     }[key] || [key];
     const lowerTokens = tokens.map((t) => t.toLowerCase());
     const scored = cjCategories
@@ -214,11 +219,13 @@ export default function BestSelling() {
                 const id = cat?.id;
                 setUniversSelected(u.key);
                 setResolvedCategory(cat || null);
-                // Clear free-text query to rely on category filter
-                setQ(id ? "" : u.key);
+                setPreset(u.key);
+                setPage(1);
+                // Clear free-text query to rely on preset/category
+                setQ("");
                 setCategory("");
                 setCurrentCategory("Featured");
-                loadCJ({ query: id ? "" : u.key, size: pageSize, category: "", categoryId: id });
+                loadCJ({ query: "", size: 60, category: "", categoryId: id, preset: u.key, pageNum: 1, append: false });
               }}
               style={{
                 border: active ? "none" : "1px solid #ccc",
@@ -529,20 +536,28 @@ export default function BestSelling() {
             ))}
           </div>
           {/* <!-- /.row --> */}
-          <div className="text-center mt-2">
-            <button
-              type="button"
-              className="btn-link btn-link_lg default-underline text-uppercase fw-medium"
-              onClick={() => {
-                const more = pageSize + 24;
-                setPageSize(more);
-                setCurrentCategory("Featured");
-                loadCJ({ query: q, size: more, category, min: minPrice, max: maxPrice, s: sort });
-              }}
-            >
-              {loading ? 'Loading…' : 'See All Products'}
-            </button>
-          </div>
+      <div className="text-center mt-2">
+        <button
+          type="button"
+          className="btn-link btn-link_lg default-underline text-uppercase fw-medium"
+          onClick={() => {
+            // Load next page when using CJ results (Featured)
+            setCurrentCategory("Featured");
+            if (preset || selectedCatId || resolvedCategory?.id || q || category) {
+              const next = page + 1;
+              setPage(next);
+              loadCJ({ query: q, size: 60, category, categoryId: selectedCatId || resolvedCategory?.id, min: minPrice, max: maxPrice, s: sort, preset, pageNum: next, append: true });
+            } else {
+              // fallback: increase page size on demo data
+              const more = pageSize + 24;
+              setPageSize(more);
+              loadCJ({ query: q, size: more, category, min: minPrice, max: maxPrice, s: sort });
+            }
+          }}
+        >
+          {loading ? 'Loading…' : 'See All Products'}
+        </button>
+      </div>
         </div>
       </div>
       {/* <!-- /.tab-content pt-2 --> */}

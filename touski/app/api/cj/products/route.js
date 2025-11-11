@@ -27,7 +27,8 @@ function cfg() {
   const qParam = process.env.CJ_Q_PARAM || 'keyword';
   const pageParam = process.env.CJ_PAGE_PARAM || 'pageNum';
   const sizeParam = process.env.CJ_SIZE_PARAM || 'pageSize';
-  const categoryParam = process.env.CJ_CATEGORY_PARAM || 'category';
+  // Most CJ Product List APIs expect `categoryId`; default accordingly.
+  const categoryParam = process.env.CJ_CATEGORY_PARAM || 'categoryId';
   const minPriceParam = process.env.CJ_MIN_PRICE_PARAM || 'minPrice';
   const maxPriceParam = process.env.CJ_MAX_PRICE_PARAM || 'maxPrice';
   const sortParam = process.env.CJ_SORT_PARAM || 'sort';
@@ -192,11 +193,18 @@ export async function _LEGACY_GET(req) {
     if (preset && !aggregated) {
       const map = {
         home: [
-          'home','kitchen','bath','lighting','lamp','furniture','sofa','chair','table','storage','organizer','garden','outdoor','clean','detergent','bedding'
+          'home','kitchen','bath','lighting','lamp','storage','organizer','bedding','decor','decoration','curtain','rug','towel','clean','detergent'
+        ],
+        garden: [
+          'garden','outdoor','patio','plant','planter','hose','sprinkler','lawn','grill','bbq','solar light','lantern'
+        ],
+        furniture: [
+          'furniture','sofa','chair','table','desk','bed','wardrobe','cabinet','shelf','drawer','stool','bench','nightstand'
         ],
       };
       const terms = map[preset] || [];
       const unique = new Map();
+      const targetCount = Math.max(pageSize, page * pageSize);
       // 0) Try category-based aggregation when possible
       try {
         const catUrl = new URL(`${req.nextUrl.origin}/api/cj/categories`);
@@ -205,7 +213,12 @@ export async function _LEGACY_GET(req) {
         if (cr.ok) {
           const cj = await cr.json();
           const list = Array.isArray(cj.items) ? cj.items : [];
-          const wanted = ['home','garden','furniture','kitchen','bath','lighting','storage','organizer','clean','detergent','bedding'];
+          const wantedByPreset = {
+            home: ['home','kitchen','bath','lighting','storage','organizer','bedding','decor','curtain','rug','towel','clean','detergent'],
+            garden: ['garden','outdoor','patio','plant','lawn','grill','bbq','solar','lantern'],
+            furniture: ['furniture','sofa','chair','table','desk','bed','wardrobe','cabinet','shelf','drawer','stool','bench','nightstand'],
+          };
+          const wanted = wantedByPreset[preset] || ['home','garden','furniture'];
           const pick = list.filter((c) => {
             const p = (c.path || []).join(' ').toLowerCase();
             const n = String(c.name||'').toLowerCase();
@@ -231,10 +244,10 @@ export async function _LEGACY_GET(req) {
                 const key = String(it?.sku || it?.raw?.productSku || Math.random());
                 if (!unique.has(key)) unique.set(key, it);
               }
-              if (unique.size >= pageSize) break;
-            } catch {}
-          }
+              if (unique.size >= targetCount) break;
+          } catch {}
         }
+      }
       } catch {}
       // 1) If still not enough, fallback to keyword aggregation
       for (const term of terms) {
@@ -257,11 +270,11 @@ export async function _LEGACY_GET(req) {
             const key = String(it?.sku || it?.raw?.productSku || Math.random());
             if (!unique.has(key)) unique.set(key, it);
           }
-          if (unique.size >= pageSize) break;
+          if (unique.size >= targetCount) break;
         } catch {}
       }
       // 2) If still not enough, try widening with extra generic home terms
-      if (unique.size < pageSize) {
+      if (unique.size < targetCount) {
         const WIDE = ['decor','decoration','organizer','storage box','dish rack','spice rack','knife set','cutlery','pan','pot','trash bin','broom','brush','towel','soap dispenser','bath mat','vase','candle','rug','curtain','pillow','blanket'];
         for (const term of WIDE) {
           const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
@@ -280,7 +293,7 @@ export async function _LEGACY_GET(req) {
               const key = String(it?.sku || it?.raw?.productSku || Math.random());
               if (!unique.has(key)) unique.set(key, it);
             }
-            if (unique.size >= pageSize) break;
+            if (unique.size >= targetCount) break;
           } catch {}
         }
       }
@@ -291,7 +304,10 @@ export async function _LEGACY_GET(req) {
         // If strict yields too few results, relax to block-only to avoid empty UI
         if (strict.length >= Math.min(pageSize, 8)) items = strict; else items = homeFilter(rawItems, 'block_only');
       }
-      items = items.slice(0, pageSize);
+      // Paginate the aggregated pool so page>1 yields new results
+      const from = Math.max(0, (page - 1) * pageSize);
+      const to = from + pageSize;
+      items = items.slice(from, to);
       const { valid, invalid } = validateProducts(items);
       return Response.json({ ok: true, items: valid, invalidCount: invalid, page, pageSize, preset, totalCandidates: rawItems.length }, { status: 200, headers: { 'Cache-Control': 'no-store, must-revalidate' } });
     }
