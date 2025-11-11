@@ -50,6 +50,8 @@ export default function Hero() {
                     paddingTop: "max(0px, calc(0.25em - 0.15cm))",
                     paddingBottom: "max(0px, calc(0.25em - 0.15cm))",
                     borderRadius: "0.25rem",
+                    marginTop: "2cm",
+                    opacity: 0.7,
                   }}
                 >
                   {elm.subtitle}
@@ -65,6 +67,8 @@ export default function Hero() {
                   color: '#fff',
                   padding: '0.4em 0.9em',
                   borderRadius: '6px',
+                  marginTop: '1rem',
+                  opacity: 0.7,
                 }}
               >
                 DECOUVREZ MAINTENANT NOS OFFRES CLIC ICI →

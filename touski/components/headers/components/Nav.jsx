@@ -9,12 +9,12 @@ export default function Nav() {
     <>
       <li className="navigation__item">
         <Link href="/" className={`navigation__link ${isActive("/") ? "menu-active" : ""}`}>
-          Home
+          Accueil
         </Link>
       </li>
       <li className="navigation__item">
         <Link href="/shop-1" className={`navigation__link ${isActive("/shop-1") ? "menu-active" : ""}`}>
-          Shop
+          Boutique
         </Link>
       </li>
       <li className="navigation__item">
@@ -24,12 +24,12 @@ export default function Nav() {
       </li>
       <li className="navigation__item">
         <Link href="/about" className={`navigation__link ${isActive("/about") ? "menu-active" : ""}`}>
-          About
+          Touski
         </Link>
       </li>
       <li className="navigation__item">
         <Link href="/contact" className={`navigation__link ${isActive("/contact") ? "menu-active" : ""}`}>
-          Contact
+          Contacter
         </Link>
       </li>
     </>
