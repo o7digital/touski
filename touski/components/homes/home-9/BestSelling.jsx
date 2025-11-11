@@ -217,6 +217,7 @@ export default function BestSelling() {
                 // Clear free-text query to rely on category filter
                 setQ("");
                 setCategory("");
+                setCurrentCategory("Featured");
                 loadCJ({ query: "", size: pageSize, category: "", categoryId: id });
               }}
               style={{
@@ -257,6 +258,7 @@ export default function BestSelling() {
             // Nettoyer recherche libre et champ texte catégorie
             setQ("");
             setCategory("");
+            setCurrentCategory("Featured");
             loadCJ({ query: "", size: pageSize, category: "", categoryId: id || undefined });
           }}
           style={{ padding: 8, minWidth: 280 }}
