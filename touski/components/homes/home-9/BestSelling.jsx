@@ -34,6 +34,31 @@ export default function BestSelling() {
   const [selectedCatId, setSelectedCatId] = useState("");
   const [preset, setPreset] = useState("");
   const [page, setPage] = useState(1);
+  const [subSelected, setSubSelected] = useState("");
+
+  // Curated sub-categories per univers (fuzzy mapped to CJ categories)
+  const subUnivers = {
+    home: [
+      { key: "home_textiles", label: "Home Textiles", tokens: ["home textiles","curtain","towel","bedding","pillow","comforter","bedding set","cushion cover"] },
+      { key: "kitchen_dining_bar", label: "Kitchen, Dining & Bar", tokens: ["kitchen","dining","bar","cookware","utensil","cutlery","knife"] },
+      { key: "home_storage", label: "Home Storage", tokens: ["home storage","storage","organizer","rack","shelf","box","basket","hanger","hook"] },
+      { key: "festive_party", label: "Festive & Party", tokens: ["festive","party","party supplies","balloon","decoration"] },
+      { key: "arts_crafts_sewing", label: "Arts, Crafts & Sewing", tokens: ["arts","crafts","sewing"] },
+      { key: "musical_instruments", label: "Musical Instruments", tokens: ["musical instrument","guitar","piano","drum","violin"] },
+    ],
+    garden: [
+      { key: "garden_tools", label: "Garden Tools", tokens: ["garden tool","pruner","spade","rake","hoe"] },
+      { key: "patio_outdoor", label: "Patio / Outdoor", tokens: ["patio","outdoor","furniture outdoor","umbrella"] },
+      { key: "solar_lights", label: "Solar Lights", tokens: ["solar light","garden light","lantern"] },
+      { key: "planters", label: "Planters", tokens: ["planter","plant pot","flower pot"] },
+    ],
+    furniture: [
+      { key: "sofas", label: "Sofas", tokens: ["sofa","couch","loveseat"] },
+      { key: "chairs", label: "Chairs", tokens: ["chair","stool","bench"] },
+      { key: "tables_desks", label: "Tables & Desks", tokens: ["table","desk","coffee table","side table"] },
+      { key: "storage_furniture", label: "Storage Furniture", tokens: ["wardrobe","cabinet","dresser","drawer","shelf","bookcase","nightstand"] },
+    ],
+  };
   useEffect(() => {
     if (currentCategory == "All") {
       setFiltered(products16);
@@ -162,6 +187,27 @@ export default function BestSelling() {
     }
   }
 
+  function resolveByTokens(tokens = []) {
+    if (!Array.isArray(cjCategories) || !cjCategories.length) return null;
+    const lowerTokens = tokens.map((t) => String(t || "").toLowerCase());
+    const scored = cjCategories
+      .map((c) => {
+        const name = String(c?.name || "").toLowerCase();
+        const path = (c?.path || []).join(" ").toLowerCase();
+        let score = 0;
+        for (const t of lowerTokens) {
+          if (!t) continue;
+          if (name.includes(t)) score += 3;
+          if (path.includes(t)) score += 2;
+        }
+        score += (c.level || 0) * 0.5;
+        return { c, score };
+      })
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score);
+    return scored.length ? scored[0].c : null;
+  }
+
   function resolveUnivers(key) {
     if (!Array.isArray(cjCategories) || !cjCategories.length) return null;
     const tokens = {
@@ -221,6 +267,7 @@ export default function BestSelling() {
                 setResolvedCategory(cat || null);
                 setPreset(u.key);
                 setPage(1);
+                setSubSelected("");
                 // Clear free-text query to rely on preset/category
                 setQ("");
                 setCategory("");
@@ -243,6 +290,63 @@ export default function BestSelling() {
           );
         })}
       </div>
+      {/* Sub-univers chips (appear when a univers is selected) */}
+      {universSelected && subUnivers[universSelected] && (
+        <div className="mb-2" style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+          <button
+            type="button"
+            onClick={() => {
+              // Clear sub-category
+              setSubSelected("");
+              setSelectedCatId("");
+              setResolvedCategory(null);
+              setPage(1);
+              loadCJ({ query: "", size: 60, category: "", categoryId: undefined, preset: universSelected, pageNum: 1, append: false });
+            }}
+            style={{
+              border: subSelected === "" ? "none" : "1px solid #ccc",
+              backgroundColor: subSelected === "" ? "rgb(239, 99, 40)" : "#fff",
+              color: subSelected === "" ? "#fff" : "#222",
+              borderRadius: 8,
+              padding: "4px 10px",
+              cursor: "pointer",
+              fontWeight: 600,
+            }}
+          >
+            Tous
+          </button>
+          {subUnivers[universSelected].map((s) => {
+            const active = subSelected === s.key;
+            return (
+              <button
+                key={s.key}
+                type="button"
+                onClick={() => {
+                  const match = resolveByTokens(s.tokens);
+                  const id = match?.id;
+                  setSubSelected(s.key);
+                  setSelectedCatId(id ? String(id) : "");
+                  setResolvedCategory(match || null);
+                  setPage(1);
+                  setCurrentCategory("Featured");
+                  loadCJ({ query: id ? "" : (s.tokens?.[0] || ""), size: 60, category: "", categoryId: id, preset: universSelected, pageNum: 1, append: false });
+                }}
+                style={{
+                  border: active ? "none" : "1px solid #ccc",
+                  backgroundColor: active ? "rgb(239, 99, 40)" : "#fff",
+                  color: active ? "#fff" : "#222",
+                  borderRadius: 8,
+                  padding: "4px 10px",
+                  cursor: "pointer",
+                  fontWeight: 600,
+                }}
+              >
+                {s.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
       {resolvedCategory ? (
         <div className="text-center mb-3" style={{ fontSize: 13, color: "#666" }}>
           Catégorie CJ: {Array.isArray(resolvedCategory.path) && resolvedCategory.path.length
