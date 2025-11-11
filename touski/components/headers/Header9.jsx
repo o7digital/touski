@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useEffect, useState, useRef } from "react";
 
 import Nav from "./components/Nav";
 import { openCart } from "@/utlis/openCart";
@@ -10,10 +11,65 @@ import SearchPopup from "./components/SearchPopup";
 import CategorySelect from "./components/CategorySelect";
 
 export default function Header9() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const lastScrollY = useRef(0);
+  const scrollTimeout = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Clear timeout précédent
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+      
+      // L'utilisateur est en train de scroller
+      setIsScrolling(true);
+
+      // Si on scroll vers le bas et qu'on est pas tout en haut
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setIsVisible(false);
+      } 
+      // Si on scroll vers le haut
+      else if (currentScrollY < lastScrollY.current) {
+        setIsVisible(true);
+      }
+      // Si on est tout en haut (< 100px)
+      else if (currentScrollY <= 100) {
+        setIsVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+
+      // Réapparaître automatiquement après 1.5s d'inactivité
+      scrollTimeout.current = setTimeout(() => {
+        setIsScrolling(false);
+        setIsVisible(true);
+      }, 1500);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+    };
+  }, []);
+
   return (
     <header
       id="header"
-      className={`header header_sticky header-fullwidth header_sticky header_sticky-active`}
+      className={`header header_sticky header-fullwidth ${
+        isVisible ? "header_sticky-active" : "header_sticky-hidden"
+      }`}
+      style={{
+        transform: isVisible ? "translateY(0)" : "translateY(-100%)",
+        transition: "transform 0.3s ease-in-out",
+      }}
     >
       <div className="header-desk header-desk_type_5">
         <div className="logo">
