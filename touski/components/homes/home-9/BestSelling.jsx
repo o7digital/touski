@@ -19,7 +19,7 @@ export default function BestSelling() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sort, setSort] = useState("");
-  const [pageSize, setPageSize] = useState(96);
+  const [pageSize, setPageSize] = useState(180);
   const [cjItems, setCjItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

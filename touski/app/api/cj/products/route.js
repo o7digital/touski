@@ -204,10 +204,10 @@ export async function _LEGACY_GET(req) {
       };
       const terms = map[preset] || [];
       const unique = new Map();
-      const MULT = Number(process.env.CJ_PRESET_MULT || 8);
+      const MULT = Number(process.env.CJ_PRESET_MULT || 10);
       const targetCount = Math.max(pageSize, page * pageSize * MULT);
-      const PAGES_PER_CAT = Math.max(1, Number(process.env.CJ_PAGES_PER_CAT || 5));
-      const PICK_LIMIT = Math.max(1, Number(process.env.CJ_PICK_LIMIT || 50));
+      const PAGES_PER_CAT = Math.max(1, Number(process.env.CJ_PAGES_PER_CAT || 8));
+      const PICK_LIMIT = Math.max(1, Number(process.env.CJ_PICK_LIMIT || 80));
       // 0) Try category-based aggregation when possible
       try {
         const catUrl = new URL(`${req.nextUrl.origin}/api/cj/categories`);
