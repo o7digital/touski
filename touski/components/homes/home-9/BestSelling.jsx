@@ -33,6 +33,7 @@ export default function BestSelling() {
   ];
   const [universSelected, setUniversSelected] = useState("");
   const [resolvedCategory, setResolvedCategory] = useState(null);
+  const [selectedCatId, setSelectedCatId] = useState("");
   useEffect(() => {
     if (currentCategory == "All") {
       setFiltered(products16);
@@ -241,6 +242,56 @@ export default function BestSelling() {
             : (resolvedCategory.name || "")} (#{resolvedCategory.id})
         </div>
       ) : null}
+
+      {/* Menu déroulant des catégories CJ */}
+      <div className="mb-3 pb-1" style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+        <select
+          value={selectedCatId}
+          onChange={(e) => {
+            const id = e.target.value;
+            setSelectedCatId(id);
+            setUniversSelected("");
+            // Trouver l'objet catégorie correspondant pour affichage
+            const catObj = cjCategories.find((c) => String(c.id) === String(id));
+            setResolvedCategory(catObj || null);
+            // Nettoyer recherche libre et champ texte catégorie
+            setQ("");
+            setCategory("");
+            loadCJ({ query: "", size: pageSize, category: "", categoryId: id || undefined });
+          }}
+          style={{ padding: 8, minWidth: 280 }}
+        >
+          <option value="">Toutes les catégories (par défaut)</option>
+          {cjCategories
+            .slice()
+            .sort((a, b) => {
+              const pa = (a.path || []).join(" > ") || a.name || "";
+              const pb = (b.path || []).join(" > ") || b.name || "";
+              return pa.localeCompare(pb);
+            })
+            .map((c) => {
+              const label = (Array.isArray(c.path) && c.path.length ? c.path.join(" > ") : c.name) || String(c.id);
+              return (
+                <option key={c.id} value={c.id}>
+                  {label}
+                </option>
+              );
+            })}
+        </select>
+        {selectedCatId ? (
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedCatId("");
+              setResolvedCategory(null);
+              loadCJ({ query: q || "home", size: pageSize, category: "", categoryId: undefined });
+            }}
+            className="btn btn-outline-dark"
+          >
+            Réinitialiser
+          </button>
+        ) : null}
+      </div>
 
       {/* Filtre CJ (dans l’onglet Featured) */}
       {currentCategory === "Featured" && (
