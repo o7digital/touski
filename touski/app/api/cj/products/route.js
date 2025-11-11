@@ -227,7 +227,6 @@ export async function _LEGACY_GET(req) {
           for (const c of pick) {
             const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
             u.searchParams.set('aggregated','1');
-            u.searchParams.set('strict','1');
             u.searchParams.set('page','1');
             u.searchParams.set('pageSize', String(pageSize));
             u.searchParams.set('preset', preset);
@@ -253,7 +252,6 @@ export async function _LEGACY_GET(req) {
       for (const term of terms) {
         const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
         u.searchParams.set('aggregated','1');
-        u.searchParams.set('strict','1');
         u.searchParams.set('page','1');
         u.searchParams.set('pageSize', String(pageSize));
         u.searchParams.set('q', term);
@@ -279,7 +277,6 @@ export async function _LEGACY_GET(req) {
         for (const term of WIDE) {
           const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
           u.searchParams.set('aggregated','1');
-          u.searchParams.set('strict','1');
           u.searchParams.set('page','1');
           u.searchParams.set('pageSize', String(pageSize));
           u.searchParams.set('q', term);
@@ -299,10 +296,10 @@ export async function _LEGACY_GET(req) {
       }
       const rawItems = Array.from(unique.values());
       let items = rawItems;
+      // For preset=home, relax filtering to block-only so we don't
+      // drop valid items that don't contain our allow keywords.
       if (preset === 'home' && !nofilter) {
-        const strict = homeFilter(rawItems, 'strict');
-        // If strict yields too few results, relax to block-only to avoid empty UI
-        if (strict.length >= Math.min(pageSize, 8)) items = strict; else items = homeFilter(rawItems, 'block_only');
+        items = homeFilter(rawItems, 'block_only');
       }
       // Paginate the aggregated pool so page>1 yields new results
       const from = Math.max(0, (page - 1) * pageSize);
