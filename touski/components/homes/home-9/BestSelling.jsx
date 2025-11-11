@@ -1,5 +1,5 @@
 "use client";
-const filterCategories4 = ["Featured", "Best Seller", "Sales"];
+const filterCategories4 = ["À la une", "Meilleures ventes", "Soldes"];
 import { useContextElement } from "@/context/Context";
 import { products16 } from "@/data/products/fashion";
 import Link from "next/link";
@@ -30,9 +30,9 @@ export default function BestSelling() {
   const abortRef = useRef(null);
   const [hadNonEmpty, setHadNonEmpty] = useState(false);
   const universList = [
-    { label: "Home", key: "home" },
-    { label: "Garden", key: "garden" },
-    { label: "Furniture", key: "furniture" },
+    { label: "Maison", key: "home" },
+    { label: "Jardin", key: "garden" },
+    { label: "Meubles", key: "furniture" },
   ];
   const [universSelected, setUniversSelected] = useState("");
   const [resolvedCategory, setResolvedCategory] = useState(null);
@@ -273,7 +273,7 @@ export default function BestSelling() {
   return (
     <section className="products-carousel container">
       <h2 className="section-title text-center fw-normal text-uppercase mb-1 mb-md-3 pb-xl-3">
-        Best Selling Products
+        Nos meilleurs produits
       </h2>
 
       {/* Univers selector (mapped to CJ categoryId) */}
@@ -381,7 +381,7 @@ export default function BestSelling() {
       ) : null}
 
       {/* Etat chargement + compteur de résultats */}
-      {currentCategory === "Featured" && (
+      {currentCategory === filterCategories4[0] && (
         <div className="text-center mb-2" aria-live="polite">
           {loading ? (
             <>
@@ -411,7 +411,7 @@ export default function BestSelling() {
             // Nettoyer recherche libre et champ texte catégorie
             setQ("");
             setCategory("");
-            setCurrentCategory("Featured");
+            setCurrentCategory(filterCategories4[0]);
             setHadNonEmpty(false);
             loadCJ({ query: "", size: pageSize, category: "", categoryId: id || undefined });
           }}
@@ -450,11 +450,11 @@ export default function BestSelling() {
       </div>
 
       {/* Filtre CJ (dans l’onglet Featured) */}
-      {currentCategory === "Featured" && (
+      {currentCategory === filterCategories4[0] && (
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          setCurrentCategory("Featured");
+          setCurrentCategory(filterCategories4[0]);
           loadCJ({ query: q, size: pageSize, category, min: minPrice, max: maxPrice, s: sort });
         }}
         className="mb-3 pb-3 mb-xl-4"
@@ -514,7 +514,7 @@ export default function BestSelling() {
       </form>
       )}
 
-      {currentCategory === "Featured" && error ? (
+      {currentCategory === filterCategories4[0] && error ? (
         <p className="text-danger text-center">Erreur: {error}</p>
       ) : null}
 
@@ -548,15 +548,15 @@ export default function BestSelling() {
           role="tabpanel"
           aria-labelledby="collections-tab-1-trigger"
         >
-          {currentCategory === "Featured" && !loading && !error && cjItems.length === 0 && !hadNonEmpty ? (
+          {currentCategory === filterCategories4[0] && !loading && !error && cjItems.length === 0 && !hadNonEmpty ? (
             <p className="text-center mb-2">Aucun produit CJ pour ces filtres.</p>
           ) : null}
           <div className="row">
-            {((currentCategory === "Featured") ? cjItems : filtered).map((elm, i) => (
+            {((currentCategory === filterCategories4[0]) ? cjItems : filtered).map((elm, i) => (
               <div key={i} className="col-6 col-md-4 col-lg-3">
                 <div className="product-card mb-3 mb-md-4 mb-xxl-5">
                   <div className="pc__img-wrapper">
-            {(currentCategory === "Featured") ? (
+            {(currentCategory === filterCategories4[0]) ? (
                       // CJ card image: direct child of pc__img-wrapper to reuse theme ratio
                       <>
                         {(() => {
@@ -611,7 +611,7 @@ export default function BestSelling() {
                       </Swiper>
                     )}
 
-                    {!(currentCategory === "Featured") && (
+                    {!(currentCategory === filterCategories4[0]) && (
                       <button
                         className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
                         onClick={() => addProductToCart(elm.id)}
@@ -630,7 +630,7 @@ export default function BestSelling() {
                   </div>
 
                   <div className="pc__info position-relative">
-                    {currentCategory === "Featured" ? (
+                    {currentCategory === filterCategories4[0] ? (
                       <>
                         <p className="pc__category">Fournisseur</p>
                         <h6 className="pc__title mb-2">
@@ -688,7 +688,7 @@ export default function BestSelling() {
             }
           }}
         >
-          {loading ? 'Loading…' : 'See All Products'}
+          {loading ? 'Chargement…' : 'Voir tous les produits'}
         </button>
       </div>
         </div>

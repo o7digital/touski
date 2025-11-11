@@ -4,7 +4,6 @@
  */
 
 import { NextResponse } from 'next/server';
-import { createDirectus, rest, authentication, readItems, updateItem } from '@directus/sdk';
 
 const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_URL || 'http://localhost:8055';
 const DIRECTUS_EMAIL = process.env.DIRECTUS_EMAIL;
@@ -16,6 +15,27 @@ const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD;
 function calculateSellPrice(costPrice, marginPercent, marginFixed = 0) {
   const percentMargin = costPrice * (marginPercent / 100);
   return Number((costPrice + percentMargin + marginFixed).toFixed(2));
+}
+
+/**
+ * Connexion à Directus
+ */
+async function getDirectusToken() {
+  const response = await fetch(`${DIRECTUS_URL}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: DIRECTUS_EMAIL,
+      password: DIRECTUS_PASSWORD
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error('Directus login failed');
+  }
+
+  const data = await response.json();
+  return data.data.access_token;
 }
 
 /**
@@ -34,31 +54,27 @@ export async function POST(request) {
     const { action, product_id, provider_id, margin_percent, margin_fixed } = body;
 
     // Connexion Directus
-    const directus = createDirectus(DIRECTUS_URL).with(rest()).with(authentication());
-    
-    await directus.request(
-      authentication('login', {
-        email: DIRECTUS_EMAIL,
-        password: DIRECTUS_PASSWORD
-      })
-    );
+    const token = await getDirectusToken();
 
     // Action 1: Mettre à jour la marge d'un produit spécifique
     if (action === 'update_product' && product_id) {
-      const product = await directus.request(
-        readItems('products', {
-          filter: { id: { _eq: product_id } }
-        })
+      const productResponse = await fetch(
+        `${DIRECTUS_URL}/items/products?filter[id][_eq]=${product_id}`,
+        {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }
       );
 
-      if (product.length === 0) {
+      const productData = await productResponse.json();
+      
+      if (!productData.data || productData.data.length === 0) {
         return NextResponse.json(
           { error: 'Produit non trouvé' },
           { status: 404 }
         );
       }
 
-      const currentProduct = product[0];
+      const currentProduct = productData.data[0];
       const newMarginPercent = margin_percent ?? currentProduct.margin_percent;
       const newMarginFixed = margin_fixed ?? currentProduct.margin_fixed;
       const newSellPrice = calculateSellPrice(
@@ -67,13 +83,18 @@ export async function POST(request) {
         newMarginFixed
       );
 
-      await directus.request(
-        updateItem('products', product_id, {
+      await fetch(`${DIRECTUS_URL}/items/products/${product_id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
           margin_percent: newMarginPercent,
           margin_fixed: newMarginFixed,
-          sell_price: newSellPrice
+          price: newSellPrice
         })
-      );
+      });
 
       return NextResponse.json({
         success: true,
@@ -83,19 +104,24 @@ export async function POST(request) {
           cost_price: currentProduct.cost_price,
           margin_percent: newMarginPercent,
           margin_fixed: newMarginFixed,
-          sell_price: newSellPrice
+          price: newSellPrice
         }
       });
     }
 
     // Action 2: Mettre à jour les marges par défaut d'un fournisseur
     if (action === 'update_provider' && provider_id) {
-      await directus.request(
-        updateItem('providers', provider_id, {
+      await fetch(`${DIRECTUS_URL}/items/providers/${provider_id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
           default_margin_percent: margin_percent,
           default_margin_fixed: margin_fixed
         })
-      );
+      });
 
       return NextResponse.json({
         success: true,
@@ -108,11 +134,15 @@ export async function POST(request) {
 
     // Action 3: Recalculer tous les prix de vente
     if (action === 'recalculate_all') {
-      const products = await directus.request(
-        readItems('products', {
-          fields: ['id', 'cost_price', 'margin_percent', 'margin_fixed']
-        })
+      const productsResponse = await fetch(
+        `${DIRECTUS_URL}/items/products?fields=id,cost_price,margin_percent,margin_fixed`,
+        {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }
       );
+
+      const productsData = await productsResponse.json();
+      const products = productsData.data || [];
 
       let updated = 0;
       for (const product of products) {
@@ -122,11 +152,16 @@ export async function POST(request) {
           product.margin_fixed || 0
         );
 
-        await directus.request(
-          updateItem('products', product.id, {
-            sell_price: newSellPrice
+        await fetch(`${DIRECTUS_URL}/items/products/${product.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            price: newSellPrice
           })
-        );
+        });
         updated++;
       }
 
@@ -159,35 +194,28 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const provider_id = searchParams.get('provider_id');
 
-    const directus = createDirectus(DIRECTUS_URL).with(rest()).with(authentication());
-    
-    await directus.request(
-      authentication('login', {
-        email: DIRECTUS_EMAIL,
-        password: DIRECTUS_PASSWORD
-      })
-    );
+    const token = await getDirectusToken();
 
-    let filter = {};
+    let url = `${DIRECTUS_URL}/items/products?fields=id,name,sku,cost_price,margin_percent,margin_fixed,price,supplier_id`;
     if (provider_id) {
-      filter = { provider_id: { _eq: provider_id } };
+      url += `&filter[supplier_id][_eq]=${provider_id}`;
     }
 
-    const products = await directus.request(
-      readItems('products', {
-        filter,
-        fields: ['id', 'name', 'sku', 'cost_price', 'margin_percent', 'margin_fixed', 'sell_price', 'provider_id']
-      })
-    );
+    const productsResponse = await fetch(url, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    const productsData = await productsResponse.json();
+    const products = productsData.data || [];
 
     // Calculer statistiques
     const stats = products.reduce((acc, p) => {
-      const profit = p.sell_price - p.cost_price;
+      const profit = p.price - p.cost_price;
       const profitPercent = (profit / p.cost_price) * 100;
       
       acc.totalProducts++;
       acc.totalCost += p.cost_price;
-      acc.totalSell += p.sell_price;
+      acc.totalSell += p.price;
       acc.totalProfit += profit;
       acc.avgMarginPercent += profitPercent;
       
