@@ -3,7 +3,7 @@ const filterCategories4 = ["Featured", "Best Seller", "Sales"];
 import { useContextElement } from "@/context/Context";
 import { products16 } from "@/data/products/fashion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
@@ -26,6 +26,8 @@ export default function BestSelling() {
   const [cjCategories, setCjCategories] = useState([]);
   const [cjTotal, setCjTotal] = useState(0);
   const [cjCandidates, setCjCandidates] = useState(0);
+  const reqIdRef = useRef(0);
+  const abortRef = useRef(null);
   const universList = [
     { label: "Home", key: "home" },
     { label: "Garden", key: "garden" },
@@ -102,6 +104,13 @@ export default function BestSelling() {
     pageNum = page,
     append = false,
   } = {}) {
+    // Prepare request guards
+    reqIdRef.current += 1;
+    const myId = reqIdRef.current;
+    // Abort any in-flight request
+    try { abortRef.current?.abort(); } catch {}
+    const controller = new AbortController();
+    abortRef.current = controller;
     setLoading(true);
     setError("");
     try {
@@ -175,19 +184,23 @@ export default function BestSelling() {
       if (min) url.searchParams.set("minPrice", String(min));
       if (max) url.searchParams.set("maxPrice", String(max));
       if (s) url.searchParams.set("sort", s);
-      const res = await fetch(url, { cache: "no-store" });
+      const res = await fetch(url, { cache: "no-store", signal: controller.signal });
       const j = await res.json();
       if (!res.ok || !j?.ok) throw new Error(j?.error || `HTTP ${res.status}`);
       let items = Array.isArray(j.items) ? j.items : [];
       // Do not re-filter on client; server already applies any preset filtering
-      setCjItems((prev) => (append ? [...prev, ...items] : items));
-      setCjTotal(Number(j.total || 0));
-      setCjCandidates(Number(j.totalCandidates || 0));
+      if (myId === reqIdRef.current) {
+        setCjItems((prev) => (append ? [...prev, ...items] : items));
+        setCjTotal(Number(j.total || 0));
+        setCjCandidates(Number(j.totalCandidates || 0));
+      }
     } catch (e) {
+      // Ignore aborted requests; keep current items visible
+      if (e?.name === 'AbortError') return;
       setError(String(e?.message || e));
-      setCjItems([]);
+      // Do NOT clear cjItems on error; keep previous results
     } finally {
-      setLoading(false);
+      if (myId === reqIdRef.current) setLoading(false);
     }
   }
 
