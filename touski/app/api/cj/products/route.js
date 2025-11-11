@@ -204,7 +204,9 @@ export async function _LEGACY_GET(req) {
       };
       const terms = map[preset] || [];
       const unique = new Map();
-      const targetCount = Math.max(pageSize, page * pageSize);
+      const MULT = Number(process.env.CJ_PRESET_MULT || 4);
+      const targetCount = Math.max(pageSize, page * pageSize * MULT);
+      const PAGES_PER_CAT = Math.max(1, Number(process.env.CJ_PAGES_PER_CAT || 2));
       // 0) Try category-based aggregation when possible
       try {
         const catUrl = new URL(`${req.nextUrl.origin}/api/cj/categories`);
@@ -225,27 +227,30 @@ export async function _LEGACY_GET(req) {
             return wanted.some((w) => p.includes(w) || n.includes(w));
           }).slice(0, 14);
           for (const c of pick) {
-            const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
-            u.searchParams.set('aggregated','1');
-            u.searchParams.set('page','1');
-            u.searchParams.set('pageSize', String(pageSize));
-            u.searchParams.set('preset', preset);
-            if (lang) u.searchParams.set('language', lang);
-            // set both names to maximize compatibility
-            u.searchParams.set('categoryId', String(c.id));
-            u.searchParams.set('category', String(c.id));
-            try {
-              const r = await fetch(u, { cache: 'no-store' });
-              if (!r.ok) continue;
-              const j = await r.json();
-              const arr = Array.isArray(j.items) ? j.items : [];
-              for (const it of arr) {
-                const key = String(it?.sku || it?.raw?.productSku || Math.random());
-                if (!unique.has(key)) unique.set(key, it);
-              }
-              if (unique.size >= targetCount) break;
-          } catch {}
-        }
+            for (let pn = 1; pn <= PAGES_PER_CAT; pn++) {
+              const u = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname}`);
+              u.searchParams.set('aggregated','1');
+              u.searchParams.set('page', String(pn));
+              u.searchParams.set('pageSize', String(pageSize));
+              u.searchParams.set('preset', preset);
+              if (lang) u.searchParams.set('language', lang);
+              // set both names to maximize compatibility
+              u.searchParams.set('categoryId', String(c.id));
+              u.searchParams.set('category', String(c.id));
+              try {
+                const r = await fetch(u, { cache: 'no-store' });
+                if (!r.ok) continue;
+                const j = await r.json();
+                const arr = Array.isArray(j.items) ? j.items : [];
+                for (const it of arr) {
+                  const key = String(it?.sku || it?.raw?.productSku || Math.random());
+                  if (!unique.has(key)) unique.set(key, it);
+                }
+                if (unique.size >= targetCount) break;
+              } catch {}
+            }
+            if (unique.size >= targetCount) break;
+          }
       }
       } catch {}
       // 1) If still not enough, fallback to keyword aggregation

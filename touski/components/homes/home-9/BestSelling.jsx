@@ -24,6 +24,8 @@ export default function BestSelling() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [cjCategories, setCjCategories] = useState([]);
+  const [cjTotal, setCjTotal] = useState(0);
+  const [cjCandidates, setCjCandidates] = useState(0);
   const universList = [
     { label: "Home", key: "home" },
     { label: "Garden", key: "garden" },
@@ -179,6 +181,8 @@ export default function BestSelling() {
       let items = Array.isArray(j.items) ? j.items : [];
       // Do not re-filter on client; server already applies any preset filtering
       setCjItems((prev) => (append ? [...prev, ...items] : items));
+      setCjTotal(Number(j.total || 0));
+      setCjCandidates(Number(j.totalCandidates || 0));
     } catch (e) {
       setError(String(e?.message || e));
       setCjItems([]);
@@ -364,7 +368,10 @@ export default function BestSelling() {
               Chargement…
             </>
           ) : (
-            <small style={{ color: "#666" }}>Résultats CJ: {cjItems.length}</small>
+            <small style={{ color: "#666" }}>
+              Résultats CJ: {cjItems.length}
+              {cjCandidates ? ` / ~${cjCandidates}` : cjTotal ? ` / ~${cjTotal}` : ''}
+            </small>
           )}
         </div>
       )}
