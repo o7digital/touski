@@ -31,36 +31,6 @@ export default function RootLayout({ children }) {
       import("bootstrap/dist/js/bootstrap.esm").then(() => {
         // Module is imported, you can access any exported functionality if
       });
-      
-      // Mettre à jour le titre et la description
-      document.title = "TOUSKI est nécessaire pour son chez Soi. Site Officiel";
-      
-      // Description meta tag
-      let metaDescription = document.querySelector('meta[name="description"]');
-      if (!metaDescription) {
-        metaDescription = document.createElement('meta');
-        metaDescription.name = 'description';
-        document.head.appendChild(metaDescription);
-      }
-      metaDescription.content = "Nous sommes là pour votre confort à la maison et aux meilleurs prix";
-      
-      // Open Graph title
-      let ogTitle = document.querySelector('meta[property="og:title"]');
-      if (!ogTitle) {
-        ogTitle = document.createElement('meta');
-        ogTitle.setAttribute('property', 'og:title');
-        document.head.appendChild(ogTitle);
-      }
-      ogTitle.content = "TOUSKI est nécessaire pour son chez Soi. Site Officiel";
-      
-      // Open Graph description
-      let ogDescription = document.querySelector('meta[property="og:description"]');
-      if (!ogDescription) {
-        ogDescription = document.createElement('meta');
-        ogDescription.setAttribute('property', 'og:description');
-        document.head.appendChild(ogDescription);
-      }
-      ogDescription.content = "Nous sommes là pour votre confort à la maison et aux meilleurs prix";
     }
   }, []);
   return (
