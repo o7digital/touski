@@ -18,7 +18,8 @@ function pick(obj, keys) {
   return undefined;
 }
 
-export default async function ShopPage1({ searchParams }) {
+export default async function ShopPage1(props) {
+  const searchParams = await props.searchParams;
   const q = searchParams?.q || "";
   const category = searchParams?.category || "";
   const source = (searchParams?.source || "woocommerce").toLowerCase(); // 'woocommerce' | 'eprolo' | 'cj' | 'directus'
