@@ -1,0 +1,660 @@
+{
+  "version": 1,
+  "directus": "11.12.0",
+  "vendor": "postgres",
+  "collections": [
+    {
+      "collection": "providers",
+      "meta": {
+        "collection": "providers",
+        "icon": "business",
+        "note": "Fournisseurs dropshipping (CJ, EPROLO, etc.)",
+        "display_template": "{{name}} ({{code}})",
+        "singleton": false,
+        "hidden": false
+      },
+      "schema": {
+        "name": "providers"
+      }
+    },
+    {
+      "collection": "products",
+      "meta": {
+        "collection": "products",
+        "icon": "inventory_2",
+        "note": "Catalogue produits multi-fournisseurs",
+        "display_template": "{{name}} - {{sku}}",
+        "singleton": false,
+        "hidden": false
+      },
+      "schema": {
+        "name": "products"
+      }
+    },
+    {
+      "collection": "categories",
+      "meta": {
+        "collection": "categories",
+        "icon": "category",
+        "note": "Catégories de produits",
+        "display_template": "{{name}}",
+        "singleton": false,
+        "hidden": false
+      },
+      "schema": {
+        "name": "categories"
+      }
+    },
+    {
+      "collection": "sync_logs",
+      "meta": {
+        "collection": "sync_logs",
+        "icon": "sync",
+        "note": "Logs de synchronisation fournisseurs",
+        "singleton": false,
+        "hidden": false
+      },
+      "schema": {
+        "name": "sync_logs"
+      }
+    },
+    {
+      "collection": "orders",
+      "meta": {
+        "collection": "orders",
+        "icon": "shopping_cart",
+        "note": "Commandes clients",
+        "display_template": "Order #{{order_number}}",
+        "singleton": false,
+        "hidden": false
+      },
+      "schema": {
+        "name": "orders"
+      }
+    },
+    {
+      "collection": "order_items",
+      "meta": {
+        "collection": "order_items",
+        "icon": "receipt",
+        "note": "Lignes de commande",
+        "singleton": false,
+        "hidden": true
+      },
+      "schema": {
+        "name": "order_items"
+      }
+    },
+    {
+      "collection": "customers",
+      "meta": {
+        "collection": "customers",
+        "icon": "person",
+        "note": "Clients",
+        "display_template": "{{first_name}} {{last_name}} - {{email}}",
+        "singleton": false,
+        "hidden": false
+      },
+      "schema": {
+        "name": "customers"
+      }
+    }
+  ],
+  "fields": [
+    {
+      "collection": "providers",
+      "field": "id",
+      "type": "uuid",
+      "meta": {
+        "hidden": true,
+        "interface": "input",
+        "readonly": true
+      },
+      "schema": {
+        "is_primary_key": true,
+        "has_auto_increment": false
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "code",
+      "type": "string",
+      "meta": {
+        "interface": "input",
+        "width": "half",
+        "required": true,
+        "note": "Code unique (cj, eprolo, aliexpress, etc.)"
+      },
+      "schema": {
+        "is_unique": true
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "name",
+      "type": "string",
+      "meta": {
+        "interface": "input",
+        "width": "half",
+        "required": true
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "api_url",
+      "type": "string",
+      "meta": {
+        "interface": "input",
+        "width": "full"
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "api_key",
+      "type": "string",
+      "meta": {
+        "interface": "input-hash",
+        "width": "full",
+        "note": "API key (stocké hashé)"
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "default_margin_percent",
+      "type": "decimal",
+      "meta": {
+        "interface": "input",
+        "width": "half",
+        "note": "Marge par défaut (%) pour ce fournisseur"
+      },
+      "schema": {
+        "numeric_precision": 5,
+        "numeric_scale": 2,
+        "default_value": "30.00"
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "default_margin_fixed",
+      "type": "decimal",
+      "meta": {
+        "interface": "input",
+        "width": "half",
+        "note": "Marge fixe (€) ajoutée en plus"
+      },
+      "schema": {
+        "numeric_precision": 10,
+        "numeric_scale": 2,
+        "default_value": "0.00"
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "is_active",
+      "type": "boolean",
+      "meta": {
+        "interface": "boolean",
+        "width": "half"
+      },
+      "schema": {
+        "default_value": true
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "sync_enabled",
+      "type": "boolean",
+      "meta": {
+        "interface": "boolean",
+        "width": "half",
+        "note": "Activer sync automatique"
+      },
+      "schema": {
+        "default_value": true
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "last_sync",
+      "type": "timestamp",
+      "meta": {
+        "interface": "datetime",
+        "readonly": true
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "date_created",
+      "type": "timestamp",
+      "meta": {
+        "interface": "datetime",
+        "readonly": true,
+        "special": ["date-created"]
+      }
+    },
+    {
+      "collection": "providers",
+      "field": "date_updated",
+      "type": "timestamp",
+      "meta": {
+        "interface": "datetime",
+        "readonly": true,
+        "special": ["date-updated"]
+      }
+    },
+    {
+      "collection": "products",
+      "field": "id",
+      "type": "uuid",
+      "meta": {
+        "hidden": true,
+        "interface": "input",
+        "readonly": true
+      },
+      "schema": {
+        "is_primary_key": true
+      }
+    },
+    {
+      "collection": "products",
+      "field": "sku",
+      "type": "string",
+      "meta": {
+        "interface": "input",
+        "width": "half",
+        "required": true,
+        "note": "SKU fournisseur (unique)"
+      },
+      "schema": {
+        "is_unique": true
+      }
+    },
+    {
+      "collection": "products",
+      "field": "provider_id",
+      "type": "uuid",
+      "meta": {
+        "interface": "select-dropdown-m2o",
+        "width": "half",
+        "required": true,
+        "display": "related-values",
+        "display_options": {
+          "template": "{{name}}"
+        }
+      },
+      "schema": {
+        "foreign_key_table": "providers",
+        "foreign_key_column": "id"
+      }
+    },
+    {
+      "collection": "products",
+      "field": "name",
+      "type": "string",
+      "meta": {
+        "interface": "input",
+        "width": "full",
+        "required": true
+      }
+    },
+    {
+      "collection": "products",
+      "field": "slug",
+      "type": "string",
+      "meta": {
+        "interface": "input",
+        "width": "half",
+        "note": "URL-friendly name"
+      },
+      "schema": {
+        "is_unique": true
+      }
+    },
+    {
+      "collection": "products",
+      "field": "description",
+      "type": "text",
+      "meta": {
+        "interface": "input-rich-text-html",
+        "width": "full"
+      }
+    },
+    {
+      "collection": "products",
+      "field": "category_id",
+      "type": "uuid",
+      "meta": {
+        "interface": "select-dropdown-m2o",
+        "width": "half",
+        "display": "related-values",
+        "display_options": {
+          "template": "{{name}}"
+        }
+      },
+      "schema": {
+        "foreign_key_table": "categories",
+        "foreign_key_column": "id"
+      }
+    },
+    {
+      "collection": "products",
+      "field": "cost_price",
+      "type": "decimal",
+      "meta": {
+        "interface": "input",
+        "width": "third",
+        "note": "Prix d'achat fournisseur (€)",
+        "required": true
+      },
+      "schema": {
+        "numeric_precision": 10,
+        "numeric_scale": 2
+      }
+    },
+    {
+      "collection": "products",
+      "field": "margin_percent",
+      "type": "decimal",
+      "meta": {
+        "interface": "input",
+        "width": "third",
+        "note": "Marge en % (override fournisseur)"
+      },
+      "schema": {
+        "numeric_precision": 5,
+        "numeric_scale": 2
+      }
+    },
+    {
+      "collection": "products",
+      "field": "margin_fixed",
+      "type": "decimal",
+      "meta": {
+        "interface": "input",
+        "width": "third",
+        "note": "Marge fixe en € (override fournisseur)"
+      },
+      "schema": {
+        "numeric_precision": 10,
+        "numeric_scale": 2,
+        "default_value": "0.00"
+      }
+    },
+    {
+      "collection": "products",
+      "field": "sell_price",
+      "type": "decimal",
+      "meta": {
+        "interface": "input",
+        "width": "half",
+        "note": "Prix de vente calculé automatiquement",
+        "readonly": true
+      },
+      "schema": {
+        "numeric_precision": 10,
+        "numeric_scale": 2
+      }
+    },
+    {
+      "collection": "products",
+      "field": "compare_at_price",
+      "type": "decimal",
+      "meta": {
+        "interface": "input",
+        "width": "half",
+        "note": "Prix barré (promo)"
+      },
+      "schema": {
+        "numeric_precision": 10,
+        "numeric_scale": 2
+      }
+    },
+    {
+      "collection": "products",
+      "field": "image_urls",
+      "type": "json",
+      "meta": {
+        "interface": "list",
+        "width": "full",
+        "note": "URLs des images (CDN fournisseur)"
+      }
+    },
+    {
+      "collection": "products",
+      "field": "thumbnail_url",
+      "type": "string",
+      "meta": {
+        "interface": "input",
+        "width": "full",
+        "note": "URL image principale"
+      }
+    },
+    {
+      "collection": "products",
+      "field": "stock",
+      "type": "integer",
+      "meta": {
+        "interface": "input",
+        "width": "half"
+      },
+      "schema": {
+        "default_value": 0
+      }
+    },
+    {
+      "collection": "products",
+      "field": "weight",
+      "type": "decimal",
+      "meta": {
+        "interface": "input",
+        "width": "half",
+        "note": "Poids en kg"
+      },
+      "schema": {
+        "numeric_precision": 8,
+        "numeric_scale": 3
+      }
+    },
+    {
+      "collection": "products",
+      "field": "dimensions",
+      "type": "json",
+      "meta": {
+        "interface": "input-code",
+        "width": "full",
+        "note": "Dimensions (L x W x H)"
+      }
+    },
+    {
+      "collection": "products",
+      "field": "variants",
+      "type": "json",
+      "meta": {
+        "interface": "input-code",
+        "width": "full",
+        "note": "Variantes (couleur, taille, etc.)"
+      }
+    },
+    {
+      "collection": "products",
+      "field": "metadata",
+      "type": "json",
+      "meta": {
+        "interface": "input-code",
+        "width": "full",
+        "note": "Métadonnées additionnelles"
+      }
+    },
+    {
+      "collection": "products",
+      "field": "is_featured",
+      "type": "boolean",
+      "meta": {
+        "interface": "boolean",
+        "width": "third"
+      },
+      "schema": {
+        "default_value": false
+      }
+    },
+    {
+      "collection": "products",
+      "field": "is_active",
+      "type": "boolean",
+      "meta": {
+        "interface": "boolean",
+        "width": "third"
+      },
+      "schema": {
+        "default_value": true
+      }
+    },
+    {
+      "collection": "products",
+      "field": "auto_sync",
+      "type": "boolean",
+      "meta": {
+        "interface": "boolean",
+        "width": "third",
+        "note": "Sync auto prix/stock"
+      },
+      "schema": {
+        "default_value": true
+      }
+    },
+    {
+      "collection": "products",
+      "field": "last_sync",
+      "type": "timestamp",
+      "meta": {
+        "interface": "datetime",
+        "readonly": true
+      }
+    },
+    {
+      "collection": "products",
+      "field": "date_created",
+      "type": "timestamp",
+      "meta": {
+        "special": ["date-created"],
+        "interface": "datetime",
+        "readonly": true
+      }
+    },
+    {
+      "collection": "products",
+      "field": "date_updated",
+      "type": "timestamp",
+      "meta": {
+        "special": ["date-updated"],
+        "interface": "datetime",
+        "readonly": true
+      }
+    },
+    {
+      "collection": "categories",
+      "field": "id",
+      "type": "uuid",
+      "meta": {
+        "hidden": true,
+        "interface": "input",
+        "readonly": true
+      },
+      "schema": {
+        "is_primary_key": true
+      }
+    },
+    {
+      "collection": "categories",
+      "field": "name",
+      "type": "string",
+      "meta": {
+        "interface": "input",
+        "required": true
+      }
+    },
+    {
+      "collection": "categories",
+      "field": "slug",
+      "type": "string",
+      "meta": {
+        "interface": "input"
+      },
+      "schema": {
+        "is_unique": true
+      }
+    },
+    {
+      "collection": "categories",
+      "field": "parent_id",
+      "type": "uuid",
+      "meta": {
+        "interface": "select-dropdown-m2o",
+        "note": "Catégorie parente (sous-catégories)"
+      },
+      "schema": {
+        "foreign_key_table": "categories",
+        "foreign_key_column": "id"
+      }
+    },
+    {
+      "collection": "sync_logs",
+      "field": "id",
+      "type": "uuid",
+      "meta": {
+        "hidden": true,
+        "readonly": true
+      },
+      "schema": {
+        "is_primary_key": true
+      }
+    },
+    {
+      "collection": "sync_logs",
+      "field": "provider_id",
+      "type": "uuid",
+      "meta": {
+        "interface": "select-dropdown-m2o",
+        "display": "related-values"
+      },
+      "schema": {
+        "foreign_key_table": "providers",
+        "foreign_key_column": "id"
+      }
+    },
+    {
+      "collection": "sync_logs",
+      "field": "status",
+      "type": "string",
+      "meta": {
+        "interface": "select-dropdown",
+        "options": {
+          "choices": [
+            {"text": "Success", "value": "success"},
+            {"text": "Error", "value": "error"},
+            {"text": "Running", "value": "running"}
+          ]
+        }
+      }
+    },
+    {
+      "collection": "sync_logs",
+      "field": "products_synced",
+      "type": "integer"
+    },
+    {
+      "collection": "sync_logs",
+      "field": "errors",
+      "type": "json"
+    },
+    {
+      "collection": "sync_logs",
+      "field": "date_created",
+      "type": "timestamp",
+      "meta": {
+        "special": ["date-created"],
+        "readonly": true
+      }
+    }
+  ]
+}

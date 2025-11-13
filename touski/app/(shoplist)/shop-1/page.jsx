@@ -2,7 +2,7 @@ import Footer1 from "@/components/footers/Footer1";
 
 import Header1 from "@/components/headers/Header1";
 import Shop1 from "@/components/shoplist/Shop1";
-import { getProducts } from "@/lib/directus";
+import { getProducts } from "@/lib/woocommerce";
 import React from "react";
 import { headers } from "next/headers";
 
@@ -21,7 +21,7 @@ function pick(obj, keys) {
 export default async function ShopPage1({ searchParams }) {
   const q = searchParams?.q || "";
   const category = searchParams?.category || "";
-  const source = (searchParams?.source || "directus").toLowerCase(); // 'directus' | 'eprolo' | 'cj'
+  const source = (searchParams?.source || "woocommerce").toLowerCase(); // 'woocommerce' | 'eprolo' | 'cj' | 'directus'
   const page = Number(searchParams?.page || 1);
   const pageSize = Number(searchParams?.pageSize || 24);
   const minPrice = searchParams?.minPrice || "";
@@ -31,7 +31,22 @@ export default async function ShopPage1({ searchParams }) {
   let items = [];
   let loadError = null;
   try {
-    if (source === "eprolo" || source === "cj") {
+    if (source === "woocommerce") {
+      // Charger depuis WooCommerce
+      const wooParams = {
+        per_page: pageSize,
+        page: page,
+      };
+      if (q) wooParams.search = q;
+      if (category) wooParams.category = category;
+      if (minPrice) wooParams.min_price = minPrice;
+      if (maxPrice) wooParams.max_price = maxPrice;
+      if (sort === "price_asc") wooParams.orderby = "price", wooParams.order = "asc";
+      if (sort === "price_desc") wooParams.orderby = "price", wooParams.order = "desc";
+      
+      const products = await getProducts(wooParams);
+      items = products || [];
+    } else if (source === "eprolo" || source === "cj") {
       const params = new URLSearchParams();
       if (q) params.set("q", q);
       if (category) params.set("category", category);

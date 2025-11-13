@@ -1,4 +1,4 @@
-import { getProducts } from "../../lib/directus";
+import { getProducts } from "../../lib/woocommerce";
 
 export const dynamic = "force-dynamic";
 
@@ -11,19 +11,19 @@ function pick(obj, keys) {
 }
 
 export const metadata = {
-  title: "Products | Directus",
-  description: "Liste des produits depuis Directus",
+  title: "Products | WooCommerce",
+  description: "Liste des produits depuis WooCommerce",
 };
 
 export default async function ProductsPage() {
   let items = [];
   let error = null;
   try {
-    const res = await getProducts({ fields: "*", limit: 100 });
-    items = res?.data || [];
+    const products = await getProducts({ per_page: 100 });
+    items = products || [];
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error("Erreur Directus products:", e);
+    console.error("Erreur WooCommerce products:", e);
     error = e?.message || "Erreur inconnue";
   }
 
@@ -38,32 +38,15 @@ export default async function ProductsPage() {
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
           {items.map((prod) => {
-            const title =
-              pick(prod, [
-                "name",
-                "Name",
-                "title",
-                "Title",
-                "nom",
-                "Nom",
-              ]) || "Sans nom";
-            const description = pick(prod, ["description", "Description"]);
-            const sku = pick(prod, ["sku", "SKU"]);
-            const status = pick(prod, ["status", "Status"]);
-            const price = pick(prod, ["price", "Price"]);
-            const costPrice = pick(prod, [
-              "cost_price",
-              "Cost Price",
-              "costPrice",
-              "costprice",
-            ]);
-            const weight = pick(prod, ["weight", "Weight"]);
-            const dateCreated = pick(prod, [
-              "date_created",
-              "created_at",
-              "createdAt",
-              "Date Created",
-            ]);
+            // Données déjà mappées par lib/woocommerce.js
+            const title = prod.title || prod.name || "Sans nom";
+            const description = prod.short_description || prod.description;
+            const sku = prod.sku;
+            const status = prod.stock_status;
+            const price = prod.price;
+            const costPrice = prod.meta_data?.find(m => m.key === '_cost_price')?.value;
+            const weight = prod.weight;
+            const dateCreated = prod.date_created;
 
             return (
               <li
