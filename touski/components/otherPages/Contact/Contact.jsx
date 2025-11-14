@@ -7,21 +7,21 @@ export default function Contact() {
     <section className="contact-us container">
       <div className="mw-930">
         <div className="row mb-5">
-          {storesLocations.slice(0, 2).map((elm, i) => (
-            <div key={i} className="col-lg-6">
-              <h3 className="mb-4">Store in {elm.city}</h3>
-              <p className="mb-4">
-                {elm.address}
-                <br />
-                {elm.country}
-              </p>
-              <p className="mb-4">
-                {elm.emailAddress}
-                <br />
-                {elm.phone}
-              </p>
-            </div>
-          ))}
+          <div className="col-lg-6">
+            <h3 className="mb-4">TOUSKI Canada</h3>
+            <p className="mb-4">
+              1030, Avenue Muguette
+              <br />
+              Saint-Élie-de-Caxton QC G0X 2N0
+              <br />
+              Canada
+            </p>
+            <p className="mb-4">
+              <a href="mailto:contact@touski.online" style={{color: '#FF9445'}}>contact@touski.online</a>
+              <br />
+              +1 819-701-0378
+            </p>
+          </div>
         </div>
         <div className="contact-us__form">
           <form

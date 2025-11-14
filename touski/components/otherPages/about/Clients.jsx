@@ -41,8 +41,13 @@ export default function Clients() {
   };
   return (
     <section className="brands-carousel container mw-930">
-      <h5 className="mb-3 mb-xl-5">Company Partners</h5>
-      <div className="position-relative">
+      <h5 className="mb-3 mb-xl-5 text-center">TOUSKI :</h5>
+      <div className="text-center mb-4">
+        <span className="fs-5 fw-medium mx-3">TOUSKI LATAM</span>
+        <span className="fs-5 fw-medium mx-3">TOUSKI EUROPE</span>
+        <span className="fs-5 fw-medium mx-3">TOUSKI USA</span>
+      </div>
+      <div className="position-relative d-none">
         <Swiper
           {...swiperOptions}
           className="swiper-container js-swiper-slider"

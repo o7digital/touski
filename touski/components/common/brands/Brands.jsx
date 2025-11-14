@@ -36,8 +36,13 @@ export default function Brands() {
   };
   return (
     <section className="brands-carousel container">
-      <h2 className="d-none">Brands</h2>
-      <div className="position-relative">
+      <h5 className="mb-3 mb-xl-5 text-center">TOUSKI :</h5>
+      <div className="text-center mb-4">
+        <span className="fs-5 fw-medium mx-3">TOUSKI LATAM</span>
+        <span className="fs-5 fw-medium mx-3">TOUSKI EUROPE</span>
+        <span className="fs-5 fw-medium mx-3">TOUSKI USA</span>
+      </div>
+      <div className="position-relative d-none">
         <Swiper
           {...swiperOptions}
           className="swiper-container js-swiper-slider"
