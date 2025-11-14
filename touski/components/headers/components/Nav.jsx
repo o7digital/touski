@@ -13,11 +13,6 @@ export default function Nav() {
         </Link>
       </li>
       <li className="navigation__item">
-        <Link href="/shop-1" className={`navigation__link ${isActive("/shop-1") ? "menu-active" : ""}`}>
-          BOUTIQUE
-        </Link>
-      </li>
-      <li className="navigation__item">
         <Link href="/about" className={`navigation__link ${isActive("/about") ? "menu-active" : ""}`}>
           TOUSKI
         </Link>
