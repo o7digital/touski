@@ -33,10 +33,10 @@ export default function NewsLetterModal() {
             </div>
             <div className="col-md-6 p-0 d-flex align-items-center">
               <div className="block-newsletter w-100">
-                <h3 className="block__title">Sign Up to Our Newsletter</h3>
+                <h3 className="block__title">Inscrivez-vous à notre infolettre</h3>
                 <p>
-                  Be the first to get the latest news about trends, promotions,
-                  and much more!
+                  Soyez le premier à recevoir les dernières nouvelles sur les tendances, promotions,
+                  et bien plus encore !
                 </p>
                 <form
                   onSubmit={(e) => e.preventDefault()}
@@ -46,12 +46,12 @@ export default function NewsLetterModal() {
                     className="form-control border-2"
                     type="email"
                     name="email"
-                    placeholder="Your email address"
+                    placeholder="Votre adresse courriel"
                   />
                   <input
                     className="btn-link fw-medium bg-transparent position-absolute top-0 end-0 h-100"
                     type="submit"
-                    defaultValue="JOIN"
+                    defaultValue="S'INSCRIRE"
                   />
                 </form>
               </div>
