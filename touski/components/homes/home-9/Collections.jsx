@@ -29,12 +29,6 @@ export default function Collections() {
                     {collectionsData[0].title}
                   </span>
                 </h3>
-                <Link
-                  href="/shop-1"
-                  className="btn-link default-underline text-uppercase fw-medium"
-                >
-                  Shop Now
-                </Link>
               </div>
               {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}
             </div>
@@ -45,7 +39,7 @@ export default function Collections() {
             <div className="position-relative flex-grow-1">
               <div className="row h-md-100">
                 {collectionsData.slice(1, 3).map((elm, i) => (
-                  <Link href={"/shop-1"} key={i} className="col-md-6 h-md-100">
+                  <div key={i} className="col-md-6 h-md-100">
                     <div className="collection-grid__item h-md-100 position-relative">
                       <div
                         className="background-img"
@@ -69,7 +63,7 @@ export default function Collections() {
                       {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}
                     </div>
                     {/* <!-- /.collection-grid__item --> */}
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>
@@ -77,7 +71,7 @@ export default function Collections() {
             <div className="position-relative flex-grow-1 mt-lg-3 pt-lg-1">
               <div className="row h-md-100">
                 {collectionsData.slice(3, 5).map((elm, i) => (
-                  <Link href={"/shop-1"} key={i} className="col-md-6 h-md-100">
+                  <div key={i} className="col-md-6 h-md-100">
                     <div className="collection-grid__item h-md-100 position-relative">
                       <div
                         className="background-img"
@@ -101,7 +95,7 @@ export default function Collections() {
                       {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}
                     </div>
                     {/* <!-- /.collection-grid__item --> */}
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>
