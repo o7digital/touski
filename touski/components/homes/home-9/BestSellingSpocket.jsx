@@ -105,7 +105,7 @@ export default function BestSellingSpocket() {
     Array.isArray(products)
       ? products
           .filter(
-            (p) => Array.isArray(p.images) && p.images[0]?.src
+            (p) => Array.isArray(p.images) && p.images.length > 0 && p.images[0]?.src
           )
           .slice(0, 16)
       : [];
