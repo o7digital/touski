@@ -94,18 +94,60 @@ export default function SingleProduct12({ product }) {
             <span className="current-price">${product.price}</span>
           </div>
           <div className="product-single__short-desc">
-            {product.short_description || product.description ? (
+            {product.short_description ? (
               <div
                 className="content"
                 dangerouslySetInnerHTML={{
-                  __html:
-                    product.short_description || product.description || "",
+                  __html: product.short_description || "",
                 }}
               />
             ) : (
-              <p>Description non fournie pour ce produit.</p>
+              <p>Description courte non fournie pour ce produit.</p>
             )}
           </div>
+          
+          {/* Product Information Block */}
+          {product.meta_data && (
+            <div className="product-info-section mt-4">
+              {/* Material */}
+              {product.meta_data.find(m => m.key === 'material')?.value && (
+                <div className="product-info-item mb-2">
+                  <strong>Material:</strong> {product.meta_data.find(m => m.key === 'material').value}
+                </div>
+              )}
+              
+              {/* Style */}
+              {product.meta_data.find(m => m.key === 'style')?.value && (
+                <div className="product-info-item mb-2">
+                  <strong>Style:</strong> {product.meta_data.find(m => m.key === 'style').value}
+                </div>
+              )}
+              
+              {/* Features */}
+              {product.meta_data.find(m => m.key === 'features')?.value && (
+                <div className="product-info-item mb-2">
+                  <strong>Features:</strong> {product.meta_data.find(m => m.key === 'features').value}
+                </div>
+              )}
+              
+              {/* Color */}
+              {product.meta_data.find(m => m.key === 'colour' || m.key === 'color')?.value && (
+                <div className="product-info-item mb-2">
+                  <strong>Colour:</strong> {product.meta_data.find(m => m.key === 'colour' || m.key === 'color').value}
+                </div>
+              )}
+            </div>
+          )}
+          
+          {/* Packing List */}
+          {product.meta_data?.find(m => m.key === 'packing_list')?.value && (
+            <div className="packing-list-section mt-4">
+              <h6 className="mb-2">Packing list:</h6>
+              <div className="packing-list-content">
+                {product.meta_data.find(m => m.key === 'packing_list').value}
+              </div>
+            </div>
+          )}
           <form onSubmit={(e) => e.preventDefault()}>
             <div className="product-single__addtocart">
               <div className="qty-control position-relative">

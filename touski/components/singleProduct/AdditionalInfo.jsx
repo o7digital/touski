@@ -9,36 +9,98 @@ export default function AdditionalInfo({ product }) {
     dimensions &&
     (dimensions.width || dimensions.height || dimensions.length);
 
+  // Extract meta data helper
+  const getMetaValue = (key) => {
+    return product?.meta_data?.find(m => m.key === key)?.value;
+  };
+
   return (
     <div className="product-single__addtional-info">
-      {weight ? (
-        <div className="item">
-          <label className="h6">Poids</label>
-          <span>{weight} kg</span>
-        </div>
-      ) : null}
+      <div className="item">
+        <table className="table table-striped">
+          <tbody>
+            {weight && (
+              <tr>
+                <td className="fw-bold" style={{width: '30%'}}>Poids</td>
+                <td>{weight} kg</td>
+              </tr>
+            )}
 
-      {hasDimensions ? (
-        <div className="item">
-          <label className="h6">Dimensions</label>
-          <span>
-            {dimensions.length} x {dimensions.width} x {dimensions.height} cm
-          </span>
-        </div>
-      ) : null}
+            {hasDimensions && (
+              <tr>
+                <td className="fw-bold">Dimensions</td>
+                <td>
+                  {dimensions.length} x {dimensions.width} x {dimensions.height} cm
+                </td>
+              </tr>
+            )}
 
-      {attributes.map((attr) => (
-        <div key={attr.id || attr.name} className="item">
-          <label className="h6">{attr.name}</label>
-          <span>{Array.isArray(attr.options) ? attr.options.join(", ") : ""}</span>
-        </div>
-      ))}
+            {/* Display all attributes */}
+            {attributes.map((attr) => (
+              <tr key={attr.id || attr.name}>
+                <td className="fw-bold">{attr.name}</td>
+                <td>{Array.isArray(attr.options) ? attr.options.join(", ") : attr.options}</td>
+              </tr>
+            ))}
 
-      {!weight && !hasDimensions && !attributes.length ? (
+            {/* Display relevant meta data */}
+            {getMetaValue('material') && (
+              <tr>
+                <td className="fw-bold">Material</td>
+                <td>{getMetaValue('material')}</td>
+              </tr>
+            )}
+
+            {getMetaValue('style') && (
+              <tr>
+                <td className="fw-bold">Style</td>
+                <td>{getMetaValue('style')}</td>
+              </tr>
+            )}
+
+            {getMetaValue('features') && (
+              <tr>
+                <td className="fw-bold">Features</td>
+                <td>{getMetaValue('features')}</td>
+              </tr>
+            )}
+
+            {(getMetaValue('colour') || getMetaValue('color')) && (
+              <tr>
+                <td className="fw-bold">Colour</td>
+                <td>{getMetaValue('colour') || getMetaValue('color')}</td>
+              </tr>
+            )}
+
+            {getMetaValue('capacity') && (
+              <tr>
+                <td className="fw-bold">Capacity</td>
+                <td>{getMetaValue('capacity')}</td>
+              </tr>
+            )}
+
+            {getMetaValue('size') && (
+              <tr>
+                <td className="fw-bold">Size</td>
+                <td>{getMetaValue('size')}</td>
+              </tr>
+            )}
+
+            {product?.sku && (
+              <tr>
+                <td className="fw-bold">SKU</td>
+                <td>{product.sku}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {!weight && !hasDimensions && !attributes.length && !product?.meta_data?.length && (
         <div className="item">
           <span>Informations supplémentaires non fournies pour ce produit.</span>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

@@ -1,19 +1,23 @@
 .header-desk_type_5 {
-  // Reduce vertical padding so header is less tall (1cm less height)
-  padding: 0.1rem 0;
+  // Minimal vertical padding for compact header
+  padding: 0;
   height: auto;
 
   .logo {
     margin-right: $header-type-5-logo-space;
     // White rectangle behind the logo
     background: #fff;
-    padding: 0.5rem 0.75rem;
+    padding: 0.3rem 0.5rem;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     // Logo overlaps downward onto the hero image by 2.5cm
     position: relative;
     z-index: 10;
     transform: translateY(2.5cm);
+    
+    img {
+      max-height: 60px;
+    }
   }
 
   .header-search {
@@ -21,10 +25,10 @@
     margin-right: auto;
   }
 
-  // Reduce vertical space around navigation (1.5cm less)
+  // Minimal vertical space around navigation
   .navigation {
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   .navigation__link {
@@ -32,14 +36,14 @@
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: 0.5px;
-    // Reduce vertical padding to compress height
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
+    // Minimal vertical padding to compress height
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
   }
 
-  // Also reduce padding on header tools (icons)
+  // Minimal padding on header tools (icons)
   .header-tools {
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
