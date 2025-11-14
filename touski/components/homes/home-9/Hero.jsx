@@ -43,13 +43,22 @@ export default function Hero() {
                 className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-5"
                 style={{
                   fontSize: '2.5rem',
-                  color: '#333',
                   marginBottom: '1rem',
                   position: 'relative',
                   zIndex: 2
                 }}
               >
-                TOUSKI est nécessaire pour son chez-soi
+                <span
+                  style={{
+                    display: 'inline-block',
+                    backgroundColor: 'rgb(239, 99, 40)',
+                    color: '#fff',
+                    padding: '0.4em 0.9em',
+                    borderRadius: '6px',
+                  }}
+                >
+                  TOUSKI est nécessaire pour son chez-soi
+                </span>
               </h2>
               <Link
                 href="/shop-1"
