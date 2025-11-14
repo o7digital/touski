@@ -50,8 +50,19 @@ export default function Hero() {
               }}
             ></div>
             <div className="slideshow-text container position-absolute start-50 top-50 translate-middle">
-              {/** Tagline and subtitle removed per request */}
-              {/* Description removed per request */}
+              {/* Texte hero TOUSKI */}
+              <h2 
+                className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-5"
+                style={{
+                  fontSize: '2.5rem',
+                  color: '#333',
+                  marginBottom: '1rem',
+                  position: 'relative',
+                  zIndex: 2
+                }}
+              >
+                TOUSKI est nécessaire pour son chez-soi
+              </h2>
               <Link
                 href="/shop-1"
                 className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-7"
