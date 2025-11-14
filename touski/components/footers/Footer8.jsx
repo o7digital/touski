@@ -16,8 +16,10 @@ export default function Footer8() {
     <footer id="footer" className="footer footer_type_2 bordered">
       <div className="footer-top container">
         <div className="block-newsletter">
-          <h3 className="block__title">DON'T MISS THE CHANGE TO GET 40% OFF</h3>
-          <p>Get the latest products and news update daily in fastest.</p>
+          <h3 className="block__title">
+            NE MANQUEZ PAS NOS OFFRES ET NOUVEAUTÉS
+          </h3>
+          <p>Recevez nos nouveautés, promotions et idées pour la maison.</p>
           <form
             onSubmit={(e) => e.preventDefault()}
             className="block-newsletter__form"
@@ -26,10 +28,10 @@ export default function Footer8() {
               className="form-control"
               type="email"
               name="email"
-              placeholder="Your email address"
+              placeholder="Votre adresse courriel"
             />
             <button className="btn btn-secondary fw-medium" type="submit">
-              JOIN
+              S&apos;INSCRIRE
             </button>
           </form>
         </div>
@@ -39,27 +41,19 @@ export default function Footer8() {
       <div className="footer-middle container">
         <div className="row row-cols-lg-5 row-cols-2">
           <div className="footer-column footer-store-info col-12 mb-4 mb-lg-0">
-            <div className="logo">
-              <Link href="/">
-                <Image
-                  src="/assets/images/logo-dark-blue.png"
-                  alt="Uomo"
-                  width={113}
-                  height={28}
-                  className="logo__image d-block"
-                />
-              </Link>
-            </div>
-            {/* <!-- /.logo --> */}
             <p className="footer-address">
-              1418 River Drive, Suite 35 Cottonhall, CA 9622 United States
+              1030, Avenue Muguette
+              <br />
+              ST-ELIE-DE-CAXTON QC G0X2N0
+              <br />
+              CANADA
             </p>
 
             <p className="m-0">
-              <strong className="fw-medium">sale@uomo.com</strong>
+              <strong className="fw-medium">contact@touski.ca</strong>
             </p>
             <p>
-              <strong className="fw-medium">+1 246-345-0695</strong>
+              <strong className="fw-medium">+1&nbsp;819-701-0378</strong>
             </p>
 
             <ul className="social-links list-unstyled d-flex flex-wrap mb-0">
@@ -87,7 +81,7 @@ export default function Footer8() {
           {/* <!-- /.footer-column --> */}
 
           <div className="footer-column footer-menu mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase">Company</h6>
+            <h6 className="sub-menu__title text-uppercase">Entreprise</h6>
             <ul className="sub-menu__list list-unstyled">
               {footerLinks1.map((elm, i) => (
                 <li key={i} className="sub-menu__item">
@@ -101,7 +95,7 @@ export default function Footer8() {
           {/* <!-- /.footer-column --> */}
 
           <div className="footer-column footer-menu mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase">Shop</h6>
+            <h6 className="sub-menu__title text-uppercase">Boutique</h6>
             <ul className="sub-menu__list list-unstyled">
               {footerLinks2.map((elm, i) => (
                 <li key={i} className="sub-menu__item">
@@ -115,7 +109,7 @@ export default function Footer8() {
           {/* <!-- /.footer-column --> */}
 
           <div className="footer-column footer-menu mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase">Help</h6>
+            <h6 className="sub-menu__title text-uppercase">Aide</h6>
             <ul className="sub-menu__list list-unstyled">
               {footerLinks3.map((elm, i) => (
                 <li key={i} className="sub-menu__item">
@@ -129,16 +123,16 @@ export default function Footer8() {
           {/* <!-- /.footer-column --> */}
 
           <div className="footer-column mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase">Opening Time</h6>
+            <h6 className="sub-menu__title text-uppercase">Horaires</h6>
             <ul className="list-unstyled">
               <li>
-                <span className="menu-link">Mon - Fri: 8AM - 9PM</span>
+                <span className="menu-link">Lun - Ven : 8h00 - 21h00</span>
               </li>
               <li>
-                <span className="menu-link">Sat: 9AM - 8PM</span>
+                <span className="menu-link">Samedi : 9h00 - 20h00</span>
               </li>
               <li>
-                <span className="menu-link">Sun: Closed</span>
+                <span className="menu-link">Dimanche : Fermé</span>
               </li>
             </ul>
           </div>
@@ -151,7 +145,7 @@ export default function Footer8() {
       <div className="footer-bottom">
         <div className="container d-md-flex align-items-center">
           <span className="footer-copyright me-auto">
-            ©{new Date().getFullYear()} Uomo
+            ©{new Date().getFullYear()} Touski
           </span>
           <div className="footer-settings d-md-flex align-items-center">
             <select

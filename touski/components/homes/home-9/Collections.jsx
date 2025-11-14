@@ -29,9 +29,6 @@ export default function Collections() {
                     {collectionsData[0].title}
                   </span>
                 </h3>
-                <p className="mb-3" style={{ color: "rgb(239, 99, 40)" }}>
-                  {collectionsData[0].productCount}
-                </p>
                 <Link
                   href="/shop-1"
                   className="btn-link default-underline text-uppercase fw-medium"
@@ -68,9 +65,6 @@ export default function Collections() {
                             {elm.title}
                           </span>
                         </h3>
-                        <p className="mb-3" style={{ color: "rgb(239, 99, 40)" }}>
-                          {elm.productCount}
-                        </p>
                       </div>
                       {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}
                     </div>
@@ -103,9 +97,6 @@ export default function Collections() {
                             {elm.title}
                           </span>
                         </h3>
-                        <p className="mb-3" style={{ color: "rgb(239, 99, 40)" }}>
-                          {elm.productCount}
-                        </p>
                       </div>
                       {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}
                     </div>

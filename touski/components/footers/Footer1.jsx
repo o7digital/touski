@@ -20,24 +20,24 @@ export default function Footer1() {
             <div className="logo">
               <Link href="/">
                 <Image
-                  src="/assets/images/logo.png"
+                  src="/assets/images/touski-logo.jpeg"
                   width={112}
-                  height={28}
-                  alt="Uomo"
+                  height={112}
+                  alt="Touski"
                   className="logo__image d-block"
                 />
               </Link>
             </div>
             {/* <!-- /.logo --> */}
             <p className="footer-address">
-              1418 River Drive, Suite 35 Cottonhall, CA 9622 United States
+              Tout ce qui est nécessaire pour son chez-soi
             </p>
 
             <p className="m-0">
-              <strong className="fw-medium">sale@uomo.com</strong>
+              <strong className="fw-medium">contact@touski.online</strong>
             </p>
             <p>
-              <strong className="fw-medium">+1 246-345-0695</strong>
+              <strong className="fw-medium">Service client disponible</strong>
             </p>
 
             <ul className="social-links list-unstyled d-flex flex-wrap mb-0">
@@ -149,7 +149,7 @@ export default function Footer1() {
       <div className="footer-bottom container">
         <div className="d-block d-md-flex align-items-center">
           <span className="footer-copyright me-auto">
-            ©{new Date().getFullYear()} Uomo
+            ©{new Date().getFullYear()} TOUSKI - Tout ce qui est nécessaire pour son chez-soi
           </span>
           <div className="footer-settings d-block d-md-flex align-items-center">
             <div className="d-flex align-items-center">

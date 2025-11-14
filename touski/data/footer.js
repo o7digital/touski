@@ -1,32 +1,28 @@
 export const footerLinks1 = [
-  { href: "/about", text: "About Us" },
-  { href: "/about", text: "Careers" },
-  { href: "/about", text: "Affiliates" },
+  { href: "/about", text: "À propos" },
+  { href: "/about", text: "Carrières" },
+  { href: "/about", text: "Programme d’affiliation" },
   { href: "/blog_list1", text: "Blog" },
-  { href: "/contact", text: "Contact Us" },
+  { href: "/contact", text: "Contact" },
 ];
 export const footerLinks2 = [
-  { href: "/shop-2", text: "New Arrivals" },
-  { href: "/shop-3", text: "Accessories" },
-  { href: "/shop-4", text: "Men" },
-  { href: "/shop-5", text: "Women" },
-  { href: "/shop-1", text: "Shop All" },
+  { href: "/shop-2", text: "Nouveautés" },
+  { href: "/shop-3", text: "Accessoires" },
+  // Men / Women retirés comme demandé
+  { href: "/shop-1", text: "Tous les produits" },
 ];
 export const footerLinks3 = [
-  { href: "/about", text: "Customer Service" },
-  { href: "/account_dashboard", text: "My Account" },
-  { href: "/store_location", text: "Find a Store" },
-  { href: "/terms", text: "Legal & Privacy" },
+  { href: "/about", text: "Service client" },
+  { href: "/account_dashboard", text: "Mon compte" },
+  { href: "/store_location", text: "Trouver un magasin" },
+  { href: "/terms", text: "Conditions & confidentialité" },
   { href: "/contact", text: "Contact" },
-  { href: "/about", text: "Gift Card" },
+  { href: "/about", text: "Carte cadeau" },
 ];
 
 export const languageOptions = [
-  { value: "", text: "United Kingdom | English", selected: true },
-  { value: "1", text: "United States | English" },
-  { value: "2", text: "German" },
-  { value: "3", text: "French" },
-  { value: "4", text: "Swedish" },
+  { value: "", text: "Canada | Français", selected: true },
+  { value: "1", text: "Canada | Anglais" },
 ];
 
 export const languageOptions2 = [
@@ -37,8 +33,8 @@ export const languageOptions2 = [
 ];
 
 export const currencyOptions = [
-  { value: "", text: "$ USD", selected: true },
-  { value: "1", text: "£ GBP" },
+  { value: "", text: "$ CAD", selected: true },
+  { value: "1", text: "$ USD" },
   { value: "2", text: "€ EURO" },
 ];
 

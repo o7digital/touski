@@ -8,27 +8,27 @@ import "swiper/css";
 import "photoswipe/dist/photoswipe.css";
 
 import { Gallery, Item } from "react-photoswipe-gallery";
-const images = [
-  {
-    imgSrc: "/assets/images/products/product_0.jpg",
-  },
-  {
-    imgSrc: "/assets/images/products/product_0-1.jpg",
-  },
-  {
-    imgSrc: "/assets/images/products/product_0-2.jpg",
-  },
-  {
-    imgSrc: "/assets/images/products/product_0-3.jpg",
-  },
+const defaultImages = [
+  { imgSrc: "/assets/images/products/product_0.jpg" },
+  { imgSrc: "/assets/images/products/product_0-1.jpg" },
+  { imgSrc: "/assets/images/products/product_0-2.jpg" },
+  { imgSrc: "/assets/images/products/product_0-3.jpg" },
 ];
 import Image from "next/image";
 import tippy from "tippy.js";
-export default function ProductSlider1() {
+export default function ProductSlider1({ images }) {
   useEffect(() => {
     tippy("[data-tippy-content]");
   }, []);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const imageList =
+    Array.isArray(images) && images.length
+      ? images.map((img) => ({
+          imgSrc:
+            (typeof img === "string" ? img : img.src || img.thumbnail) ||
+            "/assets/images/products/product_0.jpg",
+        }))
+      : defaultImages;
   return (
     <div className="product-single__media vertical-thumbnail product-media-initialized">
       <div className="product-single__image position-relative">
@@ -40,7 +40,7 @@ export default function ProductSlider1() {
             navigation={{ prevEl: ".ssnbp1", nextEl: ".ssnbn1" }}
             className="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events"
           >
-            {images.map((elm, i) => (
+            {imageList.map((elm, i) => (
               <SwiperSlide
                 style={{
                   maxWidth: "100%",
@@ -131,7 +131,7 @@ export default function ProductSlider1() {
           onSwiper={setThumbsSwiper}
           slidesPerView={4}
         >
-          {images.map((elm, i) => (
+          {imageList.map((elm, i) => (
             <SwiperSlide
               key={i}
               className="swiper-slide product-single__image-item"

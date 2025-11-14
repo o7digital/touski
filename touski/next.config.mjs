@@ -16,8 +16,14 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'oss-cf.cjdropshipping.com' },
-      { protocol: 'https', hostname: 'cf.cjdropshipping.com' },
+      // Images CJ (legacy)
+      { protocol: "https", hostname: "oss-cf.cjdropshipping.com" },
+      { protocol: "https", hostname: "cf.cjdropshipping.com" },
+      // Images produits WooCommerce (store Touski)
+      {
+        protocol: "https",
+        hostname: "oliviers42.sg-host.com",
+      },
     ],
   },
 };

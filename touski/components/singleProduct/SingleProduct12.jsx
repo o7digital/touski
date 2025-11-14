@@ -44,7 +44,7 @@ export default function SingleProduct12({ product }) {
     <section className="product-single container">
       <div className="row">
         <div className="col-lg-7">
-          <ProductSlider1 />
+          <ProductSlider1 images={product.images} />
         </div>
         <div className="col-lg-5">
           <div className="d-flex justify-content-between mb-4 pb-md-2">
