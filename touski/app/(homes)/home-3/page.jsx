@@ -1,4 +1,4 @@
-import Footer3 from "@/components/footers/Footer3";
+import Footer8 from "@/components/footers/Footer8";
 
 import Header3 from "@/components/headers/Header3";
 import Categories from "@/components/homes/home-3/Categories";
@@ -33,7 +33,7 @@ export default function HomePage3() {
         <Instagram />
       </main>
       <hr className="mt-2 text-secondary" />
-      <Footer3 />
+      <Footer8 />
     </div>
   );
 }

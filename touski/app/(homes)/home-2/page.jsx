@@ -1,4 +1,4 @@
-import Footer2 from "@/components/footers/Footer2";
+import Footer8 from "@/components/footers/Footer8";
 
 import Header2 from "@/components/headers/Header2";
 import Banner from "@/components/homes/home-2/Banner";
@@ -36,7 +36,7 @@ export default function HomePage2() {
         <Brands />
         <div className="mb-4 pb-4 pb-xl-5 mb-xl-5"></div>
       </main>
-      <Footer2 />
+      <Footer8 />
     </>
   );
 }

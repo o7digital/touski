@@ -31,7 +31,7 @@ export default function HomePage4() {
         <LimitedEdition />
         <Blogs />
       </main>
-      <Footer4 />
+      <Footer8 />
     </>
   );
 }

@@ -14,7 +14,7 @@ export default function HomePage8() {
       <main>
         <Hero />
       </main>
-      <Footer7 />
+      <Footer8 />
     </>
   );
 }

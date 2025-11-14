@@ -1,4 +1,4 @@
-import Footer1 from "@/components/footers/Footer1";
+import Footer8 from "@/components/footers/Footer8";
 
 import Header22 from "@/components/headers/Header22";
 
@@ -28,7 +28,7 @@ export default async function ProductDetailsPage8(props) {
         <SingleProduct3 product={product} />
         <RelatedSlider />
       </main>
-      <Footer1 />
+      <Footer8 />
     </>
   );
 }

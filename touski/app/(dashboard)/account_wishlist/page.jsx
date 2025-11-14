@@ -1,4 +1,4 @@
-import Footer1 from "@/components/footers/Footer1";
+import Footer8 from "@/components/footers/Footer8";
 
 import Header1 from "@/components/headers/Header1";
 import AccountWishlist from "@/components/otherPages/AccountWishlist";
@@ -25,7 +25,7 @@ export default function AccountWishlistPage() {
       </main>
 
       <div className="mb-5 pb-xl-5"></div>
-      <Footer1 />
+      <Footer8 />
     </>
   );
 }

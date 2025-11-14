@@ -53,7 +53,7 @@ export default function Footer8() {
               <strong className="fw-medium">contact@touski.online</strong>
             </p>
             <p style={{fontSize: '0.9rem'}}>
-              <strong className="fw-medium">+1&nbsp;819-701-0378</strong>
+              <strong className="fw-medium">+1 819-701-0378</strong>
             </p>
 
             {/* Réseaux sociaux masqués temporairement */}
@@ -121,6 +121,18 @@ export default function Footer8() {
                 </li>
               ))}
             </ul>
+          </div>
+          {/* <!-- /.footer-column --> */}
+
+          <div className="footer-column mb-3 mb-lg-0 col-12">
+            <h6 className="sub-menu__title text-uppercase" style={{fontSize: '0.85rem', marginBottom: '0.75rem'}}>Paiements sécurisés</h6>
+            <div className="d-flex gap-3 align-items-center flex-wrap">
+              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>DISCOVER</span>
+              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>MASTERCARD</span>
+              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>PAYPAL</span>
+              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>SKRILL</span>
+              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>VISA</span>
+            </div>
           </div>
           {/* <!-- /.footer-column --> */}
 

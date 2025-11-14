@@ -29,7 +29,7 @@ export default function HomePage7() {
         <div className="mb-4 mb-xl-5 pt-1 pb-5"></div>
         <Features />
       </main>
-      <Footer7 />
+      <Footer8 />
     </>
   );
 }

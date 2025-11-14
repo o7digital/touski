@@ -1,4 +1,4 @@
-import Footer1 from "@/components/footers/Footer1";
+import Footer8 from "@/components/footers/Footer8";
 
 import Header1 from "@/components/headers/Header1";
 import Banner1 from "@/components/shoplist/Banner1";
@@ -20,7 +20,7 @@ export default function ShopPage9() {
         <Shop9 />
       </main>
       <div className="mb-5 pb-xl-5"></div>
-      <Footer1 />
+      <Footer8 />
     </>
   );
 }

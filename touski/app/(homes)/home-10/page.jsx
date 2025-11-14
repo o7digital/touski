@@ -42,7 +42,7 @@ export default function HomePage10() {
           <Blogs />
           <div className="mb-4 pb-4 mb-xl-4 mt-xl-3 pt-xl-3 pb-xl-4"></div>
         </main>
-        <Footer9 />
+        <Footer8 />
       </div>
     </>
   );

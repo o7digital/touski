@@ -21,7 +21,7 @@ export default function HomePage6() {
         <Instagram />
         <div className="mb-4 mb-xl-5 pt-xl-1 pb-5"></div>
       </main>
-      <Footer6 />
+      <Footer8 />
     </>
   );
 }

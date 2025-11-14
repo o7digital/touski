@@ -1,4 +1,4 @@
-import Footer1 from "@/components/footers/Footer1";
+import Footer8 from "@/components/footers/Footer8";
 
 import Header1 from "@/components/headers/Header1";
 import Shop1 from "@/components/shoplist/Shop1";
@@ -204,7 +204,7 @@ export default async function ShopPage1(props) {
         <Shop1 />
       </main>
       <div className="mb-5 pb-xl-5"></div>
-      <Footer1 />
+      <Footer8 />
     </>
   );
 }
