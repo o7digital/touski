@@ -56,7 +56,8 @@ export default function Footer8() {
               <strong className="fw-medium">+1&nbsp;819-701-0378</strong>
             </p>
 
-            <ul className="social-links list-unstyled d-flex flex-wrap mb-0">
+            {/* Réseaux sociaux masqués temporairement */}
+            {/* <ul className="social-links list-unstyled d-flex flex-wrap mb-0">
               {socialLinks.map((link, index) => (
                 <li key={index}>
                   <a href={link.href} className="footer__social-link d-block">
@@ -76,11 +77,12 @@ export default function Footer8() {
                   </a>
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </div>
           {/* <!-- /.footer-column --> */}
 
-          <div className="footer-column footer-menu mb-4 mb-lg-0">
+          {/* Colonnes Entreprise et Boutique masquées */}
+          {/* <div className="footer-column footer-menu mb-4 mb-lg-0">
             <h6 className="sub-menu__title text-uppercase">Entreprise</h6>
             <ul className="sub-menu__list list-unstyled">
               {footerLinks1.map((elm, i) => (
@@ -91,10 +93,10 @@ export default function Footer8() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
           {/* <!-- /.footer-column --> */}
 
-          <div className="footer-column footer-menu mb-4 mb-lg-0">
+          {/* <div className="footer-column footer-menu mb-4 mb-lg-0">
             <h6 className="sub-menu__title text-uppercase">Boutique</h6>
             <ul className="sub-menu__list list-unstyled">
               {footerLinks2.map((elm, i) => (
@@ -105,7 +107,7 @@ export default function Footer8() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
           {/* <!-- /.footer-column --> */}
 
           <div className="footer-column footer-menu mb-4 mb-lg-0">
@@ -122,7 +124,8 @@ export default function Footer8() {
           </div>
           {/* <!-- /.footer-column --> */}
 
-          <div className="footer-column mb-4 mb-lg-0">
+          {/* Horaires masqués */}
+          {/* <div className="footer-column mb-4 mb-lg-0">
             <h6 className="sub-menu__title text-uppercase">Horaires</h6>
             <ul className="list-unstyled">
               <li>
@@ -135,7 +138,7 @@ export default function Footer8() {
                 <span className="menu-link">Dimanche : Fermé</span>
               </li>
             </ul>
-          </div>
+          </div> */}
           {/* <!-- /.footer-column --> */}
         </div>
         {/* <!-- /.row-cols-5 --> */}
