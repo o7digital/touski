@@ -2,46 +2,46 @@ export const servicePromotions = [
   {
     id: 1,
     icon: "#icon_shipping",
-    title: "Fast And Free Delivery",
-    content: "Free delivery for all orders over $140",
+    title: "Livraison rapide et gratuite",
+    content: "Livraison gratuite pour toutes les commandes de plus de 140$",
   },
   {
     id: 2,
     icon: "#icon_headphone",
-    title: "24/7 Customer Support",
-    content: "Friendly 24/7 customer support",
+    title: "Support client 24/7",
+    content: "Support client disponible 24h/24 et 7j/7",
   },
   {
     id: 3,
     icon: "#icon_shield",
-    title: "Money Back Guarantee",
-    content: "We return money within 30 days",
+    title: "Garantie satisfait ou remboursé",
+    content: "Nous remboursons sous 30 jours",
   },
 ];
 export const servicesData = [
   {
     id: 1,
     icon: "#icon_shipping",
-    title: "Fast And Free Delivery",
-    content: "Free delivery for all orders over $140",
+    title: "Livraison rapide et gratuite",
+    content: "Livraison gratuite pour toutes les commandes de plus de 140$",
   },
   {
     id: 2,
     icon: "#icon_headphone",
-    title: "24/7 Customer Support",
-    content: "Friendly 24/7 customer support",
+    title: "Support client 24/7",
+    content: "Support client disponible 24h/24 et 7j/7",
   },
   {
     id: 3,
     icon: "#icon_shield",
-    title: "Money Back Guarantee",
-    content: "We return money within 30 days",
+    title: "Garantie satisfait ou remboursé",
+    content: "Nous remboursons sous 30 jours",
   },
   {
     id: 4,
     icon: "#icon_gift",
-    title: "Member Gifts",
-    content: "Discount coupons weekends",
+    title: "Cadeaux membres",
+    content: "Coupons de réduction les week-ends",
   },
 ];
 

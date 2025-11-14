@@ -18,12 +18,10 @@ export default function Lookbook() {
         style={{ width: "75%", height: "auto", display: "block", margin: "0 auto" }}
       />
       <h2
-        className="section-title position-absolute position-top-center fw-normal text-center"
-        style={{ top: "13.3%" }}
+        className="section-title fw-normal text-center"
+        style={{ color: "#ff6b35", marginBottom: "2rem" }}
       >
-        LIVING ROOM FURNITURE
-        <br />
-        <span className="h2 fw-normal">Discount 50%</span>
+        NOS OFFRES ET PROMOTIONS
       </h2>
       {products17.map(({ id, style, imgSrc, price, title }) => (
         <React.Fragment key={id}>
