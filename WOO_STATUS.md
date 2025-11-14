@@ -67,8 +67,41 @@ node create-test-products.js
 - Produits WooCommerce: IDs 63, 64, 65, 66, 67
 - Credentials stockés dans `.env.local` (ne pas commit)
 
-## 🎯 PROCHAINE ÉTAPE IMMÉDIATE
+## 🎯 PROCHAINES ÉTAPES - JEUDI 14 NOV 2025
 
-**Toi:** Teste http://localhost:3000/products - tu dois voir les 5 produits
+### **PRIORITÉ 1 : Commande & Expédition** 
+- [ ] Workflow panier → checkout → confirmation
+- [ ] Gestion expédition automatique (Spocket/WooCommerce)
+- [ ] Emails de confirmation client + admin
+- [ ] Tests commande E2E
 
-**Moi:** J'adapte les composants et pages restantes pendant que tu testes
+### **PRIORITÉ 2 : Optimisations SEO (30 min)**
+- [ ] Ajouter `sitemap.xml` automatique
+- [ ] Ajouter `robots.txt`
+- [ ] Implémenter Schema.org pour produits (rich snippets Google)
+- [ ] Guide configuration Google Search Console
+- [ ] Guide création Google Business Profile (SEO local Mauricie)
+
+### **Note importante : Prix affichés**
+- Actuellement : Prix bruts depuis WooCommerce (possiblement prix fournisseur)
+- À vérifier : Les prix dans WooCommerce incluent-ils déjà votre marge ?
+- Si non : Implémenter calcul automatique de marge côté frontend
+
+---
+
+## 📊 OPTIMISATIONS FAITES (13 Nov)
+
+### UX & Design
+- ✅ Footer optimisé : compact, liens horizontaux, mention "créé par o7Digital"
+- ✅ Email corrigé : contact@touski.online
+- ✅ Header épuré : SearchPopup et menu 3 lignes cachés
+- ✅ Menu réorganisé : ACCUEIL, BOUTIQUE, TOUSKI, CONTACTER (Blog retiré)
+- ✅ Couleurs hover orange (#FF9445) pour navigation
+- ✅ Cookie banner style LCQC avec couleurs Touski
+
+### SEO
+- ✅ Mots-clés optimisés intégrés dans toutes les pages
+- ✅ Focus : "tout ce qui est nécessaire pour son chez-soi"
+- ✅ Géolocalisation : Québec, Saint-Élie-de-Caxton, Mauricie
+- ✅ Meta descriptions uniques par page
+- ✅ Titres optimisés pour le référencement français
