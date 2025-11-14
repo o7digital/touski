@@ -60,22 +60,25 @@ export default function Footer8() {
             </ul>
           </div>
 
-          {/* COMPANY */}
+          {/* COMPAGNIE */}
           <div className="footer-column col-lg-2 col-md-6 mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase mb-3">COMPANY</h6>
+            <h6 className="sub-menu__title text-uppercase mb-3">COMPAGNIE</h6>
             <ul className="sub-menu__list list-unstyled">
-              {footerLinks1.map((elm, i) => (
-                <li key={i} className="sub-menu__item mb-2">
-                  <Link href={elm.href} className="menu-link menu-link_us-s">
-                    {elm.text}
-                  </Link>
-                </li>
-              ))}
+              <li className="sub-menu__item mb-2">
+                <Link href="/about" className="menu-link menu-link_us-s">
+                  À propos
+                </Link>
+              </li>
+              <li className="sub-menu__item mb-2">
+                <Link href="/contact" className="menu-link menu-link_us-s">
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* SHOP */}
-          <div className="footer-column col-lg-2 col-md-6 mb-4 mb-lg-0">
+          {/* SHOP - Caché */}
+          {/* <div className="footer-column col-lg-2 col-md-6 mb-4 mb-lg-0">
             <h6 className="sub-menu__title text-uppercase mb-3">SHOP</h6>
             <ul className="sub-menu__list list-unstyled">
               {footerLinks2.map((elm, i) => (
@@ -86,38 +89,46 @@ export default function Footer8() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
-          {/* HELP */}
+          {/* AIDE */}
           <div className="footer-column col-lg-2 col-md-6 mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase mb-3">HELP</h6>
+            <h6 className="sub-menu__title text-uppercase mb-3">AIDE</h6>
             <ul className="sub-menu__list list-unstyled">
-              {footerLinks3.map((elm, i) => (
-                <li key={i} className="sub-menu__item mb-2">
-                  <Link href={elm.href} className="menu-link menu-link_us-s">
-                    {elm.text}
-                  </Link>
-                </li>
-              ))}
+              <li className="sub-menu__item mb-2">
+                <Link href="/contact" className="menu-link menu-link_us-s">
+                  Service client
+                </Link>
+              </li>
+              <li className="sub-menu__item mb-2">
+                <Link href="/account_dashboard" className="menu-link menu-link_us-s">
+                  Mon compte
+                </Link>
+              </li>
+              <li className="sub-menu__item mb-2">
+                <Link href="/terms" className="menu-link menu-link_us-s">
+                  Politiques de Confidentialité
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* SUBSCRIBE */}
+          {/* INFOLETTRE */}
           <div className="footer-column col-lg-3 col-md-6">
-            <h6 className="sub-menu__title text-uppercase mb-3">SUBSCRIBE</h6>
+            <h6 className="sub-menu__title text-uppercase mb-3">INFOLETTRE</h6>
             <p className="mb-3" style={{fontSize: '0.85rem'}}>
-              Be the first to get the latest news about trends, promotions, and much more!
+              Soyez le premier à recevoir les dernières nouvelles sur les tendances, promotions et bien plus encore !
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="mb-4">
               <div className="input-group">
                 <input
                   type="email"
                   className="form-control"
-                  placeholder="Your email address"
+                  placeholder="Votre adresse courriel"
                   style={{fontSize: '0.85rem'}}
                 />
                 <button className="btn btn-primary" type="submit" style={{backgroundColor: '#FF9445', border: 'none', color: '#fff', fontWeight: '600'}}>
-                  Submit
+                  S'inscrire
                 </button>
               </div>
             </form>
@@ -186,18 +197,7 @@ export default function Footer8() {
                   ))}
                 </select>
                 
-                <span style={{fontSize: '0.85rem'}}>Currency</span>
-                <select
-                  className="form-select form-select-sm"
-                  style={{width: 'auto', fontSize: '0.85rem'}}
-                  name="store-currency"
-                >
-                  {currencyOptions.map((option, index) => (
-                    <option key={index} value={option.value}>
-                      {option.text}
-                    </option>
-                  ))}
-                </select>
+                <span style={{fontSize: '0.85rem'}}>créé par <a href="https://o7digital.com" target="_blank" rel="noopener noreferrer" style={{color: '#FF9445', textDecoration: 'none', fontWeight: '600'}}>o7Digital</a></span>
               </div>
             </div>
           </div>
