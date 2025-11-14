@@ -37,9 +37,8 @@ export default function Hero() {
                 className="slideshow-bg__img object-fit-cover object-position-right"
               />
             </div>
-            <div className="slideshow-text container position-absolute start-50 top-50 translate-middle">
-              {/** Tagline and subtitle removed per request */}
-              {/* Description removed per request */}
+            <div className="slideshow-text container position-absolute start-50 top-50 translate-middle" style={{display: 'none'}}>
+              {/** Tous les textes cachés per request */}
               <Link
                 href="/shop-1"
                 className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-7"
