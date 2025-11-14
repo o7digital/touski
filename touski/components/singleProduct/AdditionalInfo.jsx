@@ -1,28 +1,44 @@
 import React from "react";
 
-export default function AdditionalInfo() {
+export default function AdditionalInfo({ product }) {
+  const weight = product?.weight;
+  const dimensions = product?.dimensions;
+  const attributes = product?.attributes || [];
+
+  const hasDimensions =
+    dimensions &&
+    (dimensions.width || dimensions.height || dimensions.length);
+
   return (
     <div className="product-single__addtional-info">
-      <div className="item">
-        <label className="h6">Weight</label>
-        <span>1.25 kg</span>
-      </div>
-      <div className="item">
-        <label className="h6">Dimensions</label>
-        <span>90 x 60 x 90 cm</span>
-      </div>
-      <div className="item">
-        <label className="h6">Size</label>
-        <span>XS, S, M, L, XL</span>
-      </div>
-      <div className="item">
-        <label className="h6">Color</label>
-        <span>Black, Orange, White</span>
-      </div>
-      <div className="item">
-        <label className="h6">Storage</label>
-        <span>Relaxed fit shirt-style dress with a rugged</span>
-      </div>
+      {weight ? (
+        <div className="item">
+          <label className="h6">Poids</label>
+          <span>{weight} kg</span>
+        </div>
+      ) : null}
+
+      {hasDimensions ? (
+        <div className="item">
+          <label className="h6">Dimensions</label>
+          <span>
+            {dimensions.length} x {dimensions.width} x {dimensions.height} cm
+          </span>
+        </div>
+      ) : null}
+
+      {attributes.map((attr) => (
+        <div key={attr.id || attr.name} className="item">
+          <label className="h6">{attr.name}</label>
+          <span>{Array.isArray(attr.options) ? attr.options.join(", ") : ""}</span>
+        </div>
+      ))}
+
+      {!weight && !hasDimensions && !attributes.length ? (
+        <div className="item">
+          <span>Informations supplémentaires non fournies pour ce produit.</span>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -81,7 +81,9 @@ export default function SingleProduct12({ product }) {
             </div>
             {/* <!-- /.shop-acs --> */}
           </div>
-          <h1 className="product-single__name">{product.title}</h1>
+          <h1 className="product-single__name">
+            {product.title || product.name}
+          </h1>
           <div className="product-single__rating">
             <div className="reviews-group d-flex">
               <Star stars={5} />
@@ -94,12 +96,17 @@ export default function SingleProduct12({ product }) {
             <span className="current-price">${product.price}</span>
           </div>
           <div className="product-single__short-desc">
-            <p>
-              Phasellus sed volutpat orci. Fusce eget lore mauris vehicula
-              elementum gravida nec dui. Aenean aliquam varius ipsum, non
-              ultricies tellus sodales eu. Donec dignissim viverra nunc, ut
-              aliquet magna posuere eget.
-            </p>
+            {product.short_description || product.description ? (
+              <div
+                className="content"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    product.short_description || product.description || "",
+                }}
+              />
+            ) : (
+              <p>Description non fournie pour ce produit.</p>
+            )}
           </div>
           <form onSubmit={(e) => e.preventDefault()}>
             <div className="product-single__swatches">
@@ -186,17 +193,23 @@ export default function SingleProduct12({ product }) {
           </div>
           <div className="product-single__meta-info">
             <div className="meta-item">
-              <label>SKU:</label>
-              <span>N/A</span>
+              <label>SKU :</label>
+              <span>{product.sku || "N/A"}</span>
             </div>
-            <div className="meta-item">
-              <label>Categories:</label>
-              <span>Casual & Urban Wear, Jackets, Men</span>
-            </div>
-            <div className="meta-item">
-              <label>Tags:</label>
-              <span>biker, black, bomber, leather</span>
-            </div>
+            {product.categories && product.categories.length ? (
+              <div className="meta-item">
+                <label>Catégories :</label>
+                <span>
+                  {product.categories.map((c) => c.name).join(", ")}
+                </span>
+              </div>
+            ) : null}
+            {product.tags && product.tags.length ? (
+              <div className="meta-item">
+                <label>Tags :</label>
+                <span>{product.tags.map((t) => t.name).join(", ")}</span>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -249,7 +262,7 @@ export default function SingleProduct12({ product }) {
             role="tabpanel"
             aria-labelledby="tab-description-tab"
           >
-            <Description />
+              <Description product={product} />
           </div>
           <div
             className="tab-pane fade"
@@ -257,7 +270,7 @@ export default function SingleProduct12({ product }) {
             role="tabpanel"
             aria-labelledby="tab-additional-info-tab"
           >
-            <AdditionalInfo />
+              <AdditionalInfo product={product} />
           </div>
           <div
             className="tab-pane fade"

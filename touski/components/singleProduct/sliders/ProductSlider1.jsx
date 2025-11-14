@@ -53,24 +53,24 @@ export default function ProductSlider1({ images }) {
                 <Item
                   original={elm.imgSrc}
                   thumbnail={elm.imgSrc}
-                  width="674"
-                  height="674"
+                  width="1000"
+                  height="1000"
                 >
                   {({ ref, open }) => (
-                    <>
+                    <div
+                      ref={ref}
+                      onClick={open}
+                      style={{ cursor: "zoom-in", position: "relative" }}
+                    >
                       <Image
                         loading="lazy"
                         className="h-auto w-100"
                         src={elm.imgSrc}
-                        width="674"
-                        height="674"
+                        width="1000"
+                        height="1000"
                         alt="image"
                       />
-                      <a
-                        ref={ref}
-                        onClick={open}
-                        data-fancybox="gallery"
-                        // href="/assets/images/products/product_0.jpg"
+                      <div
                         className="item-zoom"
                         data-bs-toggle="tooltip"
                         data-bs-placement="left"
@@ -85,8 +85,8 @@ export default function ProductSlider1({ images }) {
                         >
                           <use href="#icon_zoom" />
                         </svg>
-                      </a>
-                    </>
+                      </div>
+                    </div>
                   )}
                 </Item>
               </SwiperSlide>
@@ -121,29 +121,30 @@ export default function ProductSlider1({ images }) {
           breakpoints={{
             0: {
               direction: "horizontal",
-              slidesPerView: 4,
+              slidesPerView: imageList.length < 4 ? imageList.length : 4,
             },
             992: {
               direction: "vertical",
+              slidesPerView: imageList.length < 4 ? imageList.length : 4,
             },
           }}
-          className="swiper-container swiper-container-initialized swiper-container-pointer-events swiper-container-free-mode swiper-container-thumbs swiper-container-horizontal"
+          className="swiper-container swiper-container-initialized swiper-container-pointer-events swiper-container-free-mode swiper-container-thumbs"
           onSwiper={setThumbsSwiper}
-          slidesPerView={4}
+          spaceBetween={8}
         >
           {imageList.map((elm, i) => (
             <SwiperSlide
               key={i}
               className="swiper-slide product-single__image-item"
-              style={{ marginBottom: "10px" }}
             >
               <Image
                 loading="lazy"
-                className="h-auto"
+                className="h-auto w-100"
                 src={elm.imgSrc}
                 width="104"
                 height="104"
                 alt="image"
+                style={{ objectFit: "cover" }}
               />
             </SwiperSlide>
           ))}
