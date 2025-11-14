@@ -7,8 +7,9 @@ import React from "react";
 import { headers } from "next/headers";
 
 export const metadata = {
-  title: "Shop 1 || Uomo eCommerce React Nextjs Template",
-  description: "Uomo eCommerce React Nextjs Template",
+  title: "Boutique - Tous les produits pour votre chez-soi | Touski",
+  description: "Découvrez notre sélection complète d'accessoires maison, solutions rangement, décoration et produits pratiques. Tout l'essentiel pour bien vivre chez soi aux meilleurs prix.",
+  keywords: "boutique maison québec, accessoires maison, rangement cuisine, décoration intérieur, produits malins maison, solutions pratiques, ustensiles cuisine, organisateurs maison, gadgets maison, articles maison canada",
 };
 function pick(obj, keys) {
   for (const k of keys) {

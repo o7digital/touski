@@ -7,8 +7,9 @@ import Services from "@/components/otherPages/about/Services";
 import React from "react";
 
 export const metadata = {
-  title: "About || Uomo eCommerce React Nextjs Template",
-  description: "Uomo eCommerce React Nextjs Template",
+  title: "À propos de Touski - Notre mission pour votre chez-soi",
+  description: "Touski, votre partenaire pour un chez-soi confortable et bien organisé. Découvrez notre philosophie : vous offrir tout ce qui est bien pour votre maison, au Québec.",
+  keywords: "touski, mission touski, boutique maison québec, améliorer son intérieur, confort maison, qualité de vie maison, bien vivre chez soi, saint-élie-de-caxton, mauricie",
 };
 export default function AboutPage() {
   return (
