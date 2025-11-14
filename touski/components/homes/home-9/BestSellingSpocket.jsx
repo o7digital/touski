@@ -101,6 +101,15 @@ export default function BestSellingSpocket() {
     }
   }
 
+  const visibleProducts =
+    Array.isArray(products)
+      ? products
+          .filter(
+            (p) => Array.isArray(p.images) && p.images[0]?.src
+          )
+          .slice(0, 16)
+      : [];
+
   return (
     <section className="products-carousel container">
       <h2 className="section-title text-center mb-3 pb-xl-3 mb-xl-4">
@@ -183,7 +192,7 @@ export default function BestSellingSpocket() {
       )}
 
       {/* Grille de produits 4 colonnes, ligne par ligne */}
-      {!loading && !error && products.length === 0 && (
+      {!loading && !error && visibleProducts.length === 0 && (
         <div className="text-center py-5">
           <p>Aucun produit trouvé dans cette catégorie.</p>
           <p className="text-muted">
@@ -192,9 +201,9 @@ export default function BestSellingSpocket() {
         </div>
       )}
 
-      {!loading && products.length > 0 && (
+      {!loading && visibleProducts.length > 0 && (
         <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
-          {products.map((product, index) => {
+          {visibleProducts.map((product, index) => {
             const imageUrl =
               product.images?.[0]?.src || "/assets/images/products/default.jpg";
             const productTitle = product.name || "Produit sans nom";
@@ -269,12 +278,6 @@ export default function BestSellingSpocket() {
           })}
         </div>
       )}
-
-      <div className="text-center mt-4">
-        <Link href="/products" className="btn btn-outline-primary">
-          Voir tous les produits
-        </Link>
-      </div>
     </section>
   );
 }
