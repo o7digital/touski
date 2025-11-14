@@ -20,7 +20,7 @@ export default function Collections() {
                   <span
                     style={{
                       display: "inline-block",
-                      backgroundColor: "rgba(239, 99, 40, 0.7)",
+                      backgroundColor: "rgb(239, 99, 40)",
                       color: "#fff",
                       padding: "0.15em 0.5em",
                       borderRadius: "0.25rem",
@@ -50,7 +50,7 @@ export default function Collections() {
                           <span
                             style={{
                               display: "inline-block",
-                              backgroundColor: "rgba(239, 99, 40, 0.7)",
+                              backgroundColor: "rgb(239, 99, 40)",
                               color: "#fff",
                               padding: "0.15em 0.5em",
                               borderRadius: "0.25rem",
@@ -82,7 +82,7 @@ export default function Collections() {
                           <span
                             style={{
                               display: "inline-block",
-                              backgroundColor: "rgba(239, 99, 40, 0.7)",
+                              backgroundColor: "rgb(239, 99, 40)",
                               color: "#fff",
                               padding: "0.15em 0.5em",
                               borderRadius: "0.25rem",
