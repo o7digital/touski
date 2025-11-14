@@ -124,11 +124,40 @@ export default function Footer8() {
             
             <h6 className="mb-2" style={{fontSize: '0.85rem', fontWeight: '600'}}>Secure payments</h6>
             <div className="d-flex gap-2 align-items-center flex-wrap">
-              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#333'}}>DISCOVER</span>
-              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#333'}}>MASTERCARD</span>
-              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#333'}}>PAYPAL</span>
-              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#006FCF'}}>AMEX</span>
-              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#1A1F71'}}>VISA</span>
+              {/* Discover */}
+              <div style={{width: '50px', height: '32px', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px'}}>
+                <svg width="40" height="24" viewBox="0 0 48 32" fill="none">
+                  <rect width="48" height="32" rx="4" fill="#FF6000"/>
+                  <text x="24" y="20" fontSize="10" fontWeight="700" fill="white" textAnchor="middle">DISCOVER</text>
+                </svg>
+              </div>
+              {/* Mastercard */}
+              <div style={{width: '50px', height: '32px', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px'}}>
+                <svg width="40" height="24" viewBox="0 0 48 32">
+                  <circle cx="18" cy="16" r="10" fill="#EB001B"/>
+                  <circle cx="30" cy="16" r="10" fill="#F79E1B"/>
+                  <path d="M24 8c-2.2 1.8-3.6 4.5-3.6 7.5s1.4 5.7 3.6 7.5c2.2-1.8 3.6-4.5 3.6-7.5S26.2 9.8 24 8z" fill="#FF5F00"/>
+                </svg>
+              </div>
+              {/* PayPal */}
+              <div style={{width: '50px', height: '32px', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px'}}>
+                <svg width="40" height="24" viewBox="0 0 48 32" fill="none">
+                  <text x="24" y="20" fontSize="10" fontWeight="700" fill="#003087" textAnchor="middle">PayPal</text>
+                </svg>
+              </div>
+              {/* Amex */}
+              <div style={{width: '50px', height: '32px', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px'}}>
+                <svg width="40" height="24" viewBox="0 0 48 32" fill="none">
+                  <rect width="48" height="32" rx="4" fill="#006FCF"/>
+                  <text x="24" y="20" fontSize="10" fontWeight="700" fill="white" textAnchor="middle">AMEX</text>
+                </svg>
+              </div>
+              {/* Visa */}
+              <div style={{width: '50px', height: '32px', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px'}}>
+                <svg width="40" height="24" viewBox="0 0 48 32" fill="none">
+                  <text x="24" y="20" fontSize="11" fontWeight="700" fill="#1A1F71" textAnchor="middle" fontStyle="italic">VISA</text>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
