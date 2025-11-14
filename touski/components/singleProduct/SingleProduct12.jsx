@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import ProductSlider1 from "./sliders/ProductSlider1";
 import BreadCumb from "./BreadCumb";
 import Star from "../common/Star";
-import Colors from "./Colors";
-import Size from "./Size";
 import Description from "./Description";
 import AdditionalInfo from "./AdditionalInfo";
 import Reviews from "./Reviews";
@@ -109,28 +107,6 @@ export default function SingleProduct12({ product }) {
             )}
           </div>
           <form onSubmit={(e) => e.preventDefault()}>
-            <div className="product-single__swatches">
-              <div className="product-swatch text-swatches">
-                <label>Sizes</label>
-                <div className="swatch-list">
-                  <Size />
-                </div>
-                <a
-                  href="#"
-                  className="sizeguide-link"
-                  data-bs-toggle="modal"
-                  data-bs-target="#sizeGuide"
-                >
-                  Size Guide
-                </a>
-              </div>
-              <div className="product-swatch color-swatches">
-                <label>Color</label>
-                <div className="swatch-list">
-                  <Colors />
-                </div>
-              </div>
-            </div>
             <div className="product-single__addtocart">
               <div className="qty-control position-relative">
                 <input

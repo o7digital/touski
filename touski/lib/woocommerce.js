@@ -117,10 +117,16 @@ export async function searchProducts(query, params = {}) {
  * @returns {Object} Produit au format local
  */
 function mapWooProductToLocal(wooProduct) {
-  // Calculer le prix affiché (sale_price si existe, sinon regular_price)
-  const displayPrice = wooProduct.sale_price 
-    ? parseFloat(wooProduct.sale_price) 
-    : parseFloat(wooProduct.regular_price);
+  // Calculer le prix affiché
+  // - si promo: sale_price
+  // - sinon: regular_price
+  // - sinon (ex: produit variable): price (prix min WooCommerce)
+  const basePrice =
+    (wooProduct.sale_price && String(wooProduct.sale_price).trim()) ||
+    (wooProduct.regular_price && String(wooProduct.regular_price).trim()) ||
+    (wooProduct.price && String(wooProduct.price).trim());
+
+  const displayPrice = basePrice ? Number(basePrice) : 0;
 
   return {
     // IDs et références
@@ -136,8 +142,14 @@ function mapWooProductToLocal(wooProduct) {
     
     // Prix
     price: displayPrice,
-    regular_price: parseFloat(wooProduct.regular_price) || 0,
-    sale_price: wooProduct.sale_price ? parseFloat(wooProduct.sale_price) : null,
+    regular_price: Number(
+      (wooProduct.regular_price && String(wooProduct.regular_price).trim()) ||
+        (wooProduct.price && String(wooProduct.price).trim()) ||
+        0
+    ),
+    sale_price: wooProduct.sale_price
+      ? Number(String(wooProduct.sale_price).trim())
+      : null,
     on_sale: wooProduct.on_sale,
     
     // Images
