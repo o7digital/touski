@@ -70,7 +70,6 @@ export default function Hero() {
                   padding: '0.4em 0.9em',
                   borderRadius: '6px',
                   marginTop: '1rem',
-                  opacity: 0.7,
                   position: 'relative',
                   zIndex: 2
                 }}
