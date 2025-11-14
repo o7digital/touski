@@ -37,6 +37,18 @@ export default function Hero() {
                 className="slideshow-bg__img object-fit-cover object-position-right"
               />
             </div>
+            {/* Rectangle blanc pour cacher le texte LIVING ROOM FURNITURE et 50% OFF */}
+            <div 
+              style={{
+                position: 'absolute',
+                top: '50px',
+                left: '50px',
+                width: '600px',
+                height: '350px',
+                backgroundColor: 'rgba(255, 255, 255, 0.85)',
+                zIndex: 1
+              }}
+            ></div>
             <div className="slideshow-text container position-absolute start-50 top-50 translate-middle">
               {/** Tagline and subtitle removed per request */}
               {/* Description removed per request */}
@@ -51,6 +63,8 @@ export default function Hero() {
                   borderRadius: '6px',
                   marginTop: '1rem',
                   opacity: 0.7,
+                  position: 'relative',
+                  zIndex: 2
                 }}
               >
                 DECOUVREZ MAINTENANT NOS OFFRES CLIC ICI →
