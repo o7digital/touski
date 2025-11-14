@@ -14,8 +14,7 @@ export const footerLinks2 = [
 export const footerLinks3 = [
   { href: "/about", text: "Service client" },
   { href: "/account_dashboard", text: "Mon compte" },
-  { href: "/store_location", text: "Trouver un magasin" },
-  { href: "/terms", text: "Conditions & confidentialité" },
+  { href: "/terms", text: "Conditions générales" },
   { href: "/contact", text: "Contact" },
   { href: "/about", text: "Carte cadeau" },
 ];
