@@ -31,7 +31,7 @@ export default function HomePage8() {
         <div className="mb-5 pb-4"></div>
         <Lookbook />
         <div className="pt-1 pb-5 mt-4 mt-xl-5"></div>
-        <Brands />
+        {/* <Brands /> */}
         <div className="mb-3 mb-xl-5 pt-1 pb-4"></div>
         <Features />
       </main>
