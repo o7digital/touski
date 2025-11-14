@@ -38,25 +38,7 @@ export default function Hero() {
               />
             </div>
             <div className="slideshow-text container position-absolute start-50 top-50 translate-middle">
-              {/** Tagline removed per request */}
-              <h2 className="text-uppercase h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">
-                <span
-                  style={{
-                    display: "inline-block",
-                    backgroundColor: "rgb(239, 99, 40)",
-                    color: "#fff",
-                    paddingLeft: "0.6em",
-                    paddingRight: "0.6em",
-                    paddingTop: "max(0px, calc(0.25em - 0.15cm))",
-                    paddingBottom: "max(0px, calc(0.25em - 0.15cm))",
-                    borderRadius: "0.25rem",
-                    marginTop: "2cm",
-                    opacity: 0.7,
-                  }}
-                >
-                  {elm.subtitle}
-                </span>
-              </h2>
+              {/** Tagline and subtitle removed per request */}
               {/* Description removed per request */}
               <Link
                 href="/shop-1"
