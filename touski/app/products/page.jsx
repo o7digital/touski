@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -25,11 +26,21 @@ const categories = [
 ];
 
 export default function ProductsPage() {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState("maison");
+  const [selectedCategory, setSelectedCategory] = useState(categoryParam || "maison");
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Mettre à jour la catégorie si le paramètre URL change
+  useEffect(() => {
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
+    }
+  }, [categoryParam]);
 
   useEffect(() => {
     loadProducts();

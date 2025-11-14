@@ -2,13 +2,25 @@ import { collectionsData } from "@/data/categories";
 import React from "react";
 import Link from "next/link";
 
+// Mapping des catégories vers les filtres de la page /products
+const categoryLinks = {
+  "Fournitures": "/products?category=fournitures",
+  "Cuisine": "/products?category=cuisine",
+  "Salle de bain": "/products?category=salle-de-bain",
+  "Lighting": "/products?category=lumieres",
+  "Detergents": "/products?category=detergents",
+};
+
 export default function Collections() {
   return (
     <section className="collections-grid collections-grid_masonry gutters-20">
       <div className="h-md-100 full-width_padding-20">
         <div className="row h-md-100">
           <div className="col-lg-5 h-md-100">
-            <div className="collection-grid__item position-relative h-md-100">
+            <Link 
+              href={categoryLinks[collectionsData[0].title] || "/products"} 
+              className="collection-grid__item position-relative h-md-100 d-block text-decoration-none"
+            >
               <div
                 className="background-img"
                 style={{
@@ -31,7 +43,7 @@ export default function Collections() {
                 </h3>
               </div>
               {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}
-            </div>
+            </Link>
           </div>
           {/* <!-- /.col-md-6 --> */}
 
@@ -40,7 +52,10 @@ export default function Collections() {
               <div className="row h-md-100">
                 {collectionsData.slice(1, 3).map((elm, i) => (
                   <div key={i} className="col-md-6 h-md-100">
-                    <div className="collection-grid__item h-md-100 position-relative">
+                    <Link 
+                      href={categoryLinks[elm.title] || "/products"} 
+                      className="collection-grid__item h-md-100 position-relative d-block text-decoration-none"
+                    >
                       <div
                         className="background-img"
                         style={{ backgroundImage: `url(${elm.imageSrc})` }}
@@ -61,7 +76,7 @@ export default function Collections() {
                         </h3>
                       </div>
                       {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}
-                    </div>
+                    </Link>
                     {/* <!-- /.collection-grid__item --> */}
                   </div>
                 ))}
@@ -72,7 +87,10 @@ export default function Collections() {
               <div className="row h-md-100">
                 {collectionsData.slice(3, 5).map((elm, i) => (
                   <div key={i} className="col-md-6 h-md-100">
-                    <div className="collection-grid__item h-md-100 position-relative">
+                    <Link 
+                      href={categoryLinks[elm.title] || "/products"} 
+                      className="collection-grid__item h-md-100 position-relative d-block text-decoration-none"
+                    >
                       <div
                         className="background-img"
                         style={{ backgroundImage: `url(${elm.imageSrc})` }}
@@ -93,7 +111,7 @@ export default function Collections() {
                         </h3>
                       </div>
                       {/* <!-- /.content_abs content_top content_left content_top-md content_left-md pt-2 px-2 --> */}
-                    </div>
+                    </Link>
                     {/* <!-- /.collection-grid__item --> */}
                   </div>
                 ))}
