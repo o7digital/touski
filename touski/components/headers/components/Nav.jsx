@@ -9,27 +9,22 @@ export default function Nav() {
     <>
       <li className="navigation__item">
         <Link href="/" className={`navigation__link ${isActive("/") ? "menu-active" : ""}`}>
-          Accueil
+          ACCUEIL
         </Link>
       </li>
       <li className="navigation__item">
         <Link href="/shop-1" className={`navigation__link ${isActive("/shop-1") ? "menu-active" : ""}`}>
-          Boutique
-        </Link>
-      </li>
-      <li className="navigation__item">
-        <Link href="/blog_list1" className={`navigation__link ${isActive("/blog") ? "menu-active" : ""}`}>
-          Blog
+          BOUTIQUE
         </Link>
       </li>
       <li className="navigation__item">
         <Link href="/about" className={`navigation__link ${isActive("/about") ? "menu-active" : ""}`}>
-          Touski
+          TOUSKI
         </Link>
       </li>
       <li className="navigation__item">
         <Link href="/contact" className={`navigation__link ${isActive("/contact") ? "menu-active" : ""}`}>
-          Contacter
+          CONTACTER
         </Link>
       </li>
     </>

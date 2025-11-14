@@ -86,7 +86,8 @@ export default function Header9() {
         </div>
         {/* <!-- /.logo --> */}
 
-        <form
+        {/* Barre de recherche cachée temporairement */}
+        {/* <form
           onSubmit={(e) => e.preventDefault()}
           className="header-search search-field d-none d-xxl-flex"
         >
@@ -109,7 +110,7 @@ export default function Header9() {
             placeholder="Search products..."
           />
           <CategorySelect />
-        </form>
+        </form> */}
         {/* <!-- /.header-search --> */}
 
         <nav className="navigation mx-auto mx-xxl-0">
@@ -121,7 +122,8 @@ export default function Header9() {
         {/* <!-- /.navigation --> */}
 
         <div className="header-tools d-flex align-items-center">
-          <SearchPopup />
+          {/* SearchPopup caché */}
+          {/* <SearchPopup /> */}
           {/* <!-- /.header-tools__item hover-container --> */}
 
           <div className="header-tools__item hover-container">
@@ -161,7 +163,8 @@ export default function Header9() {
             </span>
           </a>
 
-          <a
+          {/* Menu 3 lignes caché */}
+          {/* <a
             className="header-tools__item"
             href="#"
             data-bs-toggle="modal"
@@ -178,7 +181,7 @@ export default function Header9() {
               <rect y="8" width="20" height="2" />
               <rect y="16" width="25" height="2" />
             </svg>
-          </a>
+          </a> */}
         </div>
         {/* <!-- /.header__tools --> */}
       </div>

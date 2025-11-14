@@ -13,13 +13,13 @@ import {
 
 export default function Footer8() {
   return (
-    <footer id="footer" className="footer footer_type_2 bordered">
-      <div className="footer-top container">
+    <footer id="footer" className="footer footer_type_2 bordered" style={{paddingTop: '2rem', paddingBottom: '1rem'}}>
+      <div className="footer-top container" style={{marginBottom: '1.5rem'}}>
         <div className="block-newsletter">
-          <h3 className="block__title">
+          <h3 className="block__title" style={{fontSize: '1.25rem', marginBottom: '0.5rem'}}>
             NE MANQUEZ PAS NOS OFFRES ET NOUVEAUTÉS
           </h3>
-          <p>Recevez nos nouveautés, promotions et idées pour la maison.</p>
+          <p style={{marginBottom: '1rem', fontSize: '0.9rem'}}>Recevez nos nouveautés, promotions et idées pour la maison.</p>
           <form
             onSubmit={(e) => e.preventDefault()}
             className="block-newsletter__form"
@@ -38,10 +38,10 @@ export default function Footer8() {
       </div>
       {/* <!-- /.footer-top container --> */}
 
-      <div className="footer-middle container">
+      <div className="footer-middle container" style={{paddingTop: '1rem', paddingBottom: '1rem'}}>
         <div className="row row-cols-lg-5 row-cols-2">
-          <div className="footer-column footer-store-info col-12 mb-4 mb-lg-0">
-            <p className="footer-address">
+          <div className="footer-column footer-store-info col-12 mb-3 mb-lg-0">
+            <p className="footer-address" style={{marginBottom: '0.75rem', fontSize: '0.9rem'}}>
               1030, Avenue Muguette
               <br />
               ST-ELIE-DE-CAXTON QC G0X2N0
@@ -49,10 +49,10 @@ export default function Footer8() {
               CANADA
             </p>
 
-            <p className="m-0">
-              <strong className="fw-medium">contact@touski.ca</strong>
+            <p className="m-0" style={{fontSize: '0.9rem'}}>
+              <strong className="fw-medium">contact@touski.online</strong>
             </p>
-            <p>
+            <p style={{fontSize: '0.9rem'}}>
               <strong className="fw-medium">+1&nbsp;819-701-0378</strong>
             </p>
 
@@ -110,12 +110,12 @@ export default function Footer8() {
           </div> */}
           {/* <!-- /.footer-column --> */}
 
-          <div className="footer-column footer-menu mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase">Aide</h6>
-            <ul className="sub-menu__list list-unstyled">
+          <div className="footer-column footer-menu mb-3 mb-lg-0 col-12">
+            <h6 className="sub-menu__title text-uppercase" style={{fontSize: '0.85rem', marginBottom: '0.75rem'}}>Aide</h6>
+            <ul className="sub-menu__list list-unstyled d-flex flex-wrap gap-3" style={{fontSize: '0.85rem'}}>
               {footerLinks3.map((elm, i) => (
                 <li key={i} className="sub-menu__item">
-                  <Link href={elm.href} className="menu-link menu-link_us-s">
+                  <Link href={elm.href} className="menu-link menu-link_us-s" style={{padding: '0.25rem 0'}}>
                     {elm.text}
                   </Link>
                 </li>
@@ -145,10 +145,10 @@ export default function Footer8() {
       </div>
       {/* <!-- /.footer-middle container --> */}
 
-      <div className="footer-bottom">
+      <div className="footer-bottom" style={{paddingTop: '1rem', paddingBottom: '1rem'}}>
         <div className="container d-md-flex align-items-center">
-          <span className="footer-copyright me-auto">
-            ©{new Date().getFullYear()} Touski
+          <span className="footer-copyright me-auto" style={{fontSize: '0.85rem'}}>
+            ©{new Date().getFullYear()} Touski | créé par <a href="https://o7digital.com" target="_blank" rel="noopener noreferrer" style={{color: '#FF9445', textDecoration: 'none'}}>o7Digital</a>
           </span>
           <div className="footer-settings d-md-flex align-items-center">
             <select

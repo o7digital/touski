@@ -114,19 +114,19 @@ a {
   margin-bottom: 1.25rem;
 }
 .menu-active {
-  color: #c32929 !important;
+  color: #FF9445 !important; /* Couleur orange Touski */
 }
 body {
   .nav-20.theme-color .navigation__item {
     .menu-active {
-      color: #c32929 !important;
+      color: #FF9445 !important;
     }
   }
 }
 body {
   .theme-22 .color-body .navigation__item {
     .menu-active {
-      color: #c32929 !important;
+      color: #FF9445 !important;
     }
   }
 }
@@ -138,6 +138,17 @@ body {
 .nav-link.nav-link_underscore.active,
 .nav-link.nav-link_underscore:hover {
   color: #FF9445;
+}
+
+/* Hover orange pour les catégories et sous-catégories */
+.navigation__link:hover {
+  color: #FF9445 !important;
+}
+.menu-link:hover {
+  color: #FF9445 !important;
+}
+.navigation__item:hover .navigation__link {
+  color: #FF9445 !important;
 }
 
 @media (max-width: 991px) {
