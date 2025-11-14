@@ -5,8 +5,8 @@ import Terms from "@/components/otherPages/Terms";
 import React from "react";
 
 export const metadata = {
-  title: "Terms || Uomo eCommerce React Nextjs Template",
-  description: "Uomo eCommerce React Nextjs Template",
+  title: "Politique de Confidentialité || TOUSKI",
+  description: "Politique de confidentialité et protection des données personnelles - TOUSKI",
 };
 export default function TermsPage() {
   return (
