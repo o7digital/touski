@@ -13,54 +13,34 @@ import {
 
 export default function Footer8() {
   return (
-    <footer id="footer" className="footer footer_type_2 bordered" style={{paddingTop: '2rem', paddingBottom: '1rem'}}>
-      <div className="footer-top container" style={{marginBottom: '1.5rem'}}>
-        <div className="block-newsletter">
-          <h3 className="block__title" style={{fontSize: '1.25rem', marginBottom: '0.5rem'}}>
-            NE MANQUEZ PAS NOS OFFRES ET NOUVEAUTÉS
-          </h3>
-          <p style={{marginBottom: '1rem', fontSize: '0.9rem'}}>Recevez nos nouveautés, promotions et idées pour la maison.</p>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="block-newsletter__form"
-          >
-            <input
-              className="form-control"
-              type="email"
-              name="email"
-              placeholder="Votre adresse courriel"
-            />
-            <button className="btn btn-secondary fw-medium" type="submit">
-              S&apos;INSCRIRE
-            </button>
-          </form>
-        </div>
-      </div>
-      {/* <!-- /.footer-top container --> */}
-
-      <div className="footer-middle container" style={{paddingTop: '1rem', paddingBottom: '1rem'}}>
-        <div className="row row-cols-lg-5 row-cols-2">
-          <div className="footer-column footer-store-info col-12 mb-3 mb-lg-0">
-            <p className="footer-address" style={{marginBottom: '0.75rem', fontSize: '0.9rem'}}>
-              1030, Avenue Muguette
-              <br />
-              ST-ELIE-DE-CAXTON QC G0X2N0
-              <br />
-              CANADA
+    <footer id="footer" className="footer footer_type_2" style={{backgroundColor: '#f5f5f5', borderTop: '1px solid #e0e0e0'}}>
+      <div className="footer-middle container" style={{paddingTop: '3rem', paddingBottom: '2rem'}}>
+        <div className="row">
+          {/* Logo et infos */}
+          <div className="footer-column col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <div className="mb-3" style={{backgroundColor: '#fff', padding: '0.5rem', borderRadius: '8px', display: 'inline-block'}}>
+              <Image
+                src="/assets/images/touski-logo.jpeg"
+                width={120}
+                height={120}
+                alt="Touski"
+                style={{width: '120px', height: 'auto'}}
+              />
+            </div>
+            <p className="mb-3" style={{fontSize: '0.9rem'}}>
+              Tout ce qui est nécessaire pour son chez-soi
+            </p>
+            <p className="mb-2" style={{fontSize: '0.85rem'}}>
+              <strong>contact@touski.online</strong>
+            </p>
+            <p style={{fontSize: '0.85rem'}}>
+              <strong>Service client disponible</strong>
             </p>
 
-            <p className="m-0" style={{fontSize: '0.9rem'}}>
-              <strong className="fw-medium">contact@touski.online</strong>
-            </p>
-            <p style={{fontSize: '0.9rem'}}>
-              <strong className="fw-medium">+1 819-701-0378</strong>
-            </p>
-
-            {/* Réseaux sociaux masqués temporairement */}
-            {/* <ul className="social-links list-unstyled d-flex flex-wrap mb-0">
-              {socialLinks.map((link, index) => (
+            <ul className="social-links list-unstyled d-flex gap-2 mb-0 mt-3">
+              {socialLinks.slice(0, 5).map((link, index) => (
                 <li key={index}>
-                  <a href={link.href} className="footer__social-link d-block">
+                  <a href={link.href} className="footer__social-link d-block" style={{color: '#333'}}>
                     <svg
                       className={link.className}
                       width={link.width}
@@ -77,131 +57,123 @@ export default function Footer8() {
                   </a>
                 </li>
               ))}
-            </ul> */}
+            </ul>
           </div>
-          {/* <!-- /.footer-column --> */}
 
-          {/* Colonnes Entreprise et Boutique masquées */}
-          {/* <div className="footer-column footer-menu mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase">Entreprise</h6>
+          {/* COMPANY */}
+          <div className="footer-column col-lg-2 col-md-6 mb-4 mb-lg-0">
+            <h6 className="sub-menu__title text-uppercase mb-3">COMPANY</h6>
             <ul className="sub-menu__list list-unstyled">
               {footerLinks1.map((elm, i) => (
-                <li key={i} className="sub-menu__item">
+                <li key={i} className="sub-menu__item mb-2">
                   <Link href={elm.href} className="menu-link menu-link_us-s">
                     {elm.text}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div> */}
-          {/* <!-- /.footer-column --> */}
+          </div>
 
-          {/* <div className="footer-column footer-menu mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase">Boutique</h6>
+          {/* SHOP */}
+          <div className="footer-column col-lg-2 col-md-6 mb-4 mb-lg-0">
+            <h6 className="sub-menu__title text-uppercase mb-3">SHOP</h6>
             <ul className="sub-menu__list list-unstyled">
               {footerLinks2.map((elm, i) => (
-                <li key={i} className="sub-menu__item">
+                <li key={i} className="sub-menu__item mb-2">
                   <Link href={elm.href} className="menu-link menu-link_us-s">
                     {elm.text}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div> */}
-          {/* <!-- /.footer-column --> */}
+          </div>
 
-          <div className="footer-column footer-menu mb-3 mb-lg-0 col-12">
-            <h6 className="sub-menu__title text-uppercase" style={{fontSize: '0.85rem', marginBottom: '0.75rem'}}>Aide</h6>
-            <ul className="sub-menu__list list-unstyled d-flex flex-wrap gap-3" style={{fontSize: '0.85rem'}}>
+          {/* HELP */}
+          <div className="footer-column col-lg-2 col-md-6 mb-4 mb-lg-0">
+            <h6 className="sub-menu__title text-uppercase mb-3">HELP</h6>
+            <ul className="sub-menu__list list-unstyled">
               {footerLinks3.map((elm, i) => (
-                <li key={i} className="sub-menu__item">
-                  <Link href={elm.href} className="menu-link menu-link_us-s" style={{padding: '0.25rem 0'}}>
+                <li key={i} className="sub-menu__item mb-2">
+                  <Link href={elm.href} className="menu-link menu-link_us-s">
                     {elm.text}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          {/* <!-- /.footer-column --> */}
 
-          <div className="footer-column mb-3 mb-lg-0 col-12">
-            <h6 className="sub-menu__title text-uppercase" style={{fontSize: '0.85rem', marginBottom: '0.75rem'}}>Paiements sécurisés</h6>
-            <div className="d-flex gap-3 align-items-center flex-wrap">
-              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>DISCOVER</span>
-              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>MASTERCARD</span>
-              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>PAYPAL</span>
-              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>SKRILL</span>
-              <span style={{padding: '0.25rem 0.75rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: '#333'}}>VISA</span>
+          {/* SUBSCRIBE */}
+          <div className="footer-column col-lg-3 col-md-6">
+            <h6 className="sub-menu__title text-uppercase mb-3">SUBSCRIBE</h6>
+            <p className="mb-3" style={{fontSize: '0.85rem'}}>
+              Be the first to get the latest news about trends, promotions, and much more!
+            </p>
+            <form onSubmit={(e) => e.preventDefault()} className="mb-4">
+              <div className="input-group">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Your email address"
+                  style={{fontSize: '0.85rem'}}
+                />
+                <button className="btn btn-primary" type="submit" style={{backgroundColor: '#FF9445', border: 'none', color: '#fff', fontWeight: '600'}}>
+                  Submit
+                </button>
+              </div>
+            </form>
+            
+            <h6 className="mb-2" style={{fontSize: '0.85rem', fontWeight: '600'}}>Secure payments</h6>
+            <div className="d-flex gap-2 align-items-center flex-wrap">
+              <Image src="/assets/images/payment-options/discover.png" alt="Discover" width={40} height={25} style={{objectFit: 'contain'}} />
+              <Image src="/assets/images/payment-options/mastercard.png" alt="Mastercard" width={40} height={25} style={{objectFit: 'contain'}} />
+              <Image src="/assets/images/payment-options/paypal.png" alt="PayPal" width={40} height={25} style={{objectFit: 'contain'}} />
+              <Image src="/assets/images/payment-options/stripe.png" alt="Amex" width={40} height={25} style={{objectFit: 'contain'}} />
+              <Image src="/assets/images/payment-options/visa.png" alt="Visa" width={40} height={25} style={{objectFit: 'contain'}} />
             </div>
           </div>
-          {/* <!-- /.footer-column --> */}
-
-          {/* Horaires masqués */}
-          {/* <div className="footer-column mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase">Horaires</h6>
-            <ul className="list-unstyled">
-              <li>
-                <span className="menu-link">Lun - Ven : 8h00 - 21h00</span>
-              </li>
-              <li>
-                <span className="menu-link">Samedi : 9h00 - 20h00</span>
-              </li>
-              <li>
-                <span className="menu-link">Dimanche : Fermé</span>
-              </li>
-            </ul>
-          </div> */}
-          {/* <!-- /.footer-column --> */}
         </div>
-        {/* <!-- /.row-cols-5 --> */}
       </div>
-      {/* <!-- /.footer-middle container --> */}
 
-      <div className="footer-bottom" style={{paddingTop: '1rem', paddingBottom: '1rem'}}>
-        <div className="container d-md-flex align-items-center">
-          <span className="footer-copyright me-auto" style={{fontSize: '0.85rem'}}>
-            ©{new Date().getFullYear()} Touski | créé par <a href="https://o7digital.com" target="_blank" rel="noopener noreferrer" style={{color: '#FF9445', textDecoration: 'none'}}>o7Digital</a>
-          </span>
-          <div className="footer-settings d-md-flex align-items-center">
-            <select
-              id="footerSettingsLanguage"
-              className="form-select form-select-sm bg-transparent border-0"
-              aria-label="Default select example"
-              name="store-language"
-            >
-              {languageOptions.map((option, index) => (
-                <option
-                  key={index}
-                  className="footer-select__option"
-                  value={option.value}
+      <div className="footer-bottom" style={{borderTop: '1px solid #e0e0e0', paddingTop: '1.5rem', paddingBottom: '1.5rem', backgroundColor: '#f5f5f5'}}>
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-md-6 mb-3 mb-md-0">
+              <span className="footer-copyright" style={{fontSize: '0.85rem'}}>
+                ©{new Date().getFullYear()} TOUSKI - Tout ce qui est nécessaire pour son chez-soi
+              </span>
+            </div>
+            <div className="col-md-6">
+              <div className="d-flex justify-content-md-end align-items-center gap-3">
+                <span style={{fontSize: '0.85rem'}}>Language</span>
+                <select
+                  className="form-select form-select-sm"
+                  style={{width: 'auto', fontSize: '0.85rem'}}
+                  name="store-language"
                 >
-                  {option.text}
-                </option>
-              ))}
-            </select>
-
-            <select
-              id="footerSettingsCurrency"
-              className="form-select form-select-sm bg-transparent border-0"
-              aria-label="Default select example"
-              name="store-language"
-            >
-              {currencyOptions.map((option, index) => (
-                <option
-                  key={index}
-                  className="footer-select__option"
-                  value={option.value}
+                  {languageOptions.map((option, index) => (
+                    <option key={index} value={option.value}>
+                      {option.text}
+                    </option>
+                  ))}
+                </select>
+                
+                <span style={{fontSize: '0.85rem'}}>Currency</span>
+                <select
+                  className="form-select form-select-sm"
+                  style={{width: 'auto', fontSize: '0.85rem'}}
+                  name="store-currency"
                 >
-                  {option.text}
-                </option>
-              ))}
-            </select>
+                  {currencyOptions.map((option, index) => (
+                    <option key={index} value={option.value}>
+                      {option.text}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
-          {/* <!-- /.footer-settings --> */}
         </div>
-        {/* <!-- /.container d-flex align-items-center --> */}
       </div>
-      {/* <!-- /.footer-bottom container --> */}
     </footer>
   );
 }
