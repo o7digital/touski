@@ -124,11 +124,11 @@ export default function Footer8() {
             
             <h6 className="mb-2" style={{fontSize: '0.85rem', fontWeight: '600'}}>Secure payments</h6>
             <div className="d-flex gap-2 align-items-center flex-wrap">
-              <Image src="/assets/images/payment-options/discover.png" alt="Discover" width={40} height={25} style={{objectFit: 'contain'}} />
-              <Image src="/assets/images/payment-options/mastercard.png" alt="Mastercard" width={40} height={25} style={{objectFit: 'contain'}} />
-              <Image src="/assets/images/payment-options/paypal.png" alt="PayPal" width={40} height={25} style={{objectFit: 'contain'}} />
-              <Image src="/assets/images/payment-options/stripe.png" alt="Amex" width={40} height={25} style={{objectFit: 'contain'}} />
-              <Image src="/assets/images/payment-options/visa.png" alt="Visa" width={40} height={25} style={{objectFit: 'contain'}} />
+              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#333'}}>DISCOVER</span>
+              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#333'}}>MASTERCARD</span>
+              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#333'}}>PAYPAL</span>
+              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#006FCF'}}>AMEX</span>
+              <span style={{padding: '0.3rem 0.6rem', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', color: '#1A1F71'}}>VISA</span>
             </div>
           </div>
         </div>
