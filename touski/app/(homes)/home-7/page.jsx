@@ -1,5 +1,5 @@
 import Features from "@/components/common/features/Features";
-import Footer7 from "@/components/footers/Footer7";
+import Footer8 from "@/components/footers/Footer8";
 import Header7 from "@/components/headers/Header7";
 import Hero from "@/components/homes/home-7/Hero";
 import Lookbook from "@/components/homes/home-7/Lookbook";

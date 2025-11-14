@@ -1,5 +1,5 @@
 import Brands from "@/components/common/brands/Brands";
-import Footer9 from "@/components/footers/Footer9";
+import Footer8 from "@/components/footers/Footer8";
 import Header10 from "@/components/headers/Header10";
 import Banner from "@/components/homes/home-10/Banner";
 import BestSelling from "@/components/homes/home-10/BestSelling";

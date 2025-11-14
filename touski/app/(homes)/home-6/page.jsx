@@ -1,4 +1,4 @@
-import Footer6 from "@/components/footers/Footer6";
+import Footer8 from "@/components/footers/Footer8";
 
 import Header6 from "@/components/headers/Header6";
 import CategoryMassonry from "@/components/homes/home-6/CategoryMassonry";
