@@ -4,8 +4,20 @@ import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Hero() {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith("/en");
+
+  const headline = isEnglish
+    ? "Everything you need for your home"
+    : "TOUSKI est nécessaire pour son chez-soi";
+
+  const ctaLabel = isEnglish
+    ? "DISCOVER OUR OFFERS CLICK HERE →"
+    : "DECOUVREZ MAINTENANT NOS OFFRES CLIC ICI →";
+
   const swiperOptions = {
     autoplay: false, // disable auto sliding
     allowTouchMove: false, // disable swipe left/right
@@ -57,7 +69,7 @@ export default function Hero() {
                     borderRadius: '6px',
                   }}
                 >
-                  TOUSKI est nécessaire pour son chez-soi
+                  {headline}
                 </span>
               </h2>
               <Link
@@ -74,7 +86,7 @@ export default function Hero() {
                   zIndex: 2
                 }}
               >
-                DECOUVREZ MAINTENANT NOS OFFRES CLIC ICI →
+                {ctaLabel}
               </Link>
             </div>
           </div>

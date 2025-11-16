@@ -10,8 +10,31 @@ import {
   languageOptions,
   socialLinks,
 } from "@/data/footer";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Footer8() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const isEnglish = pathname?.startsWith("/en");
+
+  const handleLanguageChange = (event) => {
+    const value = event.target.value;
+    let nextPath = pathname || "/";
+
+    if (value === "fr") {
+      if (nextPath.startsWith("/en")) {
+        nextPath = nextPath.replace(/^\/en/, "") || "/";
+      }
+    } else if (value === "en") {
+      if (!nextPath.startsWith("/en")) {
+        nextPath = nextPath === "/" ? "/en" : `/en${nextPath}`;
+      }
+    }
+
+    if (nextPath !== pathname) {
+      router.push(nextPath);
+    }
+  };
   return (
     <footer id="footer" className="footer footer_type_2" style={{backgroundColor: '#f5f5f5', borderTop: '1px solid #e0e0e0'}}>
       <div className="footer-middle container" style={{paddingTop: '3rem', paddingBottom: '2rem'}}>
@@ -184,11 +207,15 @@ export default function Footer8() {
             </div>
             <div className="col-md-6">
               <div className="d-flex justify-content-md-end align-items-center gap-3">
-                <span style={{fontSize: '0.85rem'}}>Language</span>
+                <span style={{fontSize: '0.85rem'}}>
+                  {isEnglish ? "Language" : "Langue"}
+                </span>
                 <select
                   className="form-select form-select-sm"
                   style={{width: 'auto', fontSize: '0.85rem'}}
                   name="store-language"
+                  value={isEnglish ? "en" : "fr"}
+                  onChange={handleLanguageChange}
                 >
                   {languageOptions.map((option, index) => (
                     <option key={index} value={option.value}>

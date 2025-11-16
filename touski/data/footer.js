@@ -20,8 +20,8 @@ export const footerLinks3 = [
 ];
 
 export const languageOptions = [
-  { value: "", text: "Canada | Français", selected: true },
-  { value: "1", text: "Canada | Anglais" },
+  { value: "fr", text: "Canada | Français" },
+  { value: "en", text: "Canada | Anglais" },
 ];
 
 export const languageOptions2 = [

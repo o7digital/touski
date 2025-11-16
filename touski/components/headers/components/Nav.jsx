@@ -4,24 +4,38 @@ import { usePathname } from "next/navigation";
 
 export default function Nav() {
   const pathname = usePathname();
-  const isActive = (href) => (pathname === "/" && href === "/") || pathname.startsWith(href) && href !== "/";
+  const isEnglish = pathname?.startsWith("/en");
+
+  const isActive = (href) =>
+    (pathname === "/" && href === "/") ||
+    (pathname?.startsWith(href) && href !== "/");
+
+  const links = isEnglish
+    ? [
+        { href: "/en", label: "HOME" },
+        { href: "/en/about", label: "TOUSKI" },
+        { href: "/en/contact", label: "CONTACT" },
+      ]
+    : [
+        { href: "/", label: "ACCUEIL" },
+        { href: "/about", label: "TOUSKI" },
+        { href: "/contact", label: "CONTACTER" },
+      ];
+
   return (
     <>
-      <li className="navigation__item">
-        <Link href="/" className={`navigation__link ${isActive("/") ? "menu-active" : ""}`}>
-          ACCUEIL
-        </Link>
-      </li>
-      <li className="navigation__item">
-        <Link href="/about" className={`navigation__link ${isActive("/about") ? "menu-active" : ""}`}>
-          TOUSKI
-        </Link>
-      </li>
-      <li className="navigation__item">
-        <Link href="/contact" className={`navigation__link ${isActive("/contact") ? "menu-active" : ""}`}>
-          CONTACTER
-        </Link>
-      </li>
+      {links.map((link) => (
+        <li key={link.href} className="navigation__item">
+          <Link
+            href={link.href}
+            className={`navigation__link ${
+              isActive(link.href) ? "menu-active" : ""
+            }`}
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
     </>
   );
 }

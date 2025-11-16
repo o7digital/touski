@@ -2,9 +2,12 @@
 import { useContextElement } from "@/context/Context";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 // Pas de carousel ici : on affiche une grille 4 colonnes
 
 export default function BestSellingSpocket() {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith("/en");
   const { toggleWishlist, isAddedtoWishlist } = useContextElement();
   const { addProductToCart, isAddedToCartProducts } = useContextElement();
 
@@ -116,7 +119,7 @@ export default function BestSellingSpocket() {
   return (
     <section className="products-carousel container">
       <h2 className="section-title text-center mb-3 pb-xl-3 mb-xl-4">
-        NOS MEILLEURS PRODUITS
+        {isEnglish ? "OUR BEST PRODUCTS" : "NOS MEILLEURS PRODUITS"}
       </h2>
 
       {/* Univers (ligne du haut) */}
