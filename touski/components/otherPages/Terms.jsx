@@ -7,7 +7,7 @@ export default function Terms() {
       <div 
         style={{
           position: 'fixed',
-          top: '50%',
+          top: 'calc(50% + 5cm)',
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: '700px',
