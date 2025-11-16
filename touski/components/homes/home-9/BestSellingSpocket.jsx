@@ -69,7 +69,7 @@ export default function BestSellingSpocket() {
     try {
       // Charger produits depuis WooCommerce
       const params = new URLSearchParams({
-        per_page: "50",
+        per_page: "100",
         status: "publish",
         stock_status: "instock",
       });
@@ -107,7 +107,6 @@ export default function BestSellingSpocket() {
           .filter(
             (p) => Array.isArray(p.images) && p.images.length > 0 && p.images[0]?.src
           )
-          .slice(0, 16)
       : [];
 
   return (
@@ -202,7 +201,7 @@ export default function BestSellingSpocket() {
       )}
 
       {!loading && visibleProducts.length > 0 && (
-        <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-6 g-4">
           {visibleProducts.map((product, index) => {
             const imageUrl =
               product.images?.[0]?.src || "/assets/images/products/default.jpg";
