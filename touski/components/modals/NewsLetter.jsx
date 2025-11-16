@@ -8,6 +8,9 @@ export default function NewsLetter() {
   const [shouldShow, setShouldShow] = useState(false);
 
   useEffect(() => {
+    // Vérifier si on est côté client
+    if (typeof window === 'undefined') return;
+    
     // Vérifier si l'utilisateur a déjà fermé la popup
     const hasClosedNewsletter = localStorage.getItem('newsletterClosed');
     
@@ -20,20 +23,28 @@ export default function NewsLetter() {
     setShouldShow(true);
     
     const bootstrap = require("bootstrap");
-    const myModal = new bootstrap.Modal(
-      document.getElementById("newsletterPopup"),
-      {
-        keyboard: false,
-      }
-    );
+    
+    // S'assurer que l'élément existe avant de créer le modal
+    const popupElement = document.getElementById("newsletterPopup");
+    if (!popupElement) return;
+    
+    const myModal = new bootstrap.Modal(popupElement, {
+      keyboard: false,
+    });
 
     myModal.show();
     
     // Sauvegarder quand l'utilisateur ferme la popup
-    modalElement.current.addEventListener("hidden.bs.modal", () => {
+    const handleHidden = () => {
       localStorage.setItem('newsletterClosed', 'true');
       myModal.hide();
-    });
+    };
+    
+    modalElement.current?.addEventListener("hidden.bs.modal", handleHidden);
+    
+    return () => {
+      modalElement.current?.removeEventListener("hidden.bs.modal", handleHidden);
+    };
   }, []);
 
   // Ne pas rendre le modal si l'utilisateur l'a déjà fermé
