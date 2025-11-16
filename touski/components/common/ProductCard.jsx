@@ -30,9 +30,9 @@ export default function ProductCard({ product }) {
         </Link>
       </div>
 
-      <div className="pc__info position-relative pt-3">
+      <div className="pc__info position-relative pt-3" style={{ display: 'flex', flexDirection: 'column' }}>
         {/* PRIX EN PREMIER - Style Amazon */}
-        <div className="product-card__price d-flex align-items-baseline mb-2">
+        <div className="product-card__price d-flex align-items-baseline mb-2" style={{ order: 1 }}>
           {hasDiscount ? (
             <>
               <span 
@@ -82,7 +82,8 @@ export default function ProductCard({ product }) {
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            order: 2
           }}
         >
           <Link 
