@@ -215,6 +215,11 @@ function ProductsContent() {
                     />
                   </div>
                   <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 8 }}>{title}</div>
+                  <div style={{ fontSize: 14, marginBottom: 8 }}>
+                    <span style={{ fontWeight: 700, color: "#28a745", fontSize: 18 }}>
+                      ${price || "—"}
+                    </span>
+                  </div>
                   <div style={{ color: "#666", fontSize: 14, marginBottom: 12, lineHeight: 1.4 }}>
                     {description ? (
                       <div dangerouslySetInnerHTML={{ __html: description.substring(0, 100) + "..." }} />
@@ -222,13 +227,15 @@ function ProductsContent() {
                       "Description non renseignée"
                     )}
                   </div>
-                  <div style={{ fontSize: 14, marginBottom: 8 }}>
-                    <span style={{ fontWeight: 600, color: "#28a745", fontSize: 18 }}>
-                      ${price || "—"}
-                    </span>
-                  </div>
                   <div style={{ fontSize: 12, color: "#888" }}>
-                    SKU: {sku || "—"} · Stock: {status || "—"}
+                    Référence : {sku || "—"} · Stock :{" "}
+                    {status === "instock"
+                      ? "En stock"
+                      : status === "outofstock"
+                      ? "Rupture de stock"
+                      : status === "onbackorder"
+                      ? "Sur commande"
+                      : status || "—"}
                   </div>
                 </div>
               );

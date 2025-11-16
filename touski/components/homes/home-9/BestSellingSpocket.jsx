@@ -244,7 +244,7 @@ export default function BestSellingSpocket() {
 
                   <div className="pc__info position-relative mt-2">
                     <div className="product-card__price d-flex">
-                      <span className="money price">${productPrice}</span>
+                      <span className="money price fw-bold">${productPrice}</span>
                     </div>
                     <h6 className="pc__title mt-1">
                       <Link href={`/product/${productId}`}>{productTitle}</Link>
