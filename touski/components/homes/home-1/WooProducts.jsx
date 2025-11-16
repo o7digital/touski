@@ -70,25 +70,34 @@ export default function WooProducts() {
               </div>
 
               <div className="pc__info position-relative">
-                <h6 className="pc__title">
-                  <Link href={`/product/${product.id}`}>{product.title}</Link>
-                </h6>
-                <div className="product-card__price d-flex">
+                {/* Prix en PREMIER et PLUS GRAND - Style Amazon */}
+                <div className="product-card__price d-flex align-items-baseline mb-2">
                   {product.on_sale && product.regular_price ? (
                     <>
-                      <span className="money price price-old">
-                        ${product.regular_price.toFixed(2)}
+                      <span className="money price price-sale fw-bold" style={{ fontSize: '24px', color: '#B12704' }}>
+                        {product.price.toFixed(2)}
                       </span>
-                      <span className="money price price-sale">
-                        ${product.price.toFixed(2)}
+                      <span style={{ fontSize: '24px', color: '#B12704', marginLeft: '2px' }}>$</span>
+                      <span className="money price-old text-muted ms-2" style={{ fontSize: '14px', textDecoration: 'line-through' }}>
+                        ${product.regular_price.toFixed(2)}
                       </span>
                     </>
                   ) : (
-                    <span className="money price">
-                      ${product.price.toFixed(2)}
-                    </span>
+                    <>
+                      <span className="money price fw-bold" style={{ fontSize: '24px', color: '#0F1111' }}>
+                        {product.price.toFixed(2)}
+                      </span>
+                      <span style={{ fontSize: '24px', color: '#0F1111', marginLeft: '2px' }}>$</span>
+                    </>
                   )}
                 </div>
+                
+                {/* Titre APRÈS le prix */}
+                <h6 className="pc__title" style={{ fontSize: '14px', lineHeight: '1.3', marginBottom: '8px' }}>
+                  <Link href={`/product/${product.id}`} style={{ color: '#007185', textDecoration: 'none' }}>
+                    {product.title}
+                  </Link>
+                </h6>
               </div>
             </div>
           </div>
