@@ -57,8 +57,10 @@ export default function BestSellingSpocket() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [visibleCount, setVisibleCount] = useState(24);
 
   useEffect(() => {
+    setVisibleCount(24);
     loadProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeUnivers, activeSubCategory]);
@@ -101,13 +103,15 @@ export default function BestSellingSpocket() {
     }
   }
 
-  const visibleProducts =
+  const filteredProducts =
     Array.isArray(products)
-      ? products
-          .filter(
-            (p) => Array.isArray(p.images) && p.images.length > 0 && p.images[0]?.src
-          )
+      ? products.filter(
+          (p) => Array.isArray(p.images) && p.images.length > 0 && p.images[0]?.src
+        )
       : [];
+
+  const visibleProducts = filteredProducts.slice(0, visibleCount);
+  const canShowMore = filteredProducts.length > visibleCount;
 
   return (
     <section className="products-carousel container">
@@ -275,6 +279,17 @@ export default function BestSellingSpocket() {
               </div>
             );
           })}
+        </div>
+      )}
+      {!loading && !error && canShowMore && (
+        <div className="text-center mt-4">
+          <button
+            type="button"
+            className="btn btn-outline-dark btn-lg"
+            onClick={() => setVisibleCount((prev) => prev + 24)}
+          >
+            Voir plus de produits
+          </button>
         </div>
       )}
     </section>
