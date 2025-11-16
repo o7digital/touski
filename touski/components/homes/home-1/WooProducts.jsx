@@ -6,12 +6,21 @@ import ProductCard from "@/components/common/ProductCard";
 export default function WooProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const productsPerPage = 50;
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch('/api/woocommerce/products?per_page=8');
+        setLoading(true);
+        const response = await fetch(`/api/woocommerce/products?per_page=${productsPerPage}&page=${currentPage}`);
         const data = await response.json();
+        
+        // Récupérer le total depuis les headers si disponible
+        const total = response.headers.get('X-WP-Total');
+        if (total) setTotalProducts(parseInt(total));
+        
         setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -21,9 +30,11 @@ export default function WooProducts() {
     }
     
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
-  if (loading) {
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+
+  if (loading && products.length === 0) {
     return (
       <section className="products-grid container">
         <h2 className="section-title text-center mb-3 pb-xl-2 mb-xl-4">
@@ -34,7 +45,7 @@ export default function WooProducts() {
     );
   }
 
-  if (!products.length) {
+  if (!products.length && !loading) {
     return (
       <section className="products-grid container">
         <h2 className="section-title text-center mb-3 pb-xl-2 mb-xl-4">
@@ -48,8 +59,16 @@ export default function WooProducts() {
   return (
     <section className="products-grid container">
       <h2 className="section-title text-center mb-3 pb-xl-2 mb-xl-4">
-        Nos Produits
+        Nos Produits {totalProducts > 0 && `(${totalProducts})`}
       </h2>
+
+      {loading && (
+        <div className="text-center mb-3">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Chargement...</span>
+          </div>
+        </div>
+      )}
 
       <div className="row">
         {products.map((product) => (
@@ -58,6 +77,31 @@ export default function WooProducts() {
           </div>
         ))}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-center align-items-center mt-4 gap-2">
+          <button
+            className="btn btn-sm btn-outline-primary"
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1 || loading}
+          >
+            &laquo; Précédent
+          </button>
+          
+          <span className="mx-3">
+            Page {currentPage} sur {totalPages}
+          </span>
+          
+          <button
+            className="btn btn-sm btn-outline-primary"
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages || loading}
+          >
+            Suivant &raquo;
+          </button>
+        </div>
+      )}
 
       <div className="text-center mt-4">
         <Link href="/shop-1" className="btn btn-primary">
