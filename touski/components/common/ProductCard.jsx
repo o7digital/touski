@@ -30,70 +30,59 @@ export default function ProductCard({ product }) {
         </Link>
       </div>
 
-      <div className="pc__info position-relative pt-3" style={{ display: 'flex', flexDirection: 'column' }}>
-        {/* PRIX EN PREMIER - Style Amazon */}
-        <div className="product-card__price d-flex align-items-baseline mb-2" style={{ order: 1 }}>
-          {hasDiscount ? (
-            <>
-              <span 
-                className="money price-current fw-bold" 
-                style={{ fontSize: '24px', color: '#B12704', lineHeight: '1.2' }}
-              >
-                {displayPrice}
-              </span>
-              <span 
-                className="currency-symbol" 
-                style={{ fontSize: '20px', color: '#B12704', marginLeft: '2px' }}
-              >
-                $
-              </span>
-              <span 
-                className="money price-old text-muted text-decoration-line-through ms-2" 
-                style={{ fontSize: '13px' }}
-              >
-                {regularPrice}$
-              </span>
-            </>
-          ) : (
-            <>
-              <span 
-                className="money price-current fw-bold" 
-                style={{ fontSize: '24px', color: '#0F1111', lineHeight: '1.2' }}
-              >
-                {displayPrice}
-              </span>
-              <span 
-                className="currency-symbol" 
-                style={{ fontSize: '20px', color: '#0F1111', marginLeft: '2px' }}
-              >
-                $
-              </span>
-            </>
-          )}
-        </div>
-        
-        {/* TITRE APRÈS - Style Amazon */}
-        <h6 
-          className="pc__title mb-0" 
+      {/* PRIX D'ABORD - hors du pc__info pour éviter les conflits CSS */}
+      <div className="d-flex align-items-baseline mb-2 mt-3 px-2">
+        {hasDiscount ? (
+          <>
+            <span 
+              className="fw-bold" 
+              style={{ fontSize: '28px', color: '#B12704', lineHeight: '1' }}
+            >
+              {displayPrice}
+            </span>
+            <span 
+              style={{ fontSize: '22px', color: '#B12704', marginLeft: '2px' }}
+            >
+              $
+            </span>
+            <span 
+              className="text-muted text-decoration-line-through ms-2" 
+              style={{ fontSize: '14px' }}
+            >
+              {regularPrice}$
+            </span>
+          </>
+        ) : (
+          <>
+            <span 
+              className="fw-bold" 
+              style={{ fontSize: '28px', color: '#0F1111', lineHeight: '1' }}
+            >
+              {displayPrice}
+            </span>
+            <span 
+              style={{ fontSize: '22px', color: '#0F1111', marginLeft: '2px' }}
+            >
+              $
+            </span>
+          </>
+        )}
+      </div>
+
+      {/* TITRE APRÈS - dans son propre div */}
+      <div className="px-2">
+        <Link 
+          href={`/product/${product.id}`} 
           style={{ 
-            fontSize: '14px', 
-            lineHeight: '1.4', 
-            fontWeight: '400',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            order: 2
+            color: '#007185', 
+            textDecoration: 'none',
+            fontSize: '14px',
+            lineHeight: '1.3',
+            display: 'block'
           }}
         >
-          <Link 
-            href={`/product/${product.id}`} 
-            style={{ color: '#007185', textDecoration: 'none' }}
-            className="product-title-link"
-          >
-            {product.title}
-          </Link>
-        </h6>
+          {product.title}
+        </Link>
       </div>
     </div>
   );
