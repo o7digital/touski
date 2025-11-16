@@ -9,12 +9,12 @@ import Lookbook from "@/components/homes/home-9/Lookbook";
 import React from "react";
 
 export const metadata = {
-  title: "Touski - Tout ce qui est nécessaire pour son chez-soi | Boutique Maison Québec",
-  description: "Touski, tout ce que vous avez besoin pour votre chez-soi. Découvrez nos produits malins, solutions pratiques et accessoires pour améliorer votre confort domestique. Livraison au Québec.",
-  keywords: "tout ce qui est nécessaire pour son chez-soi, tout ce que vous avez besoin pour votre chez-soi, boutique maison québec, produits maison canada, confort domestique, bien-être à la maison, accessoires maison, décoration intérieur, rangement maison, solutions pratiques maison, vivre mieux chez soi, maison confortable",
+  title: "Touski - Produits pratiques pour organiser la maison | Boutique Québec",
+  description: "Découvrez nos gadgets cuisine innovants, ustensiles pratiques et solutions rangement pour organiser votre maison facilement. Accessoires maison indispensables 2025 au Québec.",
+  keywords: "produits pratiques pour organiser la maison, organiser une petite maison facilement, gadgets cuisine innovants québec, ustensiles cuisine gain de temps, accessoires cuisine pratiques québec, rangement cuisine petit espace, organiser tiroirs cuisine québec, idées rangement maison pas cher, accessoires maison pratiques, produits maison intelligents québec, articles maison indispensables 2025, solutions rangement salle de bain, produits pratiques salle de bain, organiser le garde-manger québec, paniers rangement maison québec, accessoires maison pas chers canada, boutique maison québec en ligne, gadgets maison utiles au quotidien, organiser la maison rapidement, accessoires minimalistes maison",
   openGraph: {
-    title: "Touski - Tout pour votre chez-soi",
-    description: "Tout ce qui est bien pour votre maison. Produits malins, décoration et confort au meilleur prix.",
+    title: "Touski - Produits pratiques pour organiser la maison",
+    description: "Gadgets innovants, ustensiles pratiques et solutions rangement pour une maison bien organisée au Québec.",
     type: "website",
   },
 };

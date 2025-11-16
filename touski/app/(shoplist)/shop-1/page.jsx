@@ -7,9 +7,9 @@ import React from "react";
 import { headers } from "next/headers";
 
 export const metadata = {
-  title: "Boutique - Tous les produits pour votre chez-soi | Touski",
-  description: "Découvrez notre sélection complète d'accessoires maison, solutions rangement, décoration et produits pratiques. Tout l'essentiel pour bien vivre chez soi aux meilleurs prix.",
-  keywords: "boutique maison québec, accessoires maison, rangement cuisine, décoration intérieur, produits malins maison, solutions pratiques, ustensiles cuisine, organisateurs maison, gadgets maison, articles maison canada",
+  title: "Boutique - Gadgets cuisine et accessoires maison pratiques | Touski Québec",
+  description: "Découvrez nos gadgets cuisine innovants, ustensiles pratiques, organisateurs tiroirs et solutions rangement petits espaces. Articles maison indispensables 2025 au Québec.",
+  keywords: "produits pratiques maison, gadgets cuisine innovants, ustensiles cuisine pratiques, rangement cuisine petits espaces, organisateurs tiroirs cuisine, solutions rangement maison, articles maison indispensables, gadgets maison utiles, accessoires maison minimalistes, organisation maison rapide, boutique maison québec en ligne, gadgets maison utiles au quotidien, accessoires maison pas chers canada, paniers rangement maison québec",
 };
 function pick(obj, keys) {
   for (const k of keys) {

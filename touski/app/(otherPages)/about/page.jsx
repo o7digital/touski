@@ -7,9 +7,9 @@ import Services from "@/components/otherPages/about/Services";
 import React from "react";
 
 export const metadata = {
-  title: "À propos de Touski - Notre mission pour votre chez-soi",
-  description: "Touski, votre partenaire pour un chez-soi confortable et bien organisé. Découvrez notre philosophie : vous offrir tout ce qui est bien pour votre maison, au Québec.",
-  keywords: "touski, mission touski, boutique maison québec, améliorer son intérieur, confort maison, qualité de vie maison, bien vivre chez soi, saint-élie-de-caxton, mauricie",
+  title: "À propos de Touski - Produits pratiques pour organiser votre maison",
+  description: "Touski, votre boutique en ligne québécoise spécialisée en gadgets innovants, ustensiles pratiques et solutions rangement pour une maison bien organisée. Mission : simplifier votre quotidien.",
+  keywords: "touski, mission touski, boutique maison québec en ligne, produits pratiques pour organiser la maison, gadgets maison utiles au quotidien, organiser la maison rapidement, accessoires maison pratiques, solutions rangement maison, saint-élie-de-caxton, mauricie",
 };
 export default function AboutPage() {
   return (
