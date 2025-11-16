@@ -3,6 +3,20 @@ import React from "react";
 export default function Terms() {
   return (
     <>
+      {/* Dégradé sombre du haut vers le bas */}
+      <div 
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '300px',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)',
+          pointerEvents: 'none',
+          zIndex: 10
+        }}
+      />
+      
       {/* Logo FIXE en arrière-plan - reste au centre pendant le scroll */}
       <div 
         style={{
