@@ -6,19 +6,19 @@ export default function Terms() {
       {/* Logo en arrière-plan avec effet watermark */}
       <div 
         style={{
-          position: 'fixed',
-          top: '50%',
+          position: 'absolute',
+          top: '200px',
           left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '600px',
-          height: '600px',
-          backgroundImage: 'url(/assets/touski-watermark.png)',
+          transform: 'translateX(-50%)',
+          width: '500px',
+          height: '500px',
+          backgroundImage: 'url(/assets/touski.png)',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           backgroundSize: 'contain',
-          opacity: 0.05,
+          opacity: 0.08,
           pointerEvents: 'none',
-          zIndex: 0
+          zIndex: -1
         }}
       />
       
