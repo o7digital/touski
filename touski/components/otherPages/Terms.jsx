@@ -2,25 +2,27 @@ import React from "react";
 
 export default function Terms() {
   return (
-    <section className="container mw-930 lh-30 position-relative" style={{ minHeight: '100vh' }}>
-      {/* Logo en arrière-plan avec effet watermark */}
+    <>
+      {/* Logo FIXE en arrière-plan - reste au centre pendant le scroll */}
       <div 
         style={{
-          position: 'absolute',
-          top: '200px',
+          position: 'fixed',
+          top: '50%',
           left: '50%',
-          transform: 'translateX(-50%)',
-          width: '500px',
-          height: '500px',
+          transform: 'translate(-50%, -50%)',
+          width: '700px',
+          height: '700px',
           backgroundImage: 'url(/assets/touski.png)',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           backgroundSize: 'contain',
-          opacity: 0.08,
+          opacity: 0.15,
           pointerEvents: 'none',
-          zIndex: -1
+          zIndex: 0
         }}
       />
+      
+      <section className="container mw-930 lh-30 position-relative" style={{ zIndex: 1 }}>
       
       {/* Contenu avec position relative pour passer par-dessus le logo */}
       <div className="position-relative" style={{ zIndex: 1 }}>
@@ -250,6 +252,7 @@ export default function Terms() {
         </p>
       </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 }
