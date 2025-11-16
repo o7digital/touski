@@ -1,13 +1,26 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function NewsLetter() {
   const modalElement = useRef();
+  const [shouldShow, setShouldShow] = useState(false);
+
   useEffect(() => {
-    const bootstrap = require("bootstrap"); // dynamically import bootstrap
-    var myModal = new bootstrap.Modal(
+    // Vérifier si l'utilisateur a déjà fermé la popup
+    const hasClosedNewsletter = localStorage.getItem('newsletterClosed');
+    
+    if (hasClosedNewsletter) {
+      // Ne pas afficher la popup si déjà fermée
+      return;
+    }
+
+    // Afficher la popup
+    setShouldShow(true);
+    
+    const bootstrap = require("bootstrap");
+    const myModal = new bootstrap.Modal(
       document.getElementById("newsletterPopup"),
       {
         keyboard: false,
@@ -15,10 +28,18 @@ export default function NewsLetter() {
     );
 
     myModal.show();
+    
+    // Sauvegarder quand l'utilisateur ferme la popup
     modalElement.current.addEventListener("hidden.bs.modal", () => {
+      localStorage.setItem('newsletterClosed', 'true');
       myModal.hide();
     });
   }, []);
+
+  // Ne pas rendre le modal si l'utilisateur l'a déjà fermé
+  if (!shouldShow) {
+    return null;
+  }
 
   return (
     <div
