@@ -3,10 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 /**
- * Carte produit style Amazon
- * - Prix EN PREMIER et PLUS GRAND
- * - Signe $ APRÈS le prix
- * - Titre après le prix
+ * Carte produit style Amazon - Nov 16, 2025
+ * - Prix EN PREMIER et PLUS GRAND (24px)
+ * - Signe $ APRÈS le prix (format: 67.99$)
+ * - Titre après le prix en bleu Amazon
  */
 export default function ProductCard({ product }) {
   const hasDiscount = product.on_sale && product.regular_price;
