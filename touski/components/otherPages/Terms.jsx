@@ -16,7 +16,7 @@ export default function Terms() {
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           backgroundSize: 'contain',
-          opacity: 0.15,
+          opacity: 0.40,
           pointerEvents: 'none',
           zIndex: 0
         }}
