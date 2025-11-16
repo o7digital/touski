@@ -277,13 +277,6 @@ export default function BestSellingSpocket() {
           })}
         </div>
       )}
-      {!loading && visibleProducts.length > 0 && (
-        <div className="text-center mt-4">
-          <Link href="/products" className="btn btn-outline-dark btn-lg">
-            Voir plus de produits
-          </Link>
-        </div>
-      )}
     </section>
   );
 }
