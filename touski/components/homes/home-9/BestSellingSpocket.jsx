@@ -243,15 +243,15 @@ export default function BestSellingSpocket() {
                   </div>
 
                   <div className="pc__info position-relative mt-2">
-                    <p className="pc__category">
-                      {product.categories?.[0]?.name || "Non catégorisé"}
-                    </p>
-                    <h6 className="pc__title">
-                      <Link href={`/product/${productId}`}>{productTitle}</Link>
-                    </h6>
                     <div className="product-card__price d-flex">
                       <span className="money price">${productPrice}</span>
                     </div>
+                    <h6 className="pc__title mt-1">
+                      <Link href={`/product/${productId}`}>{productTitle}</Link>
+                    </h6>
+                    <p className="pc__category">
+                      {product.categories?.[0]?.name || "Non catégorisé"}
+                    </p>
 
                     <button
                       className={`pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist ${
@@ -275,6 +275,13 @@ export default function BestSellingSpocket() {
               </div>
             );
           })}
+        </div>
+      )}
+      {!loading && visibleProducts.length > 0 && (
+        <div className="text-center mt-4">
+          <Link href="/products" className="btn btn-outline-dark btn-lg">
+            Voir plus de produits
+          </Link>
         </div>
       )}
     </section>
