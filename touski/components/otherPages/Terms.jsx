@@ -2,10 +2,30 @@ import React from "react";
 
 export default function Terms() {
   return (
-    <section className="container mw-930 lh-30">
-      <h1 className="section-title text-uppercase fw-bold mb-3 text-center" style={{color: '#ff6b35'}}>
-        Politique de Confidentialité
-      </h1>
+    <section className="container mw-930 lh-30 position-relative">
+      {/* Logo en arrière-plan avec effet watermark */}
+      <div 
+        className="position-absolute top-50 start-50 translate-middle"
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundImage: 'url(/assets/touski-watermark.png)',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center',
+          backgroundSize: 'contain',
+          opacity: 0.08,
+          pointerEvents: 'none',
+          zIndex: 0,
+          maxWidth: '800px',
+          maxHeight: '800px'
+        }}
+      />
+      
+      {/* Contenu avec position relative pour passer par-dessus le logo */}
+      <div className="position-relative" style={{ zIndex: 1 }}>
+        <h1 className="section-title text-uppercase fw-bold mb-3 text-center" style={{color: '#ff6b35'}}>
+          Politique de Confidentialité
+        </h1>
       
       <div className="text-center mb-5">
         <p className="mb-1"><strong>9517-6806 Québec inc. (TOUSKI)</strong></p>
@@ -227,6 +247,7 @@ export default function Terms() {
           TOUSKI se réserve le droit de modifier ce document à tout moment.
           La version en vigueur est celle publiée sur <a href="https://www.touski.online" target="_blank" rel="noopener">www.touski.online</a>.
         </p>
+      </div>
       </div>
     </section>
   );
