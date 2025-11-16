@@ -1,11 +1,17 @@
-import { servicePromotions } from "@/data/features";
+"use client";
+import { servicePromotions, servicePromotionsData3 } from "@/data/features";
 import React from "react";
+import { usePathname } from "next/navigation";
 
 export default function Features() {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith("/en");
+  const items = isEnglish ? servicePromotionsData3 : servicePromotions;
+
   return (
     <section className="service-promotion container mb-md-4 pb-md-4 mb-xl-5">
       <div className="row">
-        {servicePromotions.map((elm, i) => (
+        {items.map((elm, i) => (
           <div key={i} className="col-md-4 text-center mb-5 mb-md-0">
             <div className="service-promotion__icon mb-4">
               <svg

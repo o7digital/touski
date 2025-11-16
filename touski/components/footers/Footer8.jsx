@@ -21,6 +21,12 @@ export default function Footer8() {
     const value = event.target.value;
     let nextPath = pathname || "/";
 
+    if (typeof document !== "undefined") {
+      document.cookie = `touski-lang=${value}; path=/; max-age=${
+        60 * 60 * 24 * 365
+      }`;
+    }
+
     if (value === "fr") {
       if (nextPath.startsWith("/en")) {
         nextPath = nextPath.replace(/^\/en/, "") || "/";
@@ -51,13 +57,17 @@ export default function Footer8() {
               />
             </div>
             <p className="mb-3" style={{fontSize: '0.9rem'}}>
-              Tout ce qui est nécessaire pour son chez-soi
+              {isEnglish
+                ? "Everything you need for your home"
+                : "Tout ce qui est nécessaire pour son chez-soi"}
             </p>
             <p className="mb-2" style={{fontSize: '0.85rem'}}>
               <strong>contact@touski.online</strong>
             </p>
             <p style={{fontSize: '0.85rem'}}>
-              <strong>Service client disponible</strong>
+              <strong>
+                {isEnglish ? "Customer service available" : "Service client disponible"}
+              </strong>
             </p>
 
             <ul className="social-links list-unstyled d-flex gap-2 mb-0 mt-3">
@@ -83,18 +93,26 @@ export default function Footer8() {
             </ul>
           </div>
 
-          {/* COMPAGNIE */}
+          {/* COMPAGNIE / COMPANY */}
           <div className="footer-column col-lg-2 col-md-6 mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase mb-3">COMPAGNIE</h6>
+            <h6 className="sub-menu__title text-uppercase mb-3">
+              {isEnglish ? "COMPANY" : "COMPAGNIE"}
+            </h6>
             <ul className="sub-menu__list list-unstyled">
               <li className="sub-menu__item mb-2">
-                <Link href="/about" className="menu-link menu-link_us-s">
-                  À propos
+                <Link
+                  href={isEnglish ? "/en/about" : "/about"}
+                  className="menu-link menu-link_us-s"
+                >
+                  {isEnglish ? "About" : "À propos"}
                 </Link>
               </li>
               <li className="sub-menu__item mb-2">
-                <Link href="/contact" className="menu-link menu-link_us-s">
-                  Contact
+                <Link
+                  href={isEnglish ? "/en/contact" : "/contact"}
+                  className="menu-link menu-link_us-s"
+                >
+                  {isEnglish ? "Contact" : "Contact"}
                 </Link>
               </li>
             </ul>
@@ -114,44 +132,61 @@ export default function Footer8() {
             </ul>
           </div> */}
 
-          {/* AIDE */}
+          {/* AIDE / HELP */}
           <div className="footer-column col-lg-2 col-md-6 mb-4 mb-lg-0">
-            <h6 className="sub-menu__title text-uppercase mb-3">AIDE</h6>
+            <h6 className="sub-menu__title text-uppercase mb-3">
+              {isEnglish ? "HELP" : "AIDE"}
+            </h6>
             <ul className="sub-menu__list list-unstyled">
               <li className="sub-menu__item mb-2">
-                <Link href="/contact" className="menu-link menu-link_us-s">
-                  Service client
+                <Link
+                  href={isEnglish ? "/en/contact" : "/contact"}
+                  className="menu-link menu-link_us-s"
+                >
+                  {isEnglish ? "Customer service" : "Service client"}
                 </Link>
               </li>
               <li className="sub-menu__item mb-2">
-                <Link href="/account_dashboard" className="menu-link menu-link_us-s">
-                  Mon compte
+                <Link
+                  href={isEnglish ? "/en/account_dashboard" : "/account_dashboard"}
+                  className="menu-link menu-link_us-s"
+                >
+                  {isEnglish ? "My account" : "Mon compte"}
                 </Link>
               </li>
               <li className="sub-menu__item mb-2">
-                <Link href="/terms" className="menu-link menu-link_us-s">
-                  Politiques de Confidentialité
+                <Link
+                  href={isEnglish ? "/en/terms" : "/terms"}
+                  className="menu-link menu-link_us-s"
+                >
+                  {isEnglish ? "Privacy policy" : "Politiques de Confidentialité"}
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* INFOLETTRE */}
+          {/* INFOLETTRE / NEWSLETTER */}
           <div className="footer-column col-lg-3 col-md-6">
-            <h6 className="sub-menu__title text-uppercase mb-3">INFOLETTRE</h6>
+            <h6 className="sub-menu__title text-uppercase mb-3">
+              {isEnglish ? "NEWSLETTER" : "INFOLETTRE"}
+            </h6>
             <p className="mb-3" style={{fontSize: '0.85rem'}}>
-              Soyez le premier à recevoir les dernières nouvelles sur les tendances, promotions et bien plus encore !
+              {isEnglish
+                ? "Be the first to receive news about trends, promotions and more!"
+                : "Soyez le premier à recevoir les dernières nouvelles sur les tendances, promotions et bien plus encore !"}
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="mb-4">
               <div className="input-group">
                 <input
                   type="email"
                   className="form-control"
-                  placeholder="Votre adresse courriel"
+                  placeholder={
+                    isEnglish ? "Your email address" : "Votre adresse courriel"
+                  }
                   style={{fontSize: '0.85rem'}}
                 />
                 <button className="btn btn-primary" type="submit" style={{backgroundColor: '#FF9445', border: 'none', color: '#fff', fontWeight: '600'}}>
-                  S'inscrire
+                  {isEnglish ? "Sign up" : "S'inscrire"}
                 </button>
               </div>
             </form>
@@ -202,7 +237,10 @@ export default function Footer8() {
           <div className="row align-items-center">
             <div className="col-md-6 mb-3 mb-md-0">
               <span className="footer-copyright" style={{fontSize: '0.85rem'}}>
-                ©{new Date().getFullYear()} TOUSKI - Tout ce qui est nécessaire pour son chez-soi
+                ©{new Date().getFullYear()} TOUSKI -{" "}
+                {isEnglish
+                  ? "Everything you need for your home"
+                  : "Tout ce qui est nécessaire pour son chez-soi"}
               </span>
             </div>
             <div className="col-md-6">
