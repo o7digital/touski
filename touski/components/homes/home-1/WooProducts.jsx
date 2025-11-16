@@ -17,13 +17,19 @@ export default function WooProducts() {
         const response = await fetch(`/api/woocommerce/products?per_page=${productsPerPage}&page=${currentPage}`);
         const data = await response.json();
         
+        console.log('📦 Produits chargés:', data.length);
+        console.log('🎯 Premier produit:', data[0]);
+        
         // Récupérer le total depuis les headers si disponible
         const total = response.headers.get('X-WP-Total');
-        if (total) setTotalProducts(parseInt(total));
+        if (total) {
+          setTotalProducts(parseInt(total));
+          console.log('📊 Total produits:', total);
+        }
         
         setProducts(data);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('❌ Error fetching products:', error);
       } finally {
         setLoading(false);
       }
