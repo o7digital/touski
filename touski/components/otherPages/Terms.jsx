@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Terms() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
-      {/* Dégradé sombre du haut vers le bas */}
+      {/* Dégradé sombre du haut vers le bas - s'active au scroll */}
       <div 
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
-          height: '300px',
+          height: '210px',
           background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)',
           pointerEvents: 'none',
-          zIndex: 10
+          zIndex: 10,
+          opacity: scrolled ? 1 : 0,
+          transition: 'opacity 0.5s ease'
         }}
       />
       
