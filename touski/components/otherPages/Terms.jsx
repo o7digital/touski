@@ -2,22 +2,23 @@ import React from "react";
 
 export default function Terms() {
   return (
-    <section className="container mw-930 lh-30 position-relative">
+    <section className="container mw-930 lh-30 position-relative" style={{ minHeight: '100vh' }}>
       {/* Logo en arrière-plan avec effet watermark */}
       <div 
-        className="position-absolute top-50 start-50 translate-middle"
         style={{
-          width: '100%',
-          height: '100%',
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '600px',
+          height: '600px',
           backgroundImage: 'url(/assets/touski-watermark.png)',
           backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center center',
+          backgroundPosition: 'center',
           backgroundSize: 'contain',
-          opacity: 0.08,
+          opacity: 0.05,
           pointerEvents: 'none',
-          zIndex: 0,
-          maxWidth: '800px',
-          maxHeight: '800px'
+          zIndex: 0
         }}
       />
       
