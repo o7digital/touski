@@ -267,10 +267,10 @@ export default function Footer8() {
             </div>
           </div>
           
-          {/* SEO Keywords - Hidden */}
+          {/* SEO Keywords - Visible */}
           <div className="row mt-3">
             <div className="col-12">
-              <div style={{fontSize: '0.65rem', color: '#999', lineHeight: '1.2', opacity: '0.5'}}>
+              <div style={{fontSize: '0.7rem', color: '#666', lineHeight: '1.4'}}>
                 {isEnglish ? (
                   <>
                     practical products to organize home, organize small house easily, innovative kitchen gadgets canada, 

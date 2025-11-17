@@ -23,6 +23,7 @@ import ProductDescription from "@/components/asides/ProductDescription";
 import ProductAdditionalInformation from "@/components/asides/ProductAdditionalInformation";
 import ProductReviews from "@/components/asides/ProductReviews";
 import MobileFooter1 from "@/components/footers/MobileFooter1";
+import StructuredData from "@/components/common/StructuredData";
 
 export default function RootLayout({ children }) {
   useEffect(() => {
@@ -79,6 +80,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <StructuredData />
         <Svgs />
         <Context>
           <MobileHeader />
