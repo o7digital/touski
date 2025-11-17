@@ -5,9 +5,15 @@ import LocationMap from "@/components/otherPages/Contact/LocationMap";
 import React from "react";
 
 export const metadata = {
-  title: "Contact us - Touski customer service | Canada",
+  title: "Contact us - Touski customer service | Quebec Canada",
   description:
     "Questions about our kitchen gadgets, practical tools or storage solutions? Contact the Touski team. Customer service for Canada.",
+  keywords: "contact touski, touski customer service, touski quebec contact, home products questions canada, kitchen gadgets support, storage solutions help canada",
+  openGraph: {
+    title: "Contact Touski - Customer service",
+    description: "Need help with our products? Contact our team for questions about kitchen gadgets and home organization.",
+    type: "website",
+  },
 };
 
 export default function ContactPageEn() {

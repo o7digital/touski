@@ -10,8 +10,14 @@ import WooProducts from "@/components/homes/home-1/WooProducts";
 import Link from "next/link";
 
 export const metadata = {
-  title: "TOUSKI - Tout ce qui est nécessaire pour son chez-soi",
-  description: "TOUSKI est nécessaire pour son chez Soi. Découvrez notre sélection de produits pour la maison, cuisine, salle de bain et plus encore.",
+  title: "Touski - Produits pratiques pour organiser la maison | Boutique Québec",
+  description: "Découvrez nos gadgets cuisine innovants, ustensiles pratiques et solutions rangement pour organiser votre maison facilement. Accessoires maison indispensables 2025 au Québec.",
+  keywords: "produits pratiques pour organiser la maison, organiser une petite maison facilement, gadgets cuisine innovants québec, ustensiles cuisine gain de temps, accessoires cuisine pratiques québec, rangement cuisine petit espace, organiser tiroirs cuisine québec, idées rangement maison pas cher, accessoires maison pratiques, produits maison intelligents québec, articles maison indispensables 2025, solutions rangement salle de bain, produits pratiques salle de bain, organiser le garde-manger québec, paniers rangement maison québec, accessoires maison pas chers canada, boutique maison québec en ligne, gadgets maison utiles au quotidien, organiser la maison rapidement, accessoires minimalistes maison",
+  openGraph: {
+    title: "Touski - Produits pratiques pour organiser la maison",
+    description: "Gadgets innovants, ustensiles pratiques et solutions rangement pour une maison bien organisée au Québec.",
+    type: "website",
+  },
 };
 export default function HomePage1() {
   return (

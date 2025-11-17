@@ -266,6 +266,35 @@ export default function Footer8() {
               </div>
             </div>
           </div>
+          
+          {/* SEO Keywords - Hidden */}
+          <div className="row mt-3">
+            <div className="col-12">
+              <div style={{fontSize: '0.65rem', color: '#999', lineHeight: '1.2', opacity: '0.5'}}>
+                {isEnglish ? (
+                  <>
+                    practical products to organize home, organize small house easily, innovative kitchen gadgets canada, 
+                    time-saving kitchen utensils, practical kitchen accessories quebec, small kitchen storage, 
+                    organize kitchen drawers canada, cheap home storage ideas, practical home accessories, 
+                    smart home products canada, essential home items 2025, bathroom storage solutions, 
+                    practical bathroom products, organize pantry canada, home storage baskets quebec, 
+                    affordable home accessories canada, quebec online home shop, useful everyday home gadgets, 
+                    organize home quickly, minimalist home accessories
+                  </>
+                ) : (
+                  <>
+                    produits pratiques pour organiser la maison, organiser une petite maison facilement, gadgets cuisine innovants québec,
+                    ustensiles cuisine gain de temps, accessoires cuisine pratiques québec, rangement cuisine petit espace,
+                    organiser tiroirs cuisine québec, idées rangement maison pas cher, accessoires maison pratiques,
+                    produits maison intelligents québec, articles maison indispensables 2025, solutions rangement salle de bain,
+                    produits pratiques salle de bain, organiser le garde-manger québec, paniers rangement maison québec,
+                    accessoires maison abordables canada, boutique maison québec en ligne, gadgets maison utiles au quotidien,
+                    organiser la maison rapidement, accessoires maison minimalistes
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
