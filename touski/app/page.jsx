@@ -1,11 +1,11 @@
 import HomePage9 from "./(homes)/home-9/page";
 
 export const metadata = {
-  title: "TOUSKI est nécessaire pour son chez Soi. Site Officiel",
-  description: "Nous sommes là pour votre confort à la maison et aux meilleurs prix",
+  title: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
+  description: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
   openGraph: {
-    title: "TOUSKI est nécessaire pour son chez Soi. Site Officiel",
-    description: "Nous sommes là pour votre confort à la maison et aux meilleurs prix",
+    title: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
+    description: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
     locale: "fr_FR",
     type: "website",
   },
