@@ -21,3 +21,16 @@ button[class*="add-cart"],
 .product-card__quick-add {
   display: none !important;
 }
+
+/* Masquer l'icône panier dans le header */
+.header-tools__cart,
+a.header-tools__cart,
+.js-open-aside.header-tools__cart {
+  display: none !important;
+}
+
+/* Masquer le compteur du panier */
+.cart-amount,
+.js-cart-items-count {
+  display: none !important;
+}
