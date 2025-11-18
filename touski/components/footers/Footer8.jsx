@@ -156,10 +156,10 @@ export default function Footer8() {
               </li>
               <li className="sub-menu__item mb-2">
                 <Link
-                  href={isEnglish ? "/en/terms" : "/terms"}
+                  href={isEnglish ? "/en/terms" : "/legal"}
                   className="menu-link menu-link_us-s"
                 >
-                  {isEnglish ? "Privacy policy" : "Politiques de Confidentialité"}
+                  {isEnglish ? "Privacy policy" : "Mentions légales"}
                 </Link>
               </li>
             </ul>

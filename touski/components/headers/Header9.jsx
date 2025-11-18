@@ -144,7 +144,8 @@ export default function Header9() {
             </svg>
           </Link>
 
-          <a
+          {/* Panier temporairement caché - Mode catalogue */}
+          {/* <a
             onClick={() => openCart()}
             className="header-tools__item header-tools__cart js-open-aside"
           >
@@ -161,9 +162,9 @@ export default function Header9() {
             <span className="cart-amount d-block position-absolute js-cart-items-count">
               <CartLength />
             </span>
-          </a>
+          </a> */}
 
-          {/* Menu 3 lignes caché */}
+          {/* Menu 3 lignes caché */}}
           {/* <a
             className="header-tools__item"
             href="#"

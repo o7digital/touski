@@ -1,0 +1,23 @@
+/* Mode Catalogue - Masquer temporairement tous les boutons d'achat */
+
+/* Masquer tous les boutons Add to Cart */
+.pc__atc,
+.btn-addtocart,
+.js-add-cart,
+button[class*="addtocart"],
+button[class*="add-cart"],
+.product-single__addtocart {
+  display: none !important;
+}
+
+/* Masquer le CartDrawer */
+#cartDrawer,
+.cart-drawer,
+#cartDrawerOverlay {
+  display: none !important;
+}
+
+/* Masquer Quick Add dans les cartes produits */
+.product-card__quick-add {
+  display: none !important;
+}

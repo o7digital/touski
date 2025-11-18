@@ -10,6 +10,7 @@ export default function Contact() {
           <div className="col-lg-6">
             <h3 className="mb-4">TOUSKI Canada</h3>
             <p className="mb-4">
+              <strong>Adresse / Address:</strong><br />
               1030, Avenue Muguette
               <br />
               Saint-Élie-de-Caxton QC G0X 2N0
@@ -17,9 +18,30 @@ export default function Contact() {
               Canada
             </p>
             <p className="mb-4">
+              <strong>Contact:</strong><br />
               <a href="mailto:contact@touski.online" style={{color: '#FF9445'}}>contact@touski.online</a>
               <br />
-              +1 819-701-0378
+              <a href="tel:+18197010378" style={{color: '#FF9445'}}>+1 819-701-0378</a>
+            </p>
+            <p className="mb-4">
+              <strong>Horaires / Hours:</strong><br />
+              Lundi - Vendredi: 9h - 17h<br />
+              Monday - Friday: 9am - 5pm
+            </p>
+          </div>
+          <div className="col-lg-6">
+            <h3 className="mb-4">Pourquoi nous faire confiance?</h3>
+            <p className="mb-3">
+              ✓ Entreprise québécoise établie à Saint-Élie-de-Caxton<br />
+              ✓ Service client dédié en français et anglais<br />
+              ✓ Produits sélectionnés pour leur qualité<br />
+              ✓ Livraison partout au Canada<br />
+              ✓ Satisfaction client garantie
+            </p>
+            <p className="mb-3" style={{fontSize: '0.9rem', color: '#666'}}>
+              <strong>Informations légales:</strong><br />
+              Touski est une entreprise enregistrée au Québec.<br />
+              Nous respectons toutes les normes de commerce en ligne canadiennes.
             </p>
           </div>
         </div>
@@ -28,7 +50,7 @@ export default function Contact() {
             className="needs-validation"
             onSubmit={(e) => e.preventDefault()}
           >
-            <h3 className="mb-5">Get In Touch</h3>
+            <h3 className="mb-5">Nous contacter / Get In Touch</h3>
             <div className="form-floating my-4">
               <input
                 type="text"

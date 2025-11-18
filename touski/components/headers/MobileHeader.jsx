@@ -40,7 +40,8 @@ export default function MobileHeader() {
         </div>
         {/* <!-- /.logo --> */}
 
-        <a
+        {/* Panier temporairement caché - Mode catalogue */}
+        {/* <a
           onClick={() => openCart()}
           className="header-tools__item header-tools__cart js-open-aside"
         >
@@ -57,7 +58,7 @@ export default function MobileHeader() {
           <span className="cart-amount d-block position-absolute js-cart-items-count">
             <CartLength />
           </span>
-        </a>
+        </a> */}
       </div>
       {/* <!-- /.container --> */}
 

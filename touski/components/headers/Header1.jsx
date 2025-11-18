@@ -95,7 +95,8 @@ export default function Header1() {
               </svg>
             </Link>
 
-            <a
+            {/* Panier temporairement caché - Mode catalogue */}
+            {/* <a
               onClick={() => openCart()}
               className="header-tools__item header-tools__cart js-open-aside"
             >
@@ -112,7 +113,7 @@ export default function Header1() {
               <span className="cart-amount d-block position-absolute js-cart-items-count">
                 <CartLength />
               </span>
-            </a>
+            </a> */}
 
             <a
               className="header-tools__item"
