@@ -9,7 +9,7 @@ import React from "react";
 export const metadata = {
   title: "À propos de Touski - Produits pratiques pour organiser votre maison",
   description: "Touski, votre boutique en ligne québécoise spécialisée en gadgets innovants, ustensiles pratiques et solutions rangement pour une maison bien organisée. Mission : simplifier votre quotidien.",
-  keywords: "touski, mission touski, boutique maison québec en ligne, produits pratiques pour organiser la maison, gadgets maison utiles au quotidien, organiser la maison rapidement, accessoires maison pratiques, solutions rangement maison, saint-élie-de-caxton, mauricie",
+  keywords: "produits maison saint-élie-de-caxton, boutique maison saint-élie-de-caxton, accessoires maison saint-élie-de-caxton, rangement maison saint-élie-de-caxton, boutique maison mauricie, accessoires maison mauricie, produits maison mauricie, organisation maison mauricie, organiser maison mauricie, boutique maison québec en ligne, organiser maison québec, produits pratiques maison québec, accessoires maison pratiques québec",
 };
 export default function AboutPage() {
   return (

@@ -273,23 +273,22 @@ export default function Footer8() {
               <div style={{fontSize: '0.7rem', color: '#666', lineHeight: '1.4'}}>
                 {isEnglish ? (
                   <>
-                    practical products to organize home, organize small house easily, innovative kitchen gadgets canada, 
-                    time-saving kitchen utensils, practical kitchen accessories quebec, small kitchen storage, 
-                    organize kitchen drawers canada, cheap home storage ideas, practical home accessories, 
-                    smart home products canada, essential home items 2025, bathroom storage solutions, 
-                    practical bathroom products, organize pantry canada, home storage baskets quebec, 
-                    affordable home accessories canada, quebec online home shop, useful everyday home gadgets, 
-                    organize home quickly, minimalist home accessories
+                    practical home products quebec, quebec home shop, home products saint-elie-de-caxton, 
+                    home accessories mauricie, small kitchen storage quebec, organize small house quebec, 
+                    quebec online home shop, practical kitchen accessories quebec, organize pantry canada, 
+                    home storage baskets quebec, affordable home accessories canada, practical bathroom products quebec, 
+                    storage solutions quebec, useful home gadgets quebec, canadian home products
                   </>
                 ) : (
                   <>
-                    produits pratiques pour organiser la maison, organiser une petite maison facilement, gadgets cuisine innovants québec,
-                    ustensiles cuisine gain de temps, accessoires cuisine pratiques québec, rangement cuisine petit espace,
-                    organiser tiroirs cuisine québec, idées rangement maison pas cher, accessoires maison pratiques,
-                    produits maison intelligents québec, articles maison indispensables 2025, solutions rangement salle de bain,
-                    produits pratiques salle de bain, organiser le garde-manger québec, paniers rangement maison québec,
-                    accessoires maison abordables canada, boutique maison québec en ligne, gadgets maison utiles au quotidien,
-                    organiser la maison rapidement, accessoires maison minimalistes
+                    organiser maison québec, produits maison saint-élie-de-caxton, accessoires maison mauricie, 
+                    boutique maison mauricie, organiser petite maison québec mauricie, rangement petite cuisine québec, 
+                    rangement petit appartement québec, accessoires minimalistes maison québec, organiser maison mauricie, 
+                    idées rangement maison québec, rangement maison québec pas cher, accessoires maison pratiques québec, 
+                    produits pratiques maison québec, gadgets cuisine innovants québec, ustensiles cuisine pratiques québec, 
+                    organiser tiroirs cuisine québec, solutions rangement salle de bain québec, produits pratiques salle de bain québec, 
+                    boutique maison québec en ligne, accessoires maison pas chers canada, rangement salle de bain mauricie, 
+                    organiser garde-manger mauricie, paniers rangement mauricie
                   </>
                 )}
               </div>

@@ -9,7 +9,7 @@ import React from "react";
 export const metadata = {
   title: "Contactez-nous - Service client Touski | Québec",
   description: "Questions sur nos gadgets cuisine, ustensiles pratiques ou solutions rangement ? Contactez notre équipe Touski. Service client dédié au Québec, Saint-Élie-de-Caxton.",
-  keywords: "contact touski, service client maison québec, boutique maison québec en ligne, aide achat gadgets maison, questions produits pratiques maison, livraison québec, accessoires maison pas chers canada, saint-élie-de-caxton",
+  keywords: "boutique maison saint-élie-de-caxton, accessoires maison saint-élie-de-caxton, boutique maison mauricie, accessoires maison mauricie, boutique maison québec en ligne, produits pratiques maison québec, accessoires maison pas chers canada, organiser maison québec, rangement maison québec pas cher",
 };
 export default function ContactPage() {
   return (

@@ -16,10 +16,10 @@ export function middleware(req) {
     return NextResponse.redirect(new URL("/admin", req.url));
   }
 
-  // Default language: redirect home "/" to English ("/en")
-  // only when no language is chosen yet or English is selected.
+  // Langue par défaut : la page "/" reste en français.
+  // On ne redirige vers "/en" que si l'utilisateur a déjà choisi l'anglais.
   if (pathname === "/") {
-    if (!langCookie || langCookie === "en") {
+    if (langCookie === "en") {
       const url = req.nextUrl.clone();
       url.pathname = "/en";
       const res = NextResponse.redirect(url);
@@ -37,4 +37,3 @@ export function middleware(req) {
 export const config = {
   matcher: ["/", "/admin/:path*", "/supplier/:path*", "/login"],
 };
-

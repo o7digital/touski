@@ -9,7 +9,7 @@ import { headers } from "next/headers";
 export const metadata = {
   title: "Boutique - Gadgets cuisine et accessoires maison pratiques | Touski Québec",
   description: "Découvrez nos gadgets cuisine innovants, ustensiles pratiques, organisateurs tiroirs et solutions rangement petits espaces. Articles maison indispensables 2025 au Québec.",
-  keywords: "produits pratiques maison, gadgets cuisine innovants, ustensiles cuisine pratiques, rangement cuisine petits espaces, organisateurs tiroirs cuisine, solutions rangement maison, articles maison indispensables, gadgets maison utiles, accessoires maison minimalistes, organisation maison rapide, boutique maison québec en ligne, gadgets maison utiles au quotidien, accessoires maison pas chers canada, paniers rangement maison québec",
+  keywords: "boutique maison québec en ligne, boutique maison mauricie, accessoires cuisine saint-élie-de-caxton, ustensiles cuisine mauricie, organisateurs tiroirs cuisine mauricie, rangement cuisine québec mauricie, accessoires cuisine petit espace québec, gadgets cuisine innovants québec, ustensiles cuisine pratiques québec, organiser tiroirs cuisine québec, rangement petite cuisine québec, produits pratiques maison québec, accessoires maison pratiques québec, accessoires maison pas chers canada, paniers rangement mauricie, organisation maison mauricie",
 };
 function pick(obj, keys) {
   for (const k of keys) {

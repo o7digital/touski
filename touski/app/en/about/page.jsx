@@ -9,7 +9,7 @@ export const metadata = {
   title: "About Touski - Practical products for your home | Quebec Canada",
   description:
     "Touski is an online shop from Québec focused on clever gadgets, practical tools and smart storage solutions to keep your home organized.",
-  keywords: "about touski, quebec home shop, canadian home products, practical home gadgets canada, kitchen organization quebec, home storage solutions canada, online home store quebec",
+  keywords: "home products saint-elie-de-caxton, home accessories mauricie, quebec home shop, quebec online home shop, practical home products quebec, canadian home products, storage solutions quebec, organize small house quebec, practical kitchen accessories quebec, useful home gadgets quebec",
   openGraph: {
     title: "About Touski - Your home organization partner",
     description: "Quebec online shop specialized in practical products and smart solutions for home organization.",
