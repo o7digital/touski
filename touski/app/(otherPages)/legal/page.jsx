@@ -13,7 +13,26 @@ export default function LegalPage() {
     <>
       <Header1 />
       <main className="page-wrapper">
-        <div className="mb-4 pb-4"></div>
+        <section className="container mb-5">
+          <div className="position-relative overflow-hidden rounded-3">
+            <Image
+              src="/assets/touski-original.png"
+              alt="Touski - maison et essentiels"
+              width={1920}
+              height={1080}
+              className="w-100 h-auto d-block"
+              style={{ objectFit: "cover" }}
+              priority
+            />
+            <div
+              className="position-absolute top-50 start-50 translate-middle text-center text-white px-3"
+              style={{ textShadow: "0 2px 12px rgba(0,0,0,0.35)" }}
+            >
+              <h1 className="display-6 mb-2">Mentions Légales</h1>
+              <p className="mb-0">TOUSKI | Québec | Transparence & conformité</p>
+            </div>
+          </div>
+        </section>
         <section className="container mw-930">
           <h1 className="page-title mb-4">Mentions Légales</h1>
           
