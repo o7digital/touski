@@ -1,6 +1,7 @@
 import Footer8 from "@/components/footers/Footer8";
 import Header1 from "@/components/headers/Header1";
 import React from "react";
+import Image from "next/image";
 
 export const metadata = {
   title: "Mentions légales - Touski | Québec",
