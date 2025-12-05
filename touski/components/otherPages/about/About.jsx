@@ -13,7 +13,7 @@ export default function About() {
             style={{ height: "fit-content" }}
             loading="lazy"
             className="w-100 h-auto d-block"
-            src="/assets/touski-original.png"
+            src="/assets/images/touski-original.png"
             width="1920"
             height="1080"
             alt="TOUSKI - Tout ce qui est nécessaire pour son chez-soi"
@@ -71,7 +71,7 @@ export default function About() {
               style={{ height: "fit-content" }}
               className="h-auto"
               loading="lazy"
-              src="/assets/touski-original.png"
+              src="/assets/images/touski-original.png"
               width="800"
               height="800"
               alt="Univers Touski"
