@@ -1,7 +1,6 @@
 import Footer8 from "@/components/footers/Footer8";
 import Header1 from "@/components/headers/Header1";
 import React from "react";
-import Image from "next/image";
 
 export const metadata = {
   title: "Mentions légales - Touski | Québec",
@@ -13,18 +12,18 @@ export default function LegalPage() {
   return (
     <>
       <Header1 />
-      <main className="page-wrapper">
+      <main className="page-wrapper" style={{ position: "relative", zIndex: 1 }}>
         <section className="container mb-5">
-          <div className="position-relative overflow-hidden rounded-3">
-            <Image
-              src="/assets/touski-original.png"
-              alt="Touski - maison et essentiels"
-              width={1920}
-              height={1080}
-              className="w-100 h-auto d-block"
-              style={{ objectFit: "cover" }}
-              priority
-            />
+          <div
+            className="position-relative overflow-hidden rounded-3"
+            style={{
+              backgroundImage: "url(/assets/touski-original.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              minHeight: 320,
+            }}
+            aria-hidden="true"
+          >
             <div
               className="position-absolute top-50 start-50 translate-middle text-center text-white px-3"
               style={{ textShadow: "0 2px 12px rgba(0,0,0,0.35)" }}
