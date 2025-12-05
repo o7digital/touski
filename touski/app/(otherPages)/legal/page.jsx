@@ -13,27 +13,7 @@ export default function LegalPage() {
     <>
       <Header1 />
       <main className="page-wrapper" style={{ position: "relative", zIndex: 1 }}>
-        <section className="container mb-5">
-          <div
-            className="position-relative overflow-hidden rounded-3"
-            style={{
-              backgroundImage: "url(/assets/touski-original.png)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              minHeight: 320,
-            }}
-            aria-hidden="true"
-          >
-            <div
-              className="position-absolute top-50 start-50 translate-middle text-center text-white px-3"
-              style={{ textShadow: "0 2px 12px rgba(0,0,0,0.35)" }}
-            >
-              <h1 className="display-6 mb-2">Mentions Légales</h1>
-              <p className="mb-0">TOUSKI | Québec | Transparence & conformité</p>
-            </div>
-          </div>
-        </section>
-        <section className="container mw-930">
+        <section className="container mw-930 pt-4">
           <h1 className="page-title mb-4">Mentions Légales</h1>
           
           <div className="mb-5">
