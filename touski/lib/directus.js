@@ -66,10 +66,7 @@ async function getAuthHeader(accessToken) {
   return {};
 }
 
-export async function getProducts({ filter, fields, limit } = {}, accessToken) {
-  if (!DIRECTUS_URL) {
-    throw new Error('Directus URL manquante: définis NEXT_PUBLIC_DIRECTUS_URL (ou DIRECTUS_URL) sur Vercel.');
-  }
+function buildParams({ filter, fields, limit } = {}) {
   const params = new URLSearchParams();
   if (fields) params.set("fields", fields);
   if (typeof limit === "number") params.set("limit", String(limit));
@@ -84,11 +81,20 @@ export async function getProducts({ filter, fields, limit } = {}, accessToken) {
       }
     }
   }
+  return params;
+}
+
+async function fetchCollection(collectionCandidates, options = {}, accessToken) {
+  if (!DIRECTUS_URL) {
+    throw new Error(
+      "Directus URL manquante: définis NEXT_PUBLIC_DIRECTUS_URL (ou DIRECTUS_URL) sur Vercel."
+    );
+  }
+  const params = buildParams(options);
   const authHeader = await getAuthHeader(accessToken);
 
-  const candidates = ["products", "Products", "product", "Product"];
   let lastErr = null;
-  for (const col of candidates) {
+  for (const col of collectionCandidates) {
     const res = await fetch(`${DIRECTUS_URL}/items/${col}?${params.toString()}`, {
       headers: authHeader,
       cache: 'no-store',
@@ -99,4 +105,54 @@ export async function getProducts({ filter, fields, limit } = {}, accessToken) {
     if (res.status !== 404) break; // if not found, try next candidate; else stop on other errors
   }
   throw new Error(lastErr || "Failed to fetch products");
+}
+
+export async function getProducts(opts = {}, accessToken) {
+  return fetchCollection(["products", "Products", "product", "Product"], opts, accessToken);
+}
+
+export async function getPropriedades(opts = {}, accessToken) {
+  return fetchCollection(
+    ["propriedades", "Propriedades", "properties", "Properties", "property", "Property"],
+    opts,
+    accessToken
+  );
+}
+
+export async function directusLogin(email, password) {
+  if (!DIRECTUS_URL) {
+    throw new Error(
+      "Directus URL manquante: définis NEXT_PUBLIC_DIRECTUS_URL (ou DIRECTUS_URL) sur Vercel."
+    );
+  }
+  const res = await fetch(`${DIRECTUS_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+    cache: "no-store",
+  });
+  const json = await safeJson(res);
+  const data = json?.data || json;
+  if (!res.ok || !data?.access_token) {
+    const message = data?.errors?.[0]?.message || `Login failed (${res.status})`;
+    throw new Error(message);
+  }
+  const access_token = cleanToken(data.access_token);
+  const refresh_token = cleanToken(data.refresh_token);
+  const expires = data.expires || data.expires_at;
+  return { access_token, refresh_token, expires };
+}
+
+export async function directusMe(accessToken) {
+  if (!DIRECTUS_URL) return { data: null };
+  const headers = await getAuthHeader(accessToken);
+  const res = await fetch(`${DIRECTUS_URL}/users/me`, {
+    headers,
+    cache: "no-store",
+  });
+  const json = await safeJson(res);
+  if (!res.ok) {
+    return { data: null, error: json?.errors?.[0]?.message || `${res.status} ${res.statusText}` };
+  }
+  return json;
 }
