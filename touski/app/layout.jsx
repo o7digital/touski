@@ -53,6 +53,9 @@ export default function RootLayout({ children, langOverride }) {
           }}
         />
         
+        {/* Cookiebot */}
+        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="49f564fb-d021-4c07-ba93-f40eadc00ece" data-blockingmode="auto" type="text/javascript"></script>
+        
         {/* Mode catalogue - CSS temporaire */}
         <link rel="stylesheet" href="/assets/css/catalog-mode.css" />
         
