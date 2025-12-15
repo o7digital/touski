@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 export default function MobileNav() {
   const pathname = usePathname();
+  const isEnglish = pathname?.startsWith("/en");
   const isActive = (href) => (pathname === "/" && href === "/") || (href !== "/" && pathname.startsWith(href));
 
   useEffect(() => {
@@ -155,8 +156,11 @@ export default function MobileNav() {
         </Link>
       </li>
       <li className="navigation__item">
-        <Link href="/contact" className={`navigation__link ${isActive("/contact") ? "menu-active" : ""}`}>
-          CONTACTER
+        <Link
+          href={isEnglish ? "/en/contact" : "/contact"}
+          className={`navigation__link ${isActive(isEnglish ? "/en/contact" : "/contact") ? "menu-active" : ""}`}
+        >
+          {isEnglish ? "CONTACT" : "CONTACTER"}
         </Link>
       </li>
     </>

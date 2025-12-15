@@ -1,14 +1,16 @@
 import HomePage9 from "../(homes)/home-9/page";
 
 export const metadata = {
-  title: "Everything you need for your home. Home products",
+  title: "Home comfort solutions for cold climates | TOUSKI",
   description:
-    "Everything you need for your home. Home products",
-  keywords: "practical home products quebec, quebec home shop, home products saint-elie-de-caxton, home accessories mauricie, small kitchen storage quebec, organize small house quebec, quebec online home shop, practical kitchen accessories quebec, organize pantry canada, home storage baskets quebec, affordable home accessories canada, practical bathroom products quebec, storage solutions quebec, useful home gadgets quebec, canadian home products",
+    "TOUSKI offers solutions to improve indoor warmth, insulation and everyday well-being at home. Practical ideas for comfort in cold climates.",
+  alternates: {
+    canonical: "https://touski.online/en",
+  },
   openGraph: {
-    title: "Touski - Practical products to organize your home",
+    title: "Home comfort solutions for cold climates | TOUSKI",
     description:
-      "Innovative gadgets, practical utensils and storage solutions for a well-organized home in Canada.",
+      "TOUSKI curates practical solutions to improve indoor warmth, insulation and everyday well-being at home.",
     type: "website",
   },
 };
@@ -16,4 +18,3 @@ export const metadata = {
 export default function HomeEn() {
   return <HomePage9 />;
 }
-

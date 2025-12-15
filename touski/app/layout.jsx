@@ -26,7 +26,7 @@ import MobileFooter1 from "@/components/footers/MobileFooter1";
 import StructuredData from "@/components/common/StructuredData";
 import ComingSoonBanner from "@/components/common/ComingSoonBanner";
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, langOverride }) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Import the script only on the client side
@@ -35,8 +35,10 @@ export default function RootLayout({ children }) {
       });
     }
   }, []);
+  const lang = langOverride === "en" ? "en" : "fr";
+
   return (
-    <html lang="fr">
+    <html lang={lang}>
       <head>
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-FW57HGMYNC"></script>
