@@ -80,7 +80,17 @@ export default function Hero() {
                   lineHeight: 1.1,
                 }}
               >
-                {headline}
+                <span
+                  style={{
+                    display: "inline-block",
+                    backgroundColor: "rgb(239, 99, 40)",
+                    color: "#fff",
+                    padding: "0.4em 0.65em",
+                    borderRadius: "6px",
+                  }}
+                >
+                  {headline}
+                </span>
               </h2>
               <p
                 className="animate animate_fade animate_btt animate_delay-6"
@@ -88,6 +98,7 @@ export default function Hero() {
                   fontSize: "1.05rem",
                   marginBottom: "1rem",
                   maxWidth: "460px",
+                  color: "#fff",
                 }}
               >
                 {subline}
