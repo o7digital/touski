@@ -185,6 +185,23 @@ export default function TeletravailBienEtrePage() {
             au service d’un usage quotidien plus serein.
           </p>
         </section>
+        <section className="container mw-930 pb-5">
+          <h2>Un environnement domestique équilibré</h2>
+          <p>
+            Le bien-être en télétravail dépend directement
+            de la qualité de l’environnement intérieur.
+            Chaleur, isolation et ambiance jouent un rôle clé.
+          </p>
+          <p>
+            Pour une vision complète, découvrez également nos contenus
+            sur la
+            <a href="/chaleur-confort">chaleur et le confort intérieur</a>,
+            l’
+            <a href="/isolation-protection">isolation de la maison</a>
+            et le
+            <a href="/cocooning-maison">cocooning à domicile</a>.
+          </p>
+        </section>
       </main>
       <div className="mb-5 pb-xl-5"></div>
       <Footer8 />

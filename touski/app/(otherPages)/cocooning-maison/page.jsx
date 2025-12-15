@@ -214,6 +214,21 @@ export default function CocooningMaisonPage() {
             dans la durée.
           </p>
         </section>
+        <section className="container mw-930 pb-5">
+          <h2>Le cocooning dans une vision globale du confort</h2>
+          <p>
+            Le cocooning est l’aboutissement naturel
+            d’un intérieur bien pensé et confortable.
+          </p>
+          <p>
+            Il repose sur une combinaison harmonieuse de
+            <a href="/chaleur-confort">chaleur intérieure</a>,
+            d’
+            <a href="/isolation-protection">isolation efficace</a>
+            et de
+            <a href="/teletravail-bien-etre">bien-être au quotidien</a>.
+          </p>
+        </section>
       </main>
       <div className="mb-5 pb-xl-5"></div>
       <Footer8 />

@@ -198,6 +198,21 @@ export default function IsolationProtectionPage() {
             quotidien.
           </p>
         </section>
+        <section className="container mw-930 pb-5">
+          <h2>Une approche globale du confort intérieur</h2>
+          <p>
+            L’isolation et la protection de la maison contribuent directement
+            à la qualité du confort thermique et au bien-être quotidien.
+          </p>
+          <p>
+            Cette approche est étroitement liée aux notions de
+            <a href="/chaleur-confort">chaleur intérieure</a>,
+            de
+            <a href="/teletravail-bien-etre">confort en télétravail</a>
+            et de
+            <a href="/cocooning-maison">bien-être à la maison</a>.
+          </p>
+        </section>
       </main>
       <div className="mb-5 pb-xl-5"></div>
       <Footer8 />

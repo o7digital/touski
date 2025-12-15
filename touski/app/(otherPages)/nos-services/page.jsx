@@ -109,6 +109,20 @@ export default function NosServicesPage() {
             et de garantir une expérience cohérente, loin des tendances éphémères.
           </p>
         </section>
+        <section className="container mw-930 pb-5">
+          <h2>Nos domaines d’intervention</h2>
+          <p>
+            Les services TOUSKI s’articulent autour de plusieurs axes complémentaires
+            visant à améliorer le confort global de la maison.
+            Chaque approche répond à un besoin spécifique du quotidien.
+          </p>
+          <ul>
+            <li><a href="/chaleur-confort">Chaleur et confort intérieur</a></li>
+            <li><a href="/isolation-protection">Isolation et protection de la maison</a></li>
+            <li><a href="/teletravail-bien-etre">Télétravail et bien-être à domicile</a></li>
+            <li><a href="/cocooning-maison">Cocooning et qualité de vie à la maison</a></li>
+          </ul>
+        </section>
       </main>
       <div className="mb-5 pb-xl-5"></div>
       <Footer8 />

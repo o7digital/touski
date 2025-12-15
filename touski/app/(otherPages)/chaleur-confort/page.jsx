@@ -200,6 +200,23 @@ export default function ChaleurConfortPage() {
             utiles, durables et adaptées aux réalités du foyer.
           </p>
         </section>
+        <section className="container mw-930 pb-5">
+          <h2>Aller plus loin dans le confort de la maison</h2>
+          <p>
+            La chaleur intérieure est un pilier essentiel du confort domestique.
+            Elle s’inscrit dans une approche globale qui inclut également
+            l’isolation, le bien-être et l’aménagement des espaces.
+          </p>
+          <p>
+            Pour approfondir ces aspects, consultez nos pages dédiées à
+            l’
+            <a href="/isolation-protection">isolation de la maison</a>,
+            au
+            <a href="/teletravail-bien-etre">bien-être en télétravail</a>
+            et au
+            <a href="/cocooning-maison">cocooning à domicile</a>.
+          </p>
+        </section>
       </main>
       <div className="mb-5 pb-xl-5"></div>
       <Footer8 />
