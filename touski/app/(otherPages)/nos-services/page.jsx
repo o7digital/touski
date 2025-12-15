@@ -55,6 +55,60 @@ export default function NosServicesPage() {
             avec un faible taux de retour, afin de garantir une expérience fiable et satisfaisante.
           </p>
         </section>
+        <section className="container mw-930 pb-5">
+          <h2>Pourquoi le confort de la maison est devenu essentiel</h2>
+          <p>
+            Le confort à la maison n’est plus un luxe, mais une nécessité.
+            Entre le télétravail, le temps passé à l’intérieur et les contraintes climatiques,
+            l’environnement domestique joue un rôle direct sur le bien-être, la concentration
+            et la qualité de vie.
+          </p>
+          <p>
+            Une maison confortable permet de mieux gérer les variations de température,
+            de limiter les sensations d’inconfort et de créer un espace propice au repos
+            comme à l’activité quotidienne.
+          </p>
+        </section>
+
+        <section className="container mw-930 pb-5">
+          <h2>Une approche centrée sur l’usage réel</h2>
+          <p>
+            Chez TOUSKI, les services et les solutions proposées sont pensés à partir
+            de situations concrètes de la vie quotidienne.
+            Nous analysons les besoins réels liés à l’habitat, au travail à domicile
+            et au confort intérieur afin de proposer des solutions réellement utiles.
+          </p>
+          <p>
+            Cette approche permet d’éviter les produits superflus et de privilégier
+            des solutions simples, efficaces et durables pour la maison.
+          </p>
+        </section>
+
+        <section className="container mw-930 pb-5">
+          <h2>Des solutions adaptées aux différents espaces de vie</h2>
+          <p>
+            Les besoins en confort ne sont pas les mêmes selon les espaces.
+            Salon, chambre, bureau à domicile ou espaces polyvalents nécessitent
+            des solutions adaptées à leur usage.
+          </p>
+          <p>
+            TOUSKI prend en compte ces différences afin de proposer des services
+            et des solutions cohérentes avec les réalités de chaque pièce de la maison.
+          </p>
+        </section>
+
+        <section className="container mw-930 pb-5">
+          <h2>Une vision durable du confort domestique</h2>
+          <p>
+            L’amélioration du confort de la maison s’inscrit dans une logique durable.
+            Il s’agit de privilégier des solutions fiables, conçues pour durer,
+            et capables d’apporter un bénéfice réel dans le temps.
+          </p>
+          <p>
+            Cette vision permet de construire une relation de confiance avec les utilisateurs
+            et de garantir une expérience cohérente, loin des tendances éphémères.
+          </p>
+        </section>
       </main>
       <div className="mb-5 pb-xl-5"></div>
       <Footer8 />
