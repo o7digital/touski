@@ -11,12 +11,16 @@ export default function Hero() {
   const isEnglish = pathname?.startsWith("/en");
 
   const headline = isEnglish
-    ? "Everything you need for your home"
-    : "TOUSKI est nécessaire pour son chez-soi";
+    ? "Happy Holidays from TOUSKI"
+    : "Joyeuses Fêtes de TOUSKI";
+
+  const subline = isEnglish
+    ? "Cozy gifts and practical home essentials for every room."
+    : "Cadeaux chaleureux et essentiels pratiques pour chaque pièce.";
 
   const ctaLabel = isEnglish
-    ? "DISCOVER OUR OFFERS CLICK HERE →"
-    : "DECOUVREZ MAINTENANT NOS OFFRES CLIC ICI →";
+    ? "Explore holiday offers →"
+    : "Découvrir les offres des Fêtes →";
 
   const swiperOptions = {
     autoplay: false, // disable auto sliding
@@ -39,51 +43,66 @@ export default function Hero() {
       {slidesData4.map((elm, i) => (
         <SwiperSlide key={i} className="swiper-slide">
           <div className="overflow-hidden position-relative h-100">
-            <div className="slideshow-bg">
+            <div className="slideshow-bg position-relative">
+              <div
+                className="position-absolute top-0 start-0 w-100 h-100"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 35%, rgba(0,0,0,0.1) 65%, rgba(0,0,0,0) 100%)",
+                  zIndex: 1,
+                }}
+              />
               <Image
                 loading="lazy"
                 src={elm.imageSrc}
                 width="1863"
                 height="700"
-                alt="image"
-                className="slideshow-bg__img object-fit-cover object-position-right"
+                alt={elm.imageAlt || "image"}
+                className="slideshow-bg__img object-fit-cover"
+                style={{ objectPosition: "center" }}
               />
             </div>
-            <div className="slideshow-text container position-absolute start-50 top-50 translate-middle">
+            <div
+              className="slideshow-text container position-absolute top-50 translate-middle-y"
+              style={{
+                left: "clamp(1rem, 6vw, 4.5rem)",
+                maxWidth: "520px",
+                zIndex: 2,
+                color: "#fff",
+              }}
+            >
               {/* Texte hero TOUSKI */}
-              <h2 
-                className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-5"
+              <h2
+                className="fw-bold animate animate_fade animate_btt animate_delay-5"
                 style={{
-                  fontSize: '2.5rem',
-                  marginBottom: '1rem',
-                  position: 'relative',
-                  zIndex: 2
+                  fontSize: "2.5rem",
+                  marginBottom: "0.75rem",
+                  lineHeight: 1.1,
                 }}
               >
-                <span
-                  style={{
-                    display: 'inline-block',
-                    backgroundColor: 'rgb(239, 99, 40)',
-                    color: '#fff',
-                    padding: '0.4em 0.9em',
-                    borderRadius: '6px',
-                  }}
-                >
-                  {headline}
-                </span>
+                {headline}
               </h2>
+              <p
+                className="animate animate_fade animate_btt animate_delay-6"
+                style={{
+                  fontSize: "1.05rem",
+                  marginBottom: "1rem",
+                  maxWidth: "460px",
+                }}
+              >
+                {subline}
+              </p>
               <Link
                 href="/products"
                 className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-7"
                 style={{
-                  display: 'inline-block',
-                  backgroundColor: 'rgb(239, 99, 40)',
-                  color: '#fff',
-                  padding: '0.4em 0.9em',
-                  borderRadius: '6px',
-                  marginTop: '1rem',
-                  position: 'relative',
-                  zIndex: 2
+                  display: "inline-block",
+                  backgroundColor: "rgb(239, 99, 40)",
+                  color: "#fff",
+                  padding: "0.55em 1.2em",
+                  borderRadius: "6px",
+                  marginTop: "0.25rem",
+                  letterSpacing: "0.03em",
                 }}
               >
                 {ctaLabel}

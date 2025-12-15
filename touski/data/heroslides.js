@@ -286,11 +286,11 @@ export const slidesData3 = [
 export const slidesData4 = [
   {
     id: 1,
-    imageSrc: "/assets/images/hero.jpg",
-    imageAlt: "Ambiance lumineuse",
-    subtitle: "Touski est pour son chez soi ...",
+    imageSrc: "/assets/images/hero-holiday.jpg",
+    imageAlt: "Décor de fêtes chaleureux avec cadeaux et sapin",
+    subtitle: "Joyeuses Fêtes",
     description:
-      "Decouvrez notre nouvelle collection deco naturelle pour illuminer votre salon.",
+      "Ambiance de fin d'année, cadeaux et déco cosy pour la maison.",
   },
 ];
 export const slidesData5 = [
