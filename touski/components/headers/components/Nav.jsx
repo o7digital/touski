@@ -14,11 +14,13 @@ export default function Nav() {
     ? [
         { href: "/en", label: "HOME" },
         { href: "/en/about", label: "TOUSKI" },
+        { href: "/nos-services", label: "NOS SERVICES" },
         { href: "/en/contact", label: "CONTACT" },
       ]
     : [
         { href: "/", label: "ACCUEIL" },
         { href: "/about", label: "TOUSKI" },
+        { href: "/nos-services", label: "NOS SERVICES" },
         { href: "/contact", label: "CONTACTER" },
       ];
 

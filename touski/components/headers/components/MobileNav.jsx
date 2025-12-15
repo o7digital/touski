@@ -150,6 +150,11 @@ export default function MobileNav() {
         </Link>
       </li>
       <li className="navigation__item">
+        <Link href="/nos-services" className={`navigation__link ${isActive("/nos-services") ? "menu-active" : ""}`}>
+          NOS SERVICES
+        </Link>
+      </li>
+      <li className="navigation__item">
         <Link href="/contact" className={`navigation__link ${isActive("/contact") ? "menu-active" : ""}`}>
           CONTACTER
         </Link>
