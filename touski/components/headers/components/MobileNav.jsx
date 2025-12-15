@@ -150,8 +150,8 @@ export default function MobileNav() {
         </Link>
       </li>
       <li className="navigation__item">
-        <Link href="/nos-services" className={`navigation__link ${isActive("/nos-services") ? "menu-active" : ""}`}>
-          NOS SERVICES
+        <Link href={isEnglish ? "/en/nos-services" : "/nos-services"} className={`navigation__link ${isActive(isEnglish ? "/en/nos-services" : "/nos-services") ? "menu-active" : ""}`}>
+          {isEnglish ? "OUR SERVICES" : "NOS SERVICES"}
         </Link>
       </li>
       <li className="navigation__item">

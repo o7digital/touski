@@ -99,7 +99,7 @@ export default function RootLayout({ children }) {
       <body>
         <StructuredData />
         <Svgs />
-        <ComingSoonBanner />
+        {/* ComingSoonBanner désactivé */}
         <Context>
           <MobileHeader />
           {children}

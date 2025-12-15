@@ -14,7 +14,7 @@ export default function Nav() {
     ? [
         { href: "/en", label: "HOME" },
         { href: "/en/about", label: "TOUSKI" },
-        { href: "/nos-services", label: "NOS SERVICES" },
+        { href: "/en/nos-services", label: "OUR SERVICES" },
         { href: "/en/contact", label: "CONTACT" },
       ]
     : [
