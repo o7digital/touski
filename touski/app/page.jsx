@@ -6,8 +6,15 @@ export const metadata = {
   openGraph: {
     title: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
     description: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
-    locale: "fr_FR",
+    locale: "fr_CA",
     type: "website",
+  },
+  alternates: {
+    canonical: "https://touski.online",
+    languages: {
+      'fr-CA': 'https://touski.online',
+      'en-CA': 'https://touski.online/en',
+    },
   },
 };
 export default function Home() {

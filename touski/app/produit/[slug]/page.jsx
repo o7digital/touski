@@ -2,15 +2,15 @@ import Header1 from "@/components/headers/Header1";
 import Footer8 from "@/components/footers/Footer8";
 import SingleProduct12 from "@/components/singleProduct/SingleProduct12";
 import ProductStructuredData from "@/components/common/ProductStructuredData";
-import { getProduct } from "@/lib/woocommerce";
+import { getProductBySlug } from "@/lib/woocommerce";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 // Générer les métadonnées dynamiquement pour le SEO
 export async function generateMetadata({ params }) {
-  const { id } = await params;
-  const product = await getProduct(id);
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return {
@@ -20,12 +20,12 @@ export async function generateMetadata({ params }) {
   }
 
   const title = `${product.title} | Touski Québec`;
-  const description = product.shortDescription 
-    ? product.shortDescription.replace(/<[^>]*>/g, '').substring(0, 155) 
+  const description = product.short_description 
+    ? product.short_description.replace(/<[^>]*>/g, '').substring(0, 155) 
     : `Achetez ${product.title} chez Touski. Livraison au Québec et Canada.`;
   
-  const imageUrl = product.images?.[0] || '/assets/images/touski-logo.jpeg';
-  const price = product.salePrice || product.price;
+  const imageUrl = product.images?.[0]?.src || '/assets/images/touski-logo.jpeg';
+  const price = product.sale_price || product.price;
 
   return {
     title,
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       type: 'product',
-      url: `https://touski.online/product/${id}`,
+      url: `https://touski.online/produit/${slug}`,
       images: [
         {
           url: imageUrl,
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }) {
       images: [imageUrl],
     },
     alternates: {
-      canonical: `https://touski.online/product/${id}`,
+      canonical: `https://touski.online/produit/${slug}`,
     },
     other: {
       'product:price:amount': price,
@@ -64,9 +64,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProductPage({ params }) {
-  const { id } = await params;
-
-  const product = await getProduct(id);
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();

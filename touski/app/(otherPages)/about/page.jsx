@@ -12,6 +12,10 @@ export const metadata = {
     "Découvrez la vision de TOUSKI : améliorer le confort de la maison grâce à des solutions utiles, durables et adaptées aux usages quotidiens.",
   alternates: {
     canonical: "https://touski.online/about",
+    languages: {
+      'fr-CA': 'https://touski.online/about',
+      'en-CA': 'https://touski.online/en/about',
+    },
   },
 };
 export default function AboutPage() {
