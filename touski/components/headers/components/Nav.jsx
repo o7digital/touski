@@ -27,6 +27,25 @@ export default function Nav() {
       ),
     },
     {
+      href: withLocale("/about", locale),
+      label: getLocaleValue(
+        { fr: "TOUSKI", en: "TOUSKI", de: "TOUSKI", es: "TOUSKI" },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/nos-services", locale),
+      label: getLocaleValue(
+        {
+          fr: "NOS SERVICES",
+          en: "OUR SERVICES",
+          de: "UNSERE LEISTUNGEN",
+          es: "NUESTROS SERVICIOS",
+        },
+        locale
+      ),
+    },
+    {
       href: withLocale("/products", locale),
       label: getLocaleValue(
         { fr: "BOUTIQUE", en: "SHOP", de: "SHOP", es: "TIENDA" },
