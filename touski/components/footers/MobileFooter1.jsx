@@ -1,10 +1,9 @@
-import { useContextElement } from "@/context/Context";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function MobileFooter1() {
   const [showFooter, setShowFooter] = useState(false);
-  const { wishList } = useContextElement();
+
   useEffect(() => {
     setShowFooter(true);
   }, []);
@@ -34,7 +33,6 @@ export default function MobileFooter1() {
             <span>Home</span>
           </Link>
         </div>
-        {/* <!-- /.col-3 --> */}
 
         <div className="col-4">
           <Link
@@ -54,34 +52,26 @@ export default function MobileFooter1() {
             <span>Shop</span>
           </Link>
         </div>
-        {/* <!-- /.col-3 --> */}
 
         <div className="col-4">
           <Link
-            href="/account_wishlist"
+            href="/contact"
             className="footer-mobile__link d-flex flex-column align-items-center"
           >
-            <div className="position-relative">
-              <svg
-                className="d-block"
-                width="18"
-                height="18"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <use href="#icon_heart" />
-              </svg>
-              <span className="wishlist-amount d-block position-absolute js-wishlist-count">
-                {wishList.length}
-              </span>
-            </div>
-            <span>Wishlist</span>
+            <svg
+              className="d-block"
+              width="18"
+              height="18"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use href="#icon_headphone" />
+            </svg>
+            <span>Contact</span>
           </Link>
         </div>
-        {/* <!-- /.col-3 --> */}
       </div>
-      {/* <!-- /.row --> */}
     </footer>
   );
 }

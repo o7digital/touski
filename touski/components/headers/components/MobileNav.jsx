@@ -2,32 +2,46 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+
 export default function MobileNav() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const isEnglish = pathname?.startsWith("/en");
-  const isActive = (href) => (pathname === "/" && href === "/") || (href !== "/" && pathname.startsWith(href));
+
+  const isActive = (href) => {
+    const [basePath, query] = href.split("?");
+    const hrefCategory = query
+      ? new URLSearchParams(query).get("category_slug")
+      : null;
+    const currentCategory = searchParams.get("category_slug");
+
+    if (basePath === "/" && pathname === "/") return true;
+    if (basePath === "/en" && pathname === "/en") return true;
+
+    if (basePath !== pathname) return false;
+
+    if (basePath === "/shop-1") {
+      if (!hrefCategory) return !currentCategory;
+      return currentCategory === hrefCategory;
+    }
+
+    return true;
+  };
 
   useEffect(() => {
     const selectors = {
       mobileMenuActivator: ".mobile-nav-activator",
       mobileMenu: ".navigation",
       mobileMenuActiveClass: "mobile-menu-opened",
-      mobileSubNavOpen: ".js-nav-right",
-      mobileSubNavClose: ".js-nav-left",
-      mobileSubNavHiddenClass: "d-none",
     };
 
-    const mobileMenuActivator = document.querySelector(
-      selectors.mobileMenuActivator
-    );
+    const mobileMenuActivator = document.querySelector(selectors.mobileMenuActivator);
     const mobileDropdown = document.querySelector(selectors.mobileMenu);
-    let transformLeft = 0;
 
     const toggleMobileMenu = (event) => {
-      if (event) {
-        event.preventDefault();
-      }
+      if (event) event.preventDefault();
+      if (!mobileDropdown) return;
 
       if (document.body.classList.contains(selectors.mobileMenuActiveClass)) {
         document.body.classList.remove(selectors.mobileMenuActiveClass);
@@ -35,134 +49,63 @@ export default function MobileNav() {
         mobileDropdown.style.paddingRight = "";
       } else {
         document.body.classList.add(selectors.mobileMenuActiveClass);
-        document.body.style.paddingRight = "scrollWidth"; // Replace with appropriate value
-        mobileDropdown.style.paddingRight = "scrollWidth"; // Replace with appropriate value
+        document.body.style.paddingRight = "scrollWidth";
+        mobileDropdown.style.paddingRight = "scrollWidth";
       }
     };
 
-    if (mobileDropdown) {
-      mobileMenuActivator &&
-        mobileMenuActivator.addEventListener("click", toggleMobileMenu);
+    mobileMenuActivator?.addEventListener("click", toggleMobileMenu);
 
-      const mobileMenu = mobileDropdown.querySelector(".navigation__list");
-      let menuMaxHeight = mobileMenu.offsetHeight;
-
-      const openSubNav = (event, btn) => {
-        event.preventDefault();
-        btn.nextElementSibling.classList.remove(
-          selectors.mobileSubNavHiddenClass
-        );
-
-        transformLeft -= 100;
-        if (menuMaxHeight < btn.nextElementSibling.offsetHeight) {
-          mobileMenu.style.transform = `translateX(${transformLeft}%)`;
-          mobileMenu.style.minHeight = `${btn.nextElementSibling.offsetHeight}px`;
-        } else {
-          mobileMenu.style.transform = `translateX(${transformLeft}%)`;
-          mobileMenu.style.minHeight = `${menuMaxHeight}px`;
-        }
-      };
-
-      const closeSubNav = (event, btn) => {
-        event.preventDefault();
-        transformLeft += 100;
-        mobileMenu.style.transform = `translateX(${transformLeft}%)`;
-        btn.parentElement.classList.add(selectors.mobileSubNavHiddenClass);
-        const wrapper = btn.closest(".sub-menu");
-        if (wrapper) {
-          const minHeight =
-            menuMaxHeight < wrapper.offsetHeight
-              ? wrapper.offsetHeight
-              : menuMaxHeight;
-          mobileMenu.style.minHeight = `${minHeight}px`;
-        }
-      };
-
-      mobileMenu &&
-        Array.from(
-          mobileMenu.querySelectorAll(selectors.mobileSubNavOpen)
-        ).forEach((btn) => {
-          btn.addEventListener("click", (event) => openSubNav(event, btn));
-        });
-
-      mobileMenu &&
-        Array.from(
-          mobileMenu.querySelectorAll(selectors.mobileSubNavClose)
-        ).forEach((btn) => {
-          btn.addEventListener("click", (event) => closeSubNav(event, btn));
-        });
-
-      return () => {
-        mobileMenuActivator &&
-          mobileMenuActivator.removeEventListener("click", toggleMobileMenu);
-        mobileMenu &&
-          Array.from(
-            mobileMenu.querySelectorAll(selectors.mobileSubNavOpen)
-          ).forEach((btn) => {
-            btn.removeEventListener("click", (event) => openSubNav(event, btn));
-          });
-        mobileMenu &&
-          Array.from(
-            mobileMenu.querySelectorAll(selectors.mobileSubNavClose)
-          ).forEach((btn) => {
-            btn.removeEventListener("click", (event) =>
-              closeSubNav(event, btn)
-            );
-          });
-      };
-    }
+    return () => {
+      mobileMenuActivator?.removeEventListener("click", toggleMobileMenu);
+    };
   }, []);
+
   useEffect(() => {
-    const selectors = {
-      mobileMenuActivator: ".mobile-nav-activator",
-      mobileMenu: ".navigation",
-      mobileMenuActiveClass: "mobile-menu-opened",
-      mobileSubNavOpen: ".js-nav-right",
-      mobileSubNavClose: ".js-nav-left",
-      mobileSubNavHiddenClass: "d-none",
-    };
-
-    const mobileDropdown = document.querySelector(selectors.mobileMenu);
-
-    const removeMenu = (event) => {
-      if (event) {
-        event.preventDefault();
-      }
-
-      if (document.body.classList.contains(selectors.mobileMenuActiveClass)) {
-        document.body.classList.remove(selectors.mobileMenuActiveClass);
-        document.body.style.paddingRight = "";
-        mobileDropdown.style.paddingRight = "";
-      }
-    };
-    removeMenu();
+    const mobileDropdown = document.querySelector(".navigation");
+    if (document.body.classList.contains("mobile-menu-opened")) {
+      document.body.classList.remove("mobile-menu-opened");
+      document.body.style.paddingRight = "";
+      if (mobileDropdown) mobileDropdown.style.paddingRight = "";
+    }
   }, [pathname]);
+
+  const links = isEnglish
+    ? [
+        { href: "/en", label: "HOME" },
+        { href: "/shop-1", label: "SHOP" },
+        {
+          href: "/shop-1?category_slug=anti-courants-air",
+          label: "DRAFT PROOFING",
+        },
+        { href: "/shop-1?category_slug=cuisine", label: "KITCHEN" },
+        { href: "/shop-1?category_slug=salle-de-bain", label: "BATHROOM" },
+        { href: "/en/contact", label: "CONTACT" },
+      ]
+    : [
+        { href: "/", label: "ACCUEIL" },
+        { href: "/shop-1", label: "BOUTIQUE" },
+        {
+          href: "/shop-1?category_slug=anti-courants-air",
+          label: "ANTI-COURANTS D'AIR",
+        },
+        { href: "/shop-1?category_slug=cuisine", label: "CUISINE" },
+        { href: "/shop-1?category_slug=salle-de-bain", label: "SALLE DE BAIN" },
+        { href: "/contact", label: "CONTACT" },
+      ];
 
   return (
     <>
-      <li className="navigation__item">
-        <Link href="/" className={`navigation__link ${isActive("/") ? "menu-active" : ""}`}>
-          ACCUEIL
-        </Link>
-      </li>
-      <li className="navigation__item">
-        <Link href="/about" className={`navigation__link ${isActive("/about") ? "menu-active" : ""}`}>
-          TOUSKI
-        </Link>
-      </li>
-      <li className="navigation__item">
-        <Link href={isEnglish ? "/en/nos-services" : "/nos-services"} className={`navigation__link ${isActive(isEnglish ? "/en/nos-services" : "/nos-services") ? "menu-active" : ""}`}>
-          {isEnglish ? "OUR SERVICES" : "NOS SERVICES"}
-        </Link>
-      </li>
-      <li className="navigation__item">
-        <Link
-          href={isEnglish ? "/en/contact" : "/contact"}
-          className={`navigation__link ${isActive(isEnglish ? "/en/contact" : "/contact") ? "menu-active" : ""}`}
-        >
-          {isEnglish ? "CONTACT" : "CONTACTER"}
-        </Link>
-      </li>
+      {links.map((link) => (
+        <li key={link.href} className="navigation__item">
+          <Link
+            href={link.href}
+            className={`navigation__link ${isActive(link.href) ? "menu-active" : ""}`}
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
     </>
   );
 }

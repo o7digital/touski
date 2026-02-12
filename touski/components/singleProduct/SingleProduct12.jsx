@@ -6,7 +6,6 @@ import Star from "../common/Star";
 import Description from "./Description";
 import AdditionalInfo from "./AdditionalInfo";
 import Reviews from "./Reviews";
-import Link from "next/link";
 import ShareComponent from "../common/ShareComponent";
 import { useContextElement } from "@/context/Context";
 export default function SingleProduct12({ product }) {
@@ -38,6 +37,11 @@ export default function SingleProduct12({ product }) {
       setCartProducts((pre) => [...pre, item]);
     }
   };
+
+  const averageRating = Number(product.average_rating || 0);
+  const ratingCount = Number(product.rating_count || 0);
+  const roundedStars = Math.min(5, Math.max(0, Math.round(averageRating)));
+
   return (
     <section className="product-single container">
       <div className="row">
@@ -84,10 +88,12 @@ export default function SingleProduct12({ product }) {
           </h1>
           <div className="product-single__rating">
             <div className="reviews-group d-flex">
-              <Star stars={5} />
+              <Star stars={roundedStars || 0} />
             </div>
-            <span className="reviews-note text-lowercase text-secondary ms-1">
-              8k+ reviews
+            <span className="reviews-note text-secondary ms-1">
+              {ratingCount > 0
+                ? `${averageRating.toFixed(1)} / 5 (${ratingCount} avis)`
+                : "Aucun avis pour le moment"}
             </span>
           </div>
           <div className="product-single__price">
@@ -153,18 +159,6 @@ export default function SingleProduct12({ product }) {
             </div>
           </form>
           <div className="product-single__addtolinks">
-            <a href="#" className="menu-link menu-link_us-s add-to-wishlist">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <use href="#icon_heart" />
-              </svg>
-              <span>Add to Wishlist</span>
-            </a>
             <ShareComponent title={product.title} />
           </div>
           <div className="product-single__meta-info">
@@ -227,7 +221,7 @@ export default function SingleProduct12({ product }) {
               aria-controls="tab-reviews"
               aria-selected="false"
             >
-              Reviews (2)
+              Avis
             </a>
           </li>
         </ul>
@@ -254,7 +248,7 @@ export default function SingleProduct12({ product }) {
             role="tabpanel"
             aria-labelledby="tab-reviews-tab"
           >
-            <Reviews />
+            <Reviews productName={product.title || product.name} />
           </div>
         </div>
       </div>

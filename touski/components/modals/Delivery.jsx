@@ -12,7 +12,7 @@ export default function Delivery() {
       <div className="modal-dialog delivery-modal">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Delivery</h5>
+            <h5 className="modal-title">Livraison Canada</h5>
             <button
               type="button"
               className="btn-close"
@@ -23,46 +23,35 @@ export default function Delivery() {
           <div className="modal-body">
             <div className="delivery-modal__wrapper">
               <div className="d-flex align-items-center justify-content-between">
-                <h6>Next day delivery in store</h6>
-                <span className="third-color">FREE</span>
-              </div>
-              <p>Buy before 6pm to receive your order next day.</p>
-              <div className="d-flex align-items-center justify-content-between">
-                <h6>Next day delivery</h6>
-                <span>4 USD</span>
+                <h6>Livraison standard Canada (3-7 jours ouvrables)</h6>
+                <span className="third-color">Gratuite dès 140 $ CAD</span>
               </div>
               <p>
-                Orders before 6pm from Monday to Saturday (or before 1pm on
-                Sunday) will be delivered Next working day (except Northern
-                Ireland and Highlands).
-                <br />
-                Orders placed after 6pm (after 1pm on Sunday) or for Northern
-                Ireland and Highlands will be delivered in 2 working days.
+                Livraison partout au Canada. Les commandes sous 140 $ CAD sont
+                calculées automatiquement à la caisse selon la province.
               </p>
+
               <div className="d-flex align-items-center justify-content-between">
-                <h6>Drop Point</h6>
-                <span>8 USD</span>
+                <h6>Traitement de commande</h6>
+                <span>24-48 h</span>
               </div>
               <p>
-                In 2-3 working days. Pick up your parcel in one of the many
-                different collection points available and during a wide range of
-                hours.
+                Les commandes sont préparées du lundi au vendredi. Un numéro de
+                suivi est envoyé par courriel dès l'expédition.
               </p>
+
               <div className="d-flex align-items-center justify-content-between">
-                <h6>Same day delivery in London:</h6>
-                <span>9 USD</span>
+                <h6>Retours</h6>
+                <span>30 jours</span>
               </div>
               <p>
-                Place your order before 13:00 to get it today!.
-                <br />
-                If you order later on, you’ll receive it the next day and if you
-                order on Sunday, you’ll receive it the next working day.
+                Retour accepté sous 30 jours pour les produits non utilisés, dans
+                leur état d'origine.
               </p>
             </div>
           </div>
         </div>
       </div>
-      {/* <!-- /.modal-dialog --> */}
     </div>
   );
 }

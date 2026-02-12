@@ -1,14 +1,15 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Nav from "./components/Nav";
-import { openCart } from "@/utlis/openCart";
-import CartLength from "./components/CartLength";
 import Image from "next/image";
 import User from "./components/User";
 import SearchPopup from "./components/SearchPopup";
 
 export default function Header1() {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith("/en");
   const [scrollDirection, setScrollDirection] = useState("down");
 
   useEffect(() => {
@@ -17,14 +18,11 @@ export default function Header1() {
 
       if (currentScrollY > 250) {
         if (currentScrollY > lastScrollY.current) {
-          // Scrolling down
           setScrollDirection("down");
         } else {
-          // Scrolling up
           setScrollDirection("up");
         }
       } else {
-        // Below 250px
         setScrollDirection("down");
       }
 
@@ -33,21 +31,28 @@ export default function Header1() {
 
     const lastScrollY = { current: window.scrollY };
 
-    // Add scroll event listener
     window.addEventListener("scroll", handleScroll);
-
-    // Cleanup: remove event listener when component unmounts
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   return (
     <header
       id="header"
       className={`header header_sticky ${
-        scrollDirection == "up" ? "header_sticky-active" : "position-absolute"
-      } `}
+        scrollDirection === "up" ? "header_sticky-active" : "position-absolute"
+      }`}
     >
+      <div
+        className="text-center py-1"
+        style={{ backgroundColor: "#f6f6f6", fontSize: 13, fontWeight: 500 }}
+      >
+        {isEnglish
+          ? "Free shipping across Canada on orders over $140 CAD"
+          : "Livraison gratuite partout au Canada des 140 $ CAD"}
+      </div>
+
       <div className="container">
         <div className="header-desk header-desk_type_1">
           <div className="logo">
@@ -58,24 +63,19 @@ export default function Header1() {
                 height={438}
                 alt="Touski"
                 className="logo__image d-block"
-                style={{ height: 438, width: 'auto' }}
+                style={{ height: 438, width: "auto" }}
               />
             </Link>
           </div>
-          {/* <!-- /.logo --> */}
 
           <nav className="navigation">
             <ul className="navigation__list list-unstyled d-flex">
               <Nav />
             </ul>
-            {/* <!-- /.navigation__list --> */}
           </nav>
-          {/* <!-- /.navigation --> */}
 
           <div className="header-tools d-flex align-items-center">
             <SearchPopup />
-
-            {/* <!-- /.header-tools__item hover-container --> */}
 
             <div className="header-tools__item hover-container">
               <a className="header-tools__item js-open-aside" href="#">
@@ -83,43 +83,12 @@ export default function Header1() {
               </a>
             </div>
 
-            <Link className="header-tools__item" href="/account_wishlist">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <use href="#icon_heart" />
-              </svg>
-            </Link>
-
-            {/* Panier temporairement caché - Mode catalogue */}
-            {/* <a
-              onClick={() => openCart()}
-              className="header-tools__item header-tools__cart js-open-aside"
-            >
-              <svg
-                className="d-block"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <use href="#icon_cart" />
-              </svg>
-              <span className="cart-amount d-block position-absolute js-cart-items-count">
-                <CartLength />
-              </span>
-            </a> */}
-
             <a
               className="header-tools__item"
               href="#"
               data-bs-toggle="modal"
               data-bs-target="#siteMap"
+              aria-label="Open site map"
             >
               <svg
                 className="nav-icon"
@@ -132,11 +101,8 @@ export default function Header1() {
               </svg>
             </a>
           </div>
-          {/* <!-- /.header__tools --> */}
         </div>
-        {/* <!-- /.header-desk header-desk_type_1 --> */}
       </div>
-      {/* <!-- /.container --> */}
     </header>
   );
 }
