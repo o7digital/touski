@@ -4,6 +4,17 @@ export const metadata = {
   title: "Touski — indispensables maison introuvables au Canada",
   description:
     "Anti-courants d'air, cuisine et salle de bain: des indispensables utiles, efficaces et selectionnes pour les foyers au Canada.",
+  keywords: [
+    "indispensables maison canada",
+    "anti-courants d'air canada",
+    "bas de porte isolant",
+    "degraissant cuisine canada",
+    "nettoyant cuisine specialise",
+    "anti-calcaire salle de bain",
+    "traitement joints moisissures",
+    "accessoires salle de bain entretien",
+    "TOUSKI",
+  ],
   openGraph: {
     title: "Touski — indispensables maison introuvables au Canada",
     description:

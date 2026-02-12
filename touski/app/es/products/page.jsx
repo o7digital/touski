@@ -8,7 +8,11 @@ export const metadata = {
     "tienda hogar Canadá",
     "anti corrientes de aire",
     "limpieza cocina Canadá",
-    "productos baño antical",
+    "desengrasante cocina canada",
+    "limpiador horno cocina",
+    "productos bano antisarro",
+    "tratamiento juntas moho bano",
+    "accesorios limpieza bano",
     "TOUSKI tienda",
   ],
   alternates: {

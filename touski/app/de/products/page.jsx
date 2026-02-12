@@ -7,8 +7,11 @@ export const metadata = {
   keywords: [
     "Shop Kanada Haushaltsprodukte",
     "Zugluftschutz Produkte",
-    "Küche Reiniger Kanada",
-    "Bad Entkalker und Fugenpflege",
+    "Kueche Reiniger Kanada",
+    "Kueche Fettloeser",
+    "Bad Entkalker",
+    "Fugen Schimmel Behandlung Bad",
+    "Bad Reinigung Zubehoer",
     "TOUSKI Shop",
   ],
   alternates: {
