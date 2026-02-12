@@ -15,6 +15,8 @@ export const metadata = {
     languages: {
       'fr-CA': 'https://touski.online/about',
       'en-CA': 'https://touski.online/en/about',
+      'de-DE': 'https://touski.online/de/about',
+      'es-ES': 'https://touski.online/es/about',
     },
   },
 };

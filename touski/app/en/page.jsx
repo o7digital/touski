@@ -9,6 +9,8 @@ export const metadata = {
     languages: {
       'fr-CA': 'https://touski.online',
       'en-CA': 'https://touski.online/en',
+      'de-DE': 'https://touski.online/de',
+      'es-ES': 'https://touski.online/es',
     },
   },
   openGraph: {

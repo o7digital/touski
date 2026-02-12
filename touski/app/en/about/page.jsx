@@ -8,6 +8,12 @@ export const metadata = {
     "Discover TOUSKI’s vision: improving home comfort with useful, durable solutions tailored to everyday life.",
   alternates: {
     canonical: "https://touski.online/en/about",
+    languages: {
+      "fr-CA": "https://touski.online/about",
+      "en-CA": "https://touski.online/en/about",
+      "de-DE": "https://touski.online/de/about",
+      "es-ES": "https://touski.online/es/about",
+    },
   },
 };
 

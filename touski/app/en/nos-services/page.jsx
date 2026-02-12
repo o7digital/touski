@@ -8,6 +8,12 @@ export const metadata = {
     "Discover TOUSKI services: practical, durable home comfort solutions designed for everyday well-being.",
   alternates: {
     canonical: "https://touski.online/en/nos-services",
+    languages: {
+      "fr-CA": "https://touski.online/nos-services",
+      "en-CA": "https://touski.online/en/nos-services",
+      "de-DE": "https://touski.online/de/nos-services",
+      "es-ES": "https://touski.online/es/nos-services",
+    },
   },
 };
 

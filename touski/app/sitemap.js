@@ -19,6 +19,7 @@ export default async function sitemap() {
   // Pages statiques anglaises
   const staticRoutesEn = [
     { url: '/en', priority: 1, changeFrequency: 'daily' },
+    { url: '/en/products', priority: 0.9, changeFrequency: 'daily' },
     { url: '/en/anti-courants-air', priority: 0.8, changeFrequency: 'weekly' },
     { url: '/en/about', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/en/contact', priority: 0.7, changeFrequency: 'monthly' },
@@ -27,6 +28,32 @@ export default async function sitemap() {
     { url: '/en/teletravail-bien-etre', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/en/isolation-protection', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/en/nos-services', priority: 0.7, changeFrequency: 'monthly' },
+  ];
+
+  const staticRoutesDe = [
+    { url: '/de', priority: 1, changeFrequency: 'daily' },
+    { url: '/de/products', priority: 0.9, changeFrequency: 'daily' },
+    { url: '/de/anti-courants-air', priority: 0.8, changeFrequency: 'weekly' },
+    { url: '/de/about', priority: 0.8, changeFrequency: 'monthly' },
+    { url: '/de/contact', priority: 0.7, changeFrequency: 'monthly' },
+    { url: '/de/chaleur-confort', priority: 0.7, changeFrequency: 'weekly' },
+    { url: '/de/cocooning-maison', priority: 0.7, changeFrequency: 'weekly' },
+    { url: '/de/teletravail-bien-etre', priority: 0.7, changeFrequency: 'weekly' },
+    { url: '/de/isolation-protection', priority: 0.7, changeFrequency: 'weekly' },
+    { url: '/de/nos-services', priority: 0.7, changeFrequency: 'monthly' },
+  ];
+
+  const staticRoutesEs = [
+    { url: '/es', priority: 1, changeFrequency: 'daily' },
+    { url: '/es/products', priority: 0.9, changeFrequency: 'daily' },
+    { url: '/es/anti-courants-air', priority: 0.8, changeFrequency: 'weekly' },
+    { url: '/es/about', priority: 0.8, changeFrequency: 'monthly' },
+    { url: '/es/contact', priority: 0.7, changeFrequency: 'monthly' },
+    { url: '/es/chaleur-confort', priority: 0.7, changeFrequency: 'weekly' },
+    { url: '/es/cocooning-maison', priority: 0.7, changeFrequency: 'weekly' },
+    { url: '/es/teletravail-bien-etre', priority: 0.7, changeFrequency: 'weekly' },
+    { url: '/es/isolation-protection', priority: 0.7, changeFrequency: 'weekly' },
+    { url: '/es/nos-services', priority: 0.7, changeFrequency: 'monthly' },
   ];
 
   // Récupérer les produits WooCommerce
@@ -60,7 +87,7 @@ export default async function sitemap() {
   }
 
   // Combiner toutes les URLs
-  const staticUrls = [...staticRoutesFr, ...staticRoutesEn].map((route) => ({
+  const staticUrls = [...staticRoutesFr, ...staticRoutesEn, ...staticRoutesDe, ...staticRoutesEs].map((route) => ({
     url: `${baseUrl}${route.url}`,
     lastModified: new Date(),
     changeFrequency: route.changeFrequency,

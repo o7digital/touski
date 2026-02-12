@@ -103,6 +103,54 @@ export const servicePromotionsData3 = [
   },
 ];
 
+export const servicePromotionsDataDe = [
+  {
+    id: 1,
+    title: "Schneller Gratisversand",
+    content: "Kostenloser Versand in ganz Kanada ab 140 CAD",
+    color: "#e3766a",
+    icon: "#icon_shipping",
+  },
+  {
+    id: 2,
+    title: "24/7 Kundensupport",
+    content: "Freundlicher Kundensupport rund um die Uhr",
+    color: "#60a3e2",
+    icon: "#icon_headphone",
+  },
+  {
+    id: 3,
+    title: "Geld-zurück-Garantie",
+    content: "Rückerstattung innerhalb von 30 Tagen",
+    color: "#f3bccc",
+    icon: "#icon_shield",
+  },
+];
+
+export const servicePromotionsDataEs = [
+  {
+    id: 1,
+    title: "Envío rápido y gratis",
+    content: "Envío gratis en todo Canadá en pedidos desde 140 CAD",
+    color: "#e3766a",
+    icon: "#icon_shipping",
+  },
+  {
+    id: 2,
+    title: "Soporte 24/7",
+    content: "Soporte al cliente amigable las 24 horas",
+    color: "#60a3e2",
+    icon: "#icon_headphone",
+  },
+  {
+    id: 3,
+    title: "Garantía de reembolso",
+    content: "Reembolsamos dentro de 30 días",
+    color: "#f3bccc",
+    icon: "#icon_shield",
+  },
+];
+
 export const serviceData = [
   {
     id: 1,

@@ -6,23 +6,50 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getLocaleValue, withLocale } from "@/lib/i18n";
 
 export default function Hero() {
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith("/en");
+  const locale = getLocaleFromPathname(pathname || "/");
 
-  const headline = isEnglish
-    ? "Touski — hard-to-find home essentials in Canada"
-    : "Touski — indispensables maison introuvables au Canada";
+  const headline = getLocaleValue(
+    {
+      fr: "Touski — indispensables maison introuvables au Canada",
+      en: "Touski — hard-to-find home essentials in Canada",
+      de: "Touski — schwer auffindbare Haushaltshelfer in Kanada",
+      es: "Touski — esenciales del hogar difíciles de encontrar en Canadá",
+    },
+    locale
+  );
 
-  const subline = isEnglish
-    ? "Draft proofing • Kitchen • Bathroom — useful, effective, carefully selected"
-    : "Anti-courants d'air • Cuisine • Salle de bain — utiles, efficaces, selectionnes";
+  const subline = getLocaleValue(
+    {
+      fr: "Anti-courants d'air • Cuisine • Salle de bain — utiles, efficaces, selectionnes",
+      en: "Draft proofing • Kitchen • Bathroom — useful, effective, carefully selected",
+      de: "Zugluftschutz • Küche • Bad — nützlich, wirksam, sorgfältig ausgewählt",
+      es: "Anti corrientes de aire • Cocina • Baño — útiles, eficaces y seleccionados",
+    },
+    locale
+  );
 
-  const cta1 = isEnglish ? "View Draft Proofing" : "Voir Anti-courants d'air";
-  const cta2 = isEnglish
-    ? "View Kitchen & Bathroom"
-    : "Voir Cuisine & Salle de bain";
+  const cta1 = getLocaleValue(
+    {
+      fr: "Voir Anti-courants d'air",
+      en: "View Draft Proofing",
+      de: "Zugluftschutz ansehen",
+      es: "Ver anti corrientes de aire",
+    },
+    locale
+  );
+  const cta2 = getLocaleValue(
+    {
+      fr: "Voir Cuisine & Salle de bain",
+      en: "View Kitchen & Bathroom",
+      de: "Küche & Bad ansehen",
+      es: "Ver cocina y baño",
+    },
+    locale
+  );
 
   const swiperOptions = {
     autoplay: false,
@@ -100,7 +127,7 @@ export default function Hero() {
 
               <div className="d-flex flex-wrap gap-2 gap-sm-3">
                 <Link
-                  href="/products?category_slug=anti-courants-air"
+                  href={`${withLocale("/products", locale)}?category_slug=anti-courants-air`}
                   className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-7"
                   style={{
                     display: "inline-block",
@@ -114,7 +141,7 @@ export default function Hero() {
                 </Link>
 
                 <Link
-                  href="/products?category_slug=cuisine"
+                  href={`${withLocale("/products", locale)}?category_slug=cuisine`}
                   className="text-uppercase fw-bold animate animate_fade animate_btt animate_delay-7"
                   style={{
                     display: "inline-block",

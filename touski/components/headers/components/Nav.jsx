@@ -1,48 +1,72 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getLocaleValue, withLocale } from "@/lib/i18n";
 
 export default function Nav() {
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith("/en");
+  const locale = getLocaleFromPathname(pathname || "/");
 
   const isActive = (href) => {
     const [basePath, query] = href.split("?");
 
-    if (basePath === "/" && pathname === "/") return true;
-    if (basePath === "/en" && pathname === "/en") return true;
-
     if (basePath !== pathname) return false;
 
     // On ne depend pas des query params pour garder ce composant compatible SSG.
-    if (basePath === "/products" && query) return false;
+    if (basePath.endsWith("/products") && query) return false;
 
     return true;
   };
 
-  const links = isEnglish
-    ? [
-        { href: "/en", label: "HOME" },
-        { href: "/products", label: "SHOP" },
+  const links = [
+    {
+      href: withLocale("/", locale),
+      label: getLocaleValue(
+        { fr: "ACCUEIL", en: "HOME", de: "STARTSEITE", es: "INICIO" },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/products", locale),
+      label: getLocaleValue(
+        { fr: "BOUTIQUE", en: "SHOP", de: "SHOP", es: "TIENDA" },
+        locale
+      ),
+    },
+    {
+      href: `${withLocale("/products", locale)}?category_slug=anti-courants-air`,
+      label: getLocaleValue(
         {
-          href: "/products?category_slug=anti-courants-air",
-          label: "DRAFT PROOFING",
+          fr: "ANTI-COURANTS D'AIR",
+          en: "DRAFT PROOFING",
+          de: "ZUGLUFTSCHUTZ",
+          es: "ANTI CORRIENTES DE AIRE",
         },
-        { href: "/products?category_slug=cuisine", label: "KITCHEN" },
-        { href: "/products?category_slug=salle-de-bain", label: "BATHROOM" },
-        { href: "/en/contact", label: "CONTACT" },
-      ]
-    : [
-        { href: "/", label: "ACCUEIL" },
-        { href: "/products", label: "BOUTIQUE" },
-        {
-          href: "/products?category_slug=anti-courants-air",
-          label: "ANTI-COURANTS D'AIR",
-        },
-        { href: "/products?category_slug=cuisine", label: "CUISINE" },
-        { href: "/products?category_slug=salle-de-bain", label: "SALLE DE BAIN" },
-        { href: "/contact", label: "CONTACT" },
-      ];
+        locale
+      ),
+    },
+    {
+      href: `${withLocale("/products", locale)}?category_slug=cuisine`,
+      label: getLocaleValue(
+        { fr: "CUISINE", en: "KITCHEN", de: "KÜCHE", es: "COCINA" },
+        locale
+      ),
+    },
+    {
+      href: `${withLocale("/products", locale)}?category_slug=salle-de-bain`,
+      label: getLocaleValue(
+        { fr: "SALLE DE BAIN", en: "BATHROOM", de: "BAD", es: "BAÑO" },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/contact", locale),
+      label: getLocaleValue(
+        { fr: "CONTACT", en: "CONTACT", de: "KONTAKT", es: "CONTACTO" },
+        locale
+      ),
+    },
+  ];
 
   return (
     <>
