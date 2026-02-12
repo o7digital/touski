@@ -254,32 +254,23 @@ export const collectionsData = [
   {
     id: 1,
     imageSrc: "/assets/images/furnitures.jpg",
-    title: "Fournitures",
-    productCount: "954 Products",
+    title: "Anti-courants d'air",
+    description:
+      "Bas de porte, joints et seuils pour limiter les infiltrations d'air froid.",
   },
   {
     id: 2,
     imageSrc: "/assets/images/cuisine.jpg",
     title: "Cuisine",
-    productCount: "710 Products",
+    description:
+      "Degraissants, nettoyants specialises et accessoires utiles pour un entretien efficace.",
   },
   {
     id: 3,
     imageSrc: "/assets/images/javones.jpg",
     title: "Salle de bain",
-    productCount: "954 Products",
-  },
-  {
-    id: 4,
-    imageSrc: "/assets/images/lampes.jpg",
-    title: "Lighting",
-    productCount: "184 Products",
-  },
-  {
-    id: 5,
-    imageSrc: "/assets/images/desinfectant.jpg",
-    title: "Detergents",
-    productCount: "245 Products",
+    description:
+      "Anti-calcaire, traitement des joints/moisissures et accessoires de maintenance.",
   },
 ];
 export const categories4 = [

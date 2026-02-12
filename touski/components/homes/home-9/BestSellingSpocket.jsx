@@ -1,120 +1,111 @@
 "use client";
+
 import { useContextElement } from "@/context/Context";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-// Pas de carousel ici : on affiche une grille 4 colonnes
+import catalogPlaceholders from "@/data/catalogPlaceholders.json";
+
+const pillarFilters = [
+  { key: "all", fr: "TOUT", en: "ALL" },
+  { key: "anti-courants-air", fr: "ANTI-COURANTS D'AIR", en: "DRAFT PROOFING" },
+  { key: "cuisine", fr: "CUISINE", en: "KITCHEN" },
+  { key: "salle-de-bain", fr: "SALLE DE BAIN", en: "BATHROOM" },
+];
+
+function fallbackByCategory(categoryKey) {
+  const source = catalogPlaceholders.products || [];
+  const filtered =
+    categoryKey === "all"
+      ? source
+      : source.filter((product) =>
+          Array.isArray(product.category_slugs)
+            ? product.category_slugs.includes(categoryKey)
+            : false
+        );
+
+  return filtered.map((product, index) => ({
+    id: 900000 + index,
+    isPlaceholder: true,
+    name: product.name,
+    price: product.regular_price,
+    images: [{ src: product.image, alt: product.name }],
+    categories: [{ name: product.category_slugs?.[0] || "placeholder" }],
+  }));
+}
 
 export default function BestSellingSpocket() {
   const pathname = usePathname();
   const isEnglish = pathname?.startsWith("/en");
-  const { toggleWishlist, isAddedtoWishlist } = useContextElement();
   const { addProductToCart, isAddedToCartProducts } = useContextElement();
 
-  // Univers principaux (ligne du haut)
-  const universList = [
-    { label: "TOUT", key: "all" },
-    { label: "MAISON", key: "maison" },
-    { label: "JARDIN", key: "jardin" },
-    { label: "BRICOLAGE", key: "bricolage" },
-    { label: "PETS", key: "pets" },
-  ];
-
-  // Sous-catégories par univers (ligne du bas)
-  // Pour l’instant on utilise les catégories WooCommerce existantes :
-  //   - 16 = HOME
-  //   - 17 = CUISINE ELECTRONICS
-  // et des mots-clés pour affiner. On pourra ajuster quand tu auras créé
-  // plus de catégories dans WooCommerce.
-  const subCategories = {
-    maison: [
-      { label: "Tous", key: "maison-tous", categoryId: 16 },
-      { label: "Cuisine", key: "cuisine", categoryId: 17, search: "kitchen" },
-      { label: "Garage", key: "garage", categoryId: 16, search: "garage" },
-      { label: "Chambres", key: "chambres", categoryId: 16, search: "bedroom bed" },
-      { label: "Électricités", key: "electricites", categoryId: 16, search: "lamp light led" },
-      { label: "Fournitures", key: "fournitures", categoryId: 16, search: "storage organizer supply" },
-      { label: "Détergents", key: "detergents", categoryId: 16, search: "detergent cleaner" },
-    ],
-    jardin: [
-      { label: "Tous", key: "jardin-tous", search: "garden" },
-      { label: "Tables", key: "jardin-tables", search: "garden table" },
-      { label: "Piscines", key: "piscines", search: "pool" },
-      { label: "Jardinage", key: "jardinage", search: "garden tools" },
-    ],
-    bricolage: [
-      { label: "Tous", key: "bricolage-tous", search: "tool" },
-      { label: "Outils", key: "outils", search: "tool" },
-      { label: "Visserie", key: "visserie", search: "screw nail" },
-    ],
-    pets: [
-      { label: "Tous", key: "pets-tous", search: "pet" },
-      { label: "Aliments chats", key: "aliments-chats", search: "cat food" },
-      { label: "Aliments chiens", key: "aliments-chiens", search: "dog food" },
-      { label: "Niches", key: "niches", search: "dog house" },
-    ],
-  };
-
-  const [activeUnivers, setActiveUnivers] = useState("all");
-  const [activeSubCategory, setActiveSubCategory] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [visibleCount, setVisibleCount] = useState(24);
+  const [usingFallback, setUsingFallback] = useState(false);
 
   useEffect(() => {
     setVisibleCount(24);
-    loadProducts();
+    loadProducts(activeCategory);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeUnivers, activeSubCategory]);
+  }, [activeCategory]);
 
-  async function loadProducts() {
+  async function loadProducts(categoryKey) {
     setLoading(true);
     setError("");
+    setUsingFallback(false);
+
     try {
-      // Charger produits depuis WooCommerce
       const params = new URLSearchParams({
         per_page: "100",
         status: "publish",
         stock_status: "instock",
       });
 
-      // Si on est sur TOUT : pas de filtre, on affiche tout le store
-      if (activeUnivers !== "all") {
-        const list = subCategories[activeUnivers] || [];
-        const activeFilter =
-          list.find((sub) => sub.key === activeSubCategory) || list[0];
-
-        if (activeFilter?.categoryId) {
-          params.set("category", String(activeFilter.categoryId));
-        }
-        if (activeFilter?.search) {
-          params.set("search", activeFilter.search);
-        }
+      // Mettre en avant les produits featured sur l'onglet principal
+      if (categoryKey === "all") {
+        params.set("featured", "true");
+      } else {
+        params.set("category_slug", categoryKey);
       }
 
       const res = await fetch(`/api/woocommerce/products?${params.toString()}`);
       if (!res.ok) throw new Error("Erreur de chargement des produits");
-      
-      const data = await res.json();
-      setProducts(data || []);
+
+      let data = await res.json();
+      if (!Array.isArray(data)) data = [];
+
+      // Si aucun featured, recharger tous les produits pour eviter une home vide
+      if (data.length === 0 && categoryKey === "all") {
+        const allRes = await fetch(
+          "/api/woocommerce/products?per_page=100&status=publish&stock_status=instock"
+        );
+        if (allRes.ok) {
+          const allData = await allRes.json();
+          if (Array.isArray(allData)) data = allData;
+        }
+      }
+
+      if (data.length === 0) {
+        setProducts(fallbackByCategory(categoryKey));
+        setUsingFallback(true);
+      } else {
+        setProducts(data);
+      }
     } catch (e) {
       console.error("Erreur chargement produits:", e);
       setError(e.message || "Erreur inconnue");
+      setProducts(fallbackByCategory(categoryKey));
+      setUsingFallback(true);
     } finally {
       setLoading(false);
     }
   }
 
-  const filteredProducts =
-    Array.isArray(products)
-      ? products.filter(
-          (p) => Array.isArray(p.images) && p.images.length > 0 && p.images[0]?.src
-        )
-      : [];
-
-  const visibleProducts = filteredProducts.slice(0, visibleCount);
-  const canShowMore = filteredProducts.length > visibleCount;
+  const visibleProducts = products.slice(0, visibleCount);
+  const canShowMore = products.length > visibleCount;
 
   return (
     <section className="products-carousel container">
@@ -122,66 +113,38 @@ export default function BestSellingSpocket() {
         {isEnglish ? "OUR BEST PRODUCTS" : "NOS MEILLEURS PRODUITS"}
       </h2>
 
-      {/* Univers (ligne du haut) */}
       <div
-        className="mb-2"
+        className="mb-3"
         style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}
       >
-        {universList.map((u) => (
+        {pillarFilters.map((filter) => (
           <button
-            key={u.key}
-            onClick={() => {
-              setActiveUnivers(u.key);
-              if (u.key === "all") {
-                setActiveSubCategory("");
-              } else {
-                const first = subCategories[u.key]?.[0];
-                setActiveSubCategory(first ? first.key : "");
-              }
-            }}
+            key={filter.key}
+            onClick={() => setActiveCategory(filter.key)}
             className={`btn ${
-              activeUnivers === u.key ? "btn-primary" : "btn-outline-primary"
+              activeCategory === filter.key ? "btn-primary" : "btn-outline-primary"
             }`}
             style={{
               padding: "8px 16px",
               borderRadius: 20,
-              fontSize: 14,
-              fontWeight: activeUnivers === u.key ? 600 : 400,
+              fontSize: 13,
+              fontWeight: activeCategory === filter.key ? 600 : 500,
               textTransform: "uppercase",
             }}
           >
-            {u.label}
+            {isEnglish ? filter.en : filter.fr}
           </button>
         ))}
       </div>
 
-      {/* Sous-catégories (ligne du bas) */}
-      {activeUnivers !== "all" && subCategories[activeUnivers] && (
-        <div
-          className="mb-3 pb-1"
-          style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}
-        >
-          {subCategories[activeUnivers].map((sub) => (
-            <button
-              key={sub.key}
-              onClick={() => setActiveSubCategory(sub.key)}
-              className={`btn ${
-                activeSubCategory === sub.key ? "btn-dark" : "btn-outline-dark"
-              }`}
-              style={{
-                padding: "6px 14px",
-                borderRadius: 20,
-                fontSize: 13,
-                fontWeight: activeSubCategory === sub.key ? 600 : 400,
-              }}
-            >
-              {sub.label}
-            </button>
-          ))}
+      {usingFallback && (
+        <div className="alert alert-warning text-center mb-4" role="alert">
+          {isEnglish
+            ? "Temporary placeholders are displayed while WooCommerce products are being completed."
+            : "Des placeholders temporaires sont affiches pendant la mise en place du catalogue WooCommerce."}
         </div>
       )}
 
-      {/* État de chargement */}
       {loading && (
         <div className="text-center py-5">
           <div className="spinner-border text-primary" role="status">
@@ -190,20 +153,15 @@ export default function BestSellingSpocket() {
         </div>
       )}
 
-      {/* Erreur */}
       {error && !loading && (
         <div className="alert alert-danger text-center" role="alert">
           {error}
         </div>
       )}
 
-      {/* Grille de produits 4 colonnes, ligne par ligne */}
-      {!loading && !error && visibleProducts.length === 0 && (
+      {!loading && visibleProducts.length === 0 && (
         <div className="text-center py-5">
-          <p>Aucun produit trouvé dans cette catégorie.</p>
-          <p className="text-muted">
-            Ajoutez ou publiez des produits dans votre boutique WooCommerce pour les voir apparaître ici.
-          </p>
+          <p>{isEnglish ? "No product found." : "Aucun produit trouve."}</p>
         </div>
       )}
 
@@ -212,15 +170,16 @@ export default function BestSellingSpocket() {
           {visibleProducts.map((product, index) => {
             const imageUrl =
               product.images?.[0]?.src || "/assets/images/products/default.jpg";
-            const productTitle = product.name || "Produit sans nom";
+            const productTitle = product.name || "Produit";
             const productPrice = product.price || "0";
             const productId = product.id;
+            const productLink = product.isPlaceholder ? "/products" : `/product/${productId}`;
 
             return (
               <div key={`${productId}-${index}`} className="col">
                 <div className="product-card h-100 d-flex flex-column">
                   <div className="pc__img-wrapper">
-                    <Link href={`/product/${productId}`}>
+                    <Link href={productLink}>
                       <img
                         loading="lazy"
                         src={imageUrl}
@@ -234,19 +193,29 @@ export default function BestSellingSpocket() {
                         }}
                       />
                     </Link>
-                    <button
-                      className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      onClick={() => addProductToCart(productId)}
-                      title={
-                        isAddedToCartProducts(productId)
-                          ? "Déjà dans le panier"
-                          : "Ajouter au panier"
-                      }
-                    >
-                      {isAddedToCartProducts(productId)
-                        ? "Déjà dans le panier"
-                        : "Ajouter au panier"}
-                    </button>
+
+                    {!product.isPlaceholder ? (
+                      <button
+                        className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
+                        onClick={() => addProductToCart(productId)}
+                        title={
+                          isAddedToCartProducts(productId)
+                            ? "Deja dans le panier"
+                            : "Ajouter au panier"
+                        }
+                      >
+                        {isAddedToCartProducts(productId)
+                          ? "Deja dans le panier"
+                          : "Ajouter au panier"}
+                      </button>
+                    ) : (
+                      <span
+                        className="position-absolute bottom-0 start-0 m-2 badge bg-secondary"
+                        style={{ fontSize: 11 }}
+                      >
+                        {isEnglish ? "Soon" : "Bientot"}
+                      </span>
+                    )}
                   </div>
 
                   <div className="pc__info position-relative mt-2">
@@ -254,29 +223,11 @@ export default function BestSellingSpocket() {
                       <span className="money price fw-bold">${productPrice}</span>
                     </div>
                     <h6 className="pc__title mt-1">
-                      <Link href={`/product/${productId}`}>{productTitle}</Link>
+                      <Link href={productLink}>{productTitle}</Link>
                     </h6>
                     <p className="pc__category">
-                      {product.categories?.[0]?.name || "Non catégorisé"}
+                      {product.categories?.[0]?.name || "Non categorise"}
                     </p>
-
-                    <button
-                      className={`pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist ${
-                        isAddedtoWishlist(productId) ? "active" : ""
-                      }`}
-                      onClick={() => toggleWishlist(productId)}
-                      title="Ajouter à la liste de souhaits"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -284,14 +235,15 @@ export default function BestSellingSpocket() {
           })}
         </div>
       )}
-      {!loading && !error && canShowMore && (
+
+      {!loading && canShowMore && (
         <div className="text-center mt-4">
           <button
             type="button"
             className="btn btn-outline-dark btn-lg"
             onClick={() => setVisibleCount((prev) => prev + 24)}
           >
-            Voir plus de produits
+            {isEnglish ? "Show more products" : "Voir plus de produits"}
           </button>
         </div>
       )}

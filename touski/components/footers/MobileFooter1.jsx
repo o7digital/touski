@@ -36,7 +36,7 @@ export default function MobileFooter1() {
 
         <div className="col-4">
           <Link
-            href="/shop-1"
+            href="/products"
             className="footer-mobile__link d-flex flex-column align-items-center"
           >
             <svg

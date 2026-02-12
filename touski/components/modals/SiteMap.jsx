@@ -12,18 +12,18 @@ export default function SiteMap() {
   const mainLinks = isEnglish
     ? [
         { href: "/en", label: "Home" },
-        { href: "/shop-1", label: "Shop" },
-        { href: "/shop-1?category_slug=anti-courants-air", label: "Draft Proofing" },
-        { href: "/shop-1?category_slug=cuisine", label: "Kitchen" },
-        { href: "/shop-1?category_slug=salle-de-bain", label: "Bathroom" },
+        { href: "/products", label: "Shop" },
+        { href: "/products?category_slug=anti-courants-air", label: "Draft Proofing" },
+        { href: "/products?category_slug=cuisine", label: "Kitchen" },
+        { href: "/products?category_slug=salle-de-bain", label: "Bathroom" },
         { href: "/en/contact", label: "Contact" },
       ]
     : [
         { href: "/", label: "Accueil" },
-        { href: "/shop-1", label: "Boutique" },
-        { href: "/shop-1?category_slug=anti-courants-air", label: "Anti-courants d'air" },
-        { href: "/shop-1?category_slug=cuisine", label: "Cuisine" },
-        { href: "/shop-1?category_slug=salle-de-bain", label: "Salle de bain" },
+        { href: "/products", label: "Boutique" },
+        { href: "/products?category_slug=anti-courants-air", label: "Anti-courants d'air" },
+        { href: "/products?category_slug=cuisine", label: "Cuisine" },
+        { href: "/products?category_slug=salle-de-bain", label: "Salle de bain" },
         { href: "/contact", label: "Contact" },
       ];
 

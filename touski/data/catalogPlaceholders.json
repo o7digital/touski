@@ -1,0 +1,279 @@
+{
+  "categoryTree": [
+    {
+      "name": "Anti-courants d'air",
+      "slug": "anti-courants-air",
+      "description": "Au Canada, les hivers longs et venteux mettent rapidement en evidence les infiltrations d'air dans les logements. La categorie Anti-courants d'air de TOUSKI rassemble des solutions concretes pour limiter les pertes de chaleur au niveau des portes, fenetres et points de passage sensibles. L'objectif est simple: stabiliser la temperature interieure, reduire la sensation de froid au sol et ameliorer le confort quotidien sans travaux lourds. Cette selection est pertinente pour les appartements, condos et maisons, en particulier quand les ecarts de temperature sont importants entre les pieces. En renforcant l'etancheite a l'air, vous diminuez la sollicitation du chauffage, ce qui peut soutenir vos efforts d'economie d'energie pendant la saison froide. Chaque produit est choisi pour etre facile a installer, durable et adapte aux realites climatiques canadiennes."
+    },
+    {
+      "name": "Bas de porte",
+      "slug": "bas-de-porte",
+      "parent": "anti-courants-air",
+      "description": "Solutions de bas de porte pour bloquer les courants d'air froid au niveau du sol et conserver une chaleur plus stable dans les pieces."
+    },
+    {
+      "name": "Joints & bandes d'etancheite",
+      "slug": "joints-bandes-etancheite",
+      "parent": "anti-courants-air",
+      "description": "Joints et bandes d'etancheite pour reduire les micro-infiltrations autour des portes et fenetres, surtout en periode hivernale."
+    },
+    {
+      "name": "Seuils & accessoires",
+      "slug": "seuils-accessoires",
+      "parent": "anti-courants-air",
+      "description": "Seuils et accessoires complementaires pour finaliser l'etancheite des ouvertures et renforcer la performance globale contre le froid."
+    },
+    {
+      "name": "Cuisine",
+      "slug": "cuisine",
+      "description": "La cuisine est l'une des zones les plus sollicitees de la maison: cuisson, graisses, projections et nettoyage frequent. TOUSKI regroupe ici des produits utiles et efficaces pour entretenir les surfaces de cuisson, les hottes, l'inox et les zones difficiles a degraisser. Cette categorie est pensee pour les foyers canadiens qui veulent gagner du temps sans compromettre le resultat. Vous y trouverez des nettoyants specialises et des accessoires pratiques pour traiter les residus tenaces, proteger les materiaux et garder un espace propre au quotidien. Une cuisine bien entretenue contribue aussi a la durabilite des appareils, limite l'accumulation de depots et simplifie les routines de menage hebdomadaires. L'approche privilegiee est concrete: des solutions testables, simples a utiliser, et adaptees aux besoins reels des menages au Canada."
+    },
+    {
+      "name": "Degraissant intensif",
+      "slug": "degraissant-intensif",
+      "parent": "cuisine",
+      "description": "Produits degraissants pour dissoudre rapidement les depots gras sur hottes, plaques et surfaces de preparation."
+    },
+    {
+      "name": "Nettoyants specialises (brule, inox, four, plaque)",
+      "slug": "nettoyants-specialises",
+      "parent": "cuisine",
+      "description": "Nettoyants cibles pour brule, inox, fours et plaques afin de traiter les salissures sans abimer les surfaces."
+    },
+    {
+      "name": "Accessoires (brosses, grattoirs safe, etc.)",
+      "slug": "cuisine-accessoires",
+      "parent": "cuisine",
+      "description": "Accessoires utiles pour le nettoyage quotidien: brosses, grattoirs non abrasifs et outils pratiques."
+    },
+    {
+      "name": "Salle de bain",
+      "slug": "salle-de-bain",
+      "description": "Humidite, calcaire et joints encrasses sont des defis frequents dans les salles de bain canadiennes, surtout pendant l'hiver quand la ventilation est reduite. Cette categorie rassemble des produits pratiques pour garder une salle de bain propre, saine et facile a entretenir: solutions anti-calcaire, soins pour joints et moisissures, et accessoires utiles au quotidien. L'objectif est d'ameliorer l'hygiene sans routines complexes, tout en prolongeant la tenue des surfaces (robinetterie, douche, céramique, joints). Une salle de bain bien entretenue limite les depots, reduit les odeurs d'humidite et preserve le confort de toute la maison. TOUSKI privilegie des solutions claires a appliquer, pertinentes pour les realites du Canada, et orientees vers des economies de temps et d'efforts sur le long terme."
+    },
+    {
+      "name": "Anti-calcaire",
+      "slug": "anti-calcaire",
+      "parent": "salle-de-bain",
+      "description": "Solutions anti-calcaire pour douches, robinets et parois afin de limiter les traces blanches et conserver un entretien rapide."
+    },
+    {
+      "name": "Joints & moisissures",
+      "slug": "joints-moisissures",
+      "parent": "salle-de-bain",
+      "description": "Produits pour nettoyer et proteger les joints exposes a l'humidite et aux taches de moisissure."
+    },
+    {
+      "name": "Accessoires",
+      "slug": "salle-de-bain-accessoires",
+      "parent": "salle-de-bain",
+      "description": "Accessoires utiles pour simplifier l'entretien des surfaces humides et maintenir une salle de bain fonctionnelle."
+    }
+  ],
+  "products": [
+    {
+      "name": "Bas de porte isolant double boudin",
+      "slug": "bas-de-porte-isolant-double-boudin",
+      "sku": "TOUSKI-AC-001",
+      "regular_price": "24.90",
+      "short_description": "Bloque les courants d'air sous la porte et reduit la sensation de sol froid.",
+      "description": "Ce bas de porte double boudin est pense pour les hivers canadiens. Il limite les infiltrations d'air froid au niveau du seuil et aide a conserver une temperature plus stable dans les pieces. Son installation est rapide et ne necessite pas d'outil complexe.\n\nIdeal pour les logements exposes au vent ou les portes donnant sur un corridor frais, il contribue au confort quotidien et peut soutenir les efforts d'economie d'energie pendant la saison froide.",
+      "category_slugs": ["anti-courants-air", "bas-de-porte"],
+      "tags": ["hiver canadien", "etancheite", "economie d'energie"],
+      "attributes": [
+        { "name": "Usage", "options": ["Bas de porte"] },
+        { "name": "Piece", "options": ["Entree", "Salon", "Chambre"] },
+        { "name": "Saison", "options": ["Automne", "Hiver"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Bas+de+porte+isolant",
+      "featured": true
+    },
+    {
+      "name": "Coupe-froid adhesif silicone pour portes",
+      "slug": "coupe-froid-adhesif-silicone-portes",
+      "sku": "TOUSKI-AC-002",
+      "regular_price": "18.50",
+      "short_description": "Bande silicone adhesif pour limiter les fuites d'air sur le contour de porte.",
+      "description": "Le coupe-froid adhesif silicone se pose simplement sur le cadre pour reduire les micro-infiltrations d'air. Il est adapte aux variations de temperature frequentes au Canada et conserve sa souplesse plus longtemps.\n\nUtilise sur les portes interieures exposees ou les portes d'entree, il participe a une meilleure etancheite globale et a un confort thermique plus constant.",
+      "category_slugs": ["anti-courants-air", "joints-bandes-etancheite"],
+      "tags": ["coupe-froid", "porte", "canada"],
+      "attributes": [
+        { "name": "Usage", "options": ["Contour de porte"] },
+        { "name": "Materiau", "options": ["Silicone"] },
+        { "name": "Installation", "options": ["Adhesive"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Coupe-froid+silicone",
+      "featured": true
+    },
+    {
+      "name": "Joint etancheite fenetre hiver 10 m",
+      "slug": "joint-etancheite-fenetre-hiver-10m",
+      "sku": "TOUSKI-AC-003",
+      "regular_price": "21.90",
+      "short_description": "Joint mousse haute adherence pour reduire les pertes de chaleur autour des fenetres.",
+      "description": "Concu pour les ouvertures sensibles au froid, ce joint d'etancheite aide a limiter les fuites d'air autour des fenetres. Son format 10 m convient a plusieurs cadres standards.\n\nIl contribue a une atmosphere interieure plus stable et complete les autres actions anti-courants d'air pour mieux passer l'hiver dans les logements canadiens.",
+      "category_slugs": ["anti-courants-air", "joints-bandes-etancheite"],
+      "tags": ["fenetre", "isolation", "hiver"],
+      "attributes": [
+        { "name": "Longueur", "options": ["10 m"] },
+        { "name": "Usage", "options": ["Fenetre"] },
+        { "name": "Type", "options": ["Joint mousse"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Joint+fenetre+10m",
+      "featured": true
+    },
+    {
+      "name": "Bande mousse haute densite multi-usage",
+      "slug": "bande-mousse-haute-densite-multi-usage",
+      "sku": "TOUSKI-AC-004",
+      "regular_price": "16.90",
+      "short_description": "Bande polyvalente pour combler les interstices autour des portes et cadres.",
+      "description": "Cette bande mousse haute densite est utile pour traiter rapidement les petits espaces qui laissent passer l'air. Elle se coupe facilement et s'adapte a plusieurs points sensibles de la maison.\n\nC'est une solution pratique pour renforcer une etancheite existante et gagner en confort, notamment pendant les periodes de grand froid au Canada.",
+      "category_slugs": ["anti-courants-air", "joints-bandes-etancheite"],
+      "tags": ["mousse", "interstices", "confort maison"],
+      "attributes": [
+        { "name": "Usage", "options": ["Multi-usage"] },
+        { "name": "Densite", "options": ["Haute"] },
+        { "name": "Pose", "options": ["Decoupe facile"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Bande+mousse+HD",
+      "featured": false
+    },
+    {
+      "name": "Seuil de porte aluminium anti-infiltration",
+      "slug": "seuil-porte-aluminium-anti-infiltration",
+      "sku": "TOUSKI-AC-005",
+      "regular_price": "39.90",
+      "short_description": "Renforce le bas de porte pour limiter l'entree d'air froid et d'humidite.",
+      "description": "Ce seuil aluminium est destine aux portes qui presentent un espace sous battant. Il ajoute une barriere physique contre l'air froid et peut ameliorer la tenue de l'etancheite sur le long terme.\n\nSa conception robuste en fait un choix pertinent pour les entrees sollicitees, avec un usage adapte aux conditions climatiques canadiennes.",
+      "category_slugs": ["anti-courants-air", "seuils-accessoires"],
+      "tags": ["seuil", "porte entree", "durable"],
+      "attributes": [
+        { "name": "Materiau", "options": ["Aluminium"] },
+        { "name": "Usage", "options": ["Porte d'entree"] },
+        { "name": "Entretien", "options": ["Facile"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Seuil+aluminium",
+      "featured": false
+    },
+    {
+      "name": "Kit complet anti-courants d'air 4 ouvertures",
+      "slug": "kit-complet-anti-courants-air-4-ouvertures",
+      "sku": "TOUSKI-AC-006",
+      "regular_price": "54.00",
+      "short_description": "Ensemble pret a poser pour traiter portes et fenetres d'un petit logement.",
+      "description": "Le kit complet regroupe plusieurs elements essentiels pour demarrer rapidement: joints, bandes et solutions de bas de porte. Il est adapte aux foyers qui veulent une approche simple, sans multiplier les achats.\n\nCe format est utile pour les condos et appartements canadiens qui cherchent a ameliorer le confort thermique piece par piece.",
+      "category_slugs": ["anti-courants-air", "seuils-accessoires"],
+      "tags": ["kit", "anti-courants d'air", "appartement"],
+      "attributes": [
+        { "name": "Couverture", "options": ["4 ouvertures"] },
+        { "name": "Usage", "options": ["Demarrage rapide"] },
+        { "name": "Saison", "options": ["Automne", "Hiver"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Kit+anti-courants+d'air",
+      "featured": true
+    },
+    {
+      "name": "Degraissant intensif plaques et hottes",
+      "slug": "degraissant-intensif-plaques-hottes",
+      "sku": "TOUSKI-CUI-001",
+      "regular_price": "19.90",
+      "short_description": "Degraissant cuisine pour surfaces tres encrassees et depots tenaces.",
+      "description": "Formule concue pour dissoudre les residus gras sur hottes, plaques de cuisson et zones de projection. Elle facilite le nettoyage des surfaces sollicitees au quotidien.\n\nCe degraissant est destine aux routines de menage efficaces, avec une application simple pour les cuisines familiales au Canada.",
+      "category_slugs": ["cuisine", "degraissant-intensif"],
+      "tags": ["degraissant", "hotte", "cuisine"],
+      "attributes": [
+        { "name": "Usage", "options": ["Plaques", "Hottes"] },
+        { "name": "Format", "options": ["Spray"] },
+        { "name": "Frequence", "options": ["Hebdomadaire"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Degraissant+intensif",
+      "featured": true
+    },
+    {
+      "name": "Nettoyant specialise four et brule",
+      "slug": "nettoyant-specialise-four-brule",
+      "sku": "TOUSKI-CUI-002",
+      "regular_price": "17.50",
+      "short_description": "Nettoyant cible pour traces de brule et depots colles sur surfaces de cuisson.",
+      "description": "Ce nettoyant specialise agit sur les residues incrustes dans les fours et autour des bruleurs. Il aide a retrouver des surfaces propres sans gestes abrasifs excessifs.\n\nUtilise regulierement, il contribue a maintenir une cuisine saine et a prolonger la durabilite des zones de cuisson.",
+      "category_slugs": ["cuisine", "nettoyants-specialises"],
+      "tags": ["four", "brule", "entretien"],
+      "attributes": [
+        { "name": "Usage", "options": ["Four", "Bruleur"] },
+        { "name": "Type", "options": ["Nettoyant specialise"] },
+        { "name": "Action", "options": ["Degraissage", "Decollement"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Nettoyant+four+brule",
+      "featured": true
+    },
+    {
+      "name": "Grattoir safe vitrocéramique et brosse cuisine",
+      "slug": "grattoir-safe-vitroceramique-brosse-cuisine",
+      "sku": "TOUSKI-CUI-003",
+      "regular_price": "14.90",
+      "short_description": "Accessoire non abrasif pour nettoyer les plaques sans rayer.",
+      "description": "Ce duo grattoir safe et brosse cuisine est pense pour retirer les depots tenaces tout en respectant les surfaces delicates. Il convient aux plaques vitrocéramiques et a d'autres zones fragiles.\n\nUn accessoire utile pour gagner du temps au quotidien et conserver une finition propre sans usure precoce.",
+      "category_slugs": ["cuisine", "cuisine-accessoires"],
+      "tags": ["accessoire cuisine", "grattoir", "vitroceramique"],
+      "attributes": [
+        { "name": "Usage", "options": ["Plaque vitrocéramique"] },
+        { "name": "Type", "options": ["Accessoire"] },
+        { "name": "Abrasivite", "options": ["Non abrasive"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Grattoir+safe+et+brosse",
+      "featured": false
+    },
+    {
+      "name": "Gel anti-calcaire douche et robinetterie",
+      "slug": "gel-anti-calcaire-douche-robinetterie",
+      "sku": "TOUSKI-SDB-001",
+      "regular_price": "18.90",
+      "short_description": "Gel anti-calcaire pour limiter les traces blanches et simplifier l'entretien.",
+      "description": "Le gel anti-calcaire cible les depots sur parois de douche, robinets et surfaces frequemment exposees a l'eau dure. Sa texture permet une application precise sur les zones critiques.\n\nIl aide a conserver une salle de bain plus propre et a reduire le temps passe sur les nettoyages repetitifs.",
+      "category_slugs": ["salle-de-bain", "anti-calcaire"],
+      "tags": ["anti-calcaire", "douche", "robinetterie"],
+      "attributes": [
+        { "name": "Usage", "options": ["Douche", "Robinetterie"] },
+        { "name": "Format", "options": ["Gel"] },
+        { "name": "Frequence", "options": ["Hebdomadaire"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Gel+anti-calcaire",
+      "featured": true
+    },
+    {
+      "name": "Traitement joints et moisissures sans chlore fort",
+      "slug": "traitement-joints-moisissures-sans-chlore-fort",
+      "sku": "TOUSKI-SDB-002",
+      "regular_price": "22.90",
+      "short_description": "Solution ciblee pour nettoyer les joints exposes a l'humidite.",
+      "description": "Formule dediee aux joints de salle de bain marques par l'humidite et les taches sombres. Elle favorise un nettoyage efficace des zones sensibles autour de la douche et de la baignoire.\n\nCe traitement est utile pour maintenir une salle de bain nette et prevenir la degradation visuelle des joints au fil du temps.",
+      "category_slugs": ["salle-de-bain", "joints-moisissures"],
+      "tags": ["joints", "moisissures", "hygiene"],
+      "attributes": [
+        { "name": "Usage", "options": ["Joints", "Silicone"] },
+        { "name": "Type", "options": ["Traitement"] },
+        { "name": "Application", "options": ["Precision"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Traitement+joints+moisissures",
+      "featured": true
+    },
+    {
+      "name": "Kit accessoires salle de bain anti-humidite",
+      "slug": "kit-accessoires-salle-de-bain-anti-humidite",
+      "sku": "TOUSKI-SDB-003",
+      "regular_price": "27.90",
+      "short_description": "Ensemble pratique d'accessoires pour l'entretien quotidien de la salle de bain.",
+      "description": "Ce kit regroupe des accessoires utiles pour entretenir rapidement les surfaces exposees a l'humidite: brosse, raclette et outil de finition pour joints.\n\nIl est concu pour les routines courtes et regulieres, afin de conserver une salle de bain propre avec moins d'efforts.",
+      "category_slugs": ["salle-de-bain", "salle-de-bain-accessoires"],
+      "tags": ["accessoires", "salle de bain", "anti-humidite"],
+      "attributes": [
+        { "name": "Usage", "options": ["Entretien quotidien"] },
+        { "name": "Contenu", "options": ["3 accessoires"] },
+        { "name": "Zone", "options": ["Douche", "Lavabo"] }
+      ],
+      "image": "https://placehold.co/1200x1200/png?text=Kit+SDB+anti-humidite",
+      "featured": false
+    }
+  ]
+}

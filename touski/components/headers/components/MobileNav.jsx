@@ -21,7 +21,7 @@ export default function MobileNav() {
 
     if (basePath !== pathname) return false;
 
-    if (basePath === "/shop-1") {
+    if (basePath === "/products") {
       if (!hrefCategory) return !currentCategory;
       return currentCategory === hrefCategory;
     }
@@ -73,24 +73,24 @@ export default function MobileNav() {
   const links = isEnglish
     ? [
         { href: "/en", label: "HOME" },
-        { href: "/shop-1", label: "SHOP" },
+        { href: "/products", label: "SHOP" },
         {
-          href: "/shop-1?category_slug=anti-courants-air",
+          href: "/products?category_slug=anti-courants-air",
           label: "DRAFT PROOFING",
         },
-        { href: "/shop-1?category_slug=cuisine", label: "KITCHEN" },
-        { href: "/shop-1?category_slug=salle-de-bain", label: "BATHROOM" },
+        { href: "/products?category_slug=cuisine", label: "KITCHEN" },
+        { href: "/products?category_slug=salle-de-bain", label: "BATHROOM" },
         { href: "/en/contact", label: "CONTACT" },
       ]
     : [
         { href: "/", label: "ACCUEIL" },
-        { href: "/shop-1", label: "BOUTIQUE" },
+        { href: "/products", label: "BOUTIQUE" },
         {
-          href: "/shop-1?category_slug=anti-courants-air",
+          href: "/products?category_slug=anti-courants-air",
           label: "ANTI-COURANTS D'AIR",
         },
-        { href: "/shop-1?category_slug=cuisine", label: "CUISINE" },
-        { href: "/shop-1?category_slug=salle-de-bain", label: "SALLE DE BAIN" },
+        { href: "/products?category_slug=cuisine", label: "CUISINE" },
+        { href: "/products?category_slug=salle-de-bain", label: "SALLE DE BAIN" },
         { href: "/contact", label: "CONTACT" },
       ];
 
