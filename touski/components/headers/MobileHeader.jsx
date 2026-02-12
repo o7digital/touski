@@ -1,7 +1,7 @@
 "use client";
 import { currencyOptions, languageOptions } from "@/data/footer";
 import { socialLinks } from "@/data/socials";
-import React from "react";
+import React, { Suspense } from "react";
 import { usePathname } from "next/navigation";
 import MobileNav from "./components/MobileNav";
 import Image from "next/image";
@@ -92,7 +92,9 @@ export default function MobileHeader() {
         <div className="container">
           <div className="overflow-hidden">
             <ul className="navigation__list list-unstyled position-relative">
-              <MobileNav />
+              <Suspense fallback={null}>
+                <MobileNav />
+              </Suspense>
             </ul>
           </div>
         </div>

@@ -2,29 +2,22 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function MobileNav() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const isEnglish = pathname?.startsWith("/en");
 
   const isActive = (href) => {
     const [basePath, query] = href.split("?");
-    const hrefCategory = query
-      ? new URLSearchParams(query).get("category_slug")
-      : null;
-    const currentCategory = searchParams.get("category_slug");
 
     if (basePath === "/" && pathname === "/") return true;
     if (basePath === "/en" && pathname === "/en") return true;
 
     if (basePath !== pathname) return false;
 
-    if (basePath === "/products") {
-      if (!hrefCategory) return !currentCategory;
-      return currentCategory === hrefCategory;
-    }
+    // On ne depend pas des query params pour garder ce composant compatible SSG.
+    if (basePath === "/products" && query) return false;
 
     return true;
   };

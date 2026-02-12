@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "./components/Nav";
 import Image from "next/image";
@@ -75,7 +75,9 @@ export default function Header9() {
 
         <nav className="navigation mx-auto mx-xxl-0">
           <ul className="navigation__list list-unstyled d-flex">
-            <Nav />
+            <Suspense fallback={null}>
+              <Nav />
+            </Suspense>
           </ul>
         </nav>
 

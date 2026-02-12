@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "./components/Nav";
 import Image from "next/image";
@@ -70,7 +70,9 @@ export default function Header1() {
 
           <nav className="navigation">
             <ul className="navigation__list list-unstyled d-flex">
-              <Nav />
+              <Suspense fallback={null}>
+                <Nav />
+              </Suspense>
             </ul>
           </nav>
 
