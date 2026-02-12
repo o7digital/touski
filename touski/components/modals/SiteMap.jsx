@@ -87,6 +87,42 @@ export default function SiteMap() {
       ),
     },
     {
+      href: withLocale("/returns-and-refunds", locale),
+      label: getLocaleValue(
+        {
+          fr: "Retours et remboursements",
+          en: "Returns & refunds",
+          de: "Ruckgaben und Ruckerstattungen",
+          es: "Devoluciones y reembolsos",
+        },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/taxes-and-duties", locale),
+      label: getLocaleValue(
+        {
+          fr: "Taxes et droits",
+          en: "Taxes & duties",
+          de: "Steuern und Zollgebuhren",
+          es: "Impuestos y aranceles",
+        },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/shipping-policy", locale),
+      label: getLocaleValue(
+        {
+          fr: "Politique d'expedition",
+          en: "Shipping policy",
+          de: "Versandrichtlinie",
+          es: "Politica de envio",
+        },
+        locale
+      ),
+    },
+    {
       href: "/legal",
       label: getLocaleValue(
         {

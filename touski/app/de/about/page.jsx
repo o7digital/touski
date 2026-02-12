@@ -26,43 +26,104 @@ export default function AboutPageDe() {
         <section className="container mw-930 pb-5">
           <h1>TOUSKI: Wohnkomfort neu denken</h1>
           <p>
-            TOUSKI möchte Wohnungen und Häuser im Alltag spürbar komfortabler machen.
-            Unser Fokus liegt auf praktischen Lösungen für Zugluftschutz, Küche und Bad,
-            damit das Zuhause funktional, angenehm und einfach zu pflegen bleibt.
+            TOUSKI steht dafür, Wohnungen und Häuser im Alltag spürbar komfortabler,
+            stabiler und funktionaler zu machen. Unser Ziel ist nicht, möglichst viele
+            Produkte zu zeigen, sondern echte Hebel für mehr Wohlbefinden im Zuhause
+            verständlich und praktisch umzusetzen.
           </p>
           <p>
-            Statt kurzfristiger Trends setzen wir auf klare Prioritäten: echte Probleme
-            im Haushalt lösen, Komfort stabilisieren und den täglichen Aufwand reduzieren.
+            Diese Seite fasst unsere Vision zusammen und erklärt, wie wir Wohnkomfort
+            als ganzheitliches Thema betrachten, statt als Sammlung isolierter Produkte.
           </p>
         </section>
 
         <section className="container mw-930 pb-5">
           <h2>Unsere Sicht auf Wohnkomfort</h2>
           <p>
-            Wohnkomfort entsteht durch das Zusammenspiel von Temperatur, Luftdichtheit,
-            Raumorganisation und Nutzungsgewohnheiten. Wenn diese Elemente zusammenpassen,
-            steigt die Lebensqualität spürbar.
+            TOUSKI basiert auf einer einfachen Beobachtung: Wohnkomfort ist ein zentraler
+            Faktor für Lebensqualität. Durch Homeoffice, mehr Zeit zuhause und
+            klimatische Schwankungen ist das Innenraumklima wichtiger denn je.
           </p>
           <p>
-            Deshalb wählen wir Produkte aus, die im kanadischen Alltag wirklich nützlich sind:
-            leicht anzuwenden, wirksam und auf langfristige Nutzung ausgelegt.
+            Unsere Vision verbindet mehrere Dimensionen: Raumwärme, Luftdichtheit,
+            sinnvolle Organisation der Räume und persönliches Wohlbefinden.
+          </p>
+          <p>
+            Wohnkomfort entsteht für uns durch Balance: Temperatur, Akustik,
+            Luftqualität und Alltagstauglichkeit müssen zusammenpassen.
           </p>
         </section>
 
         <section className="container mw-930 pb-5">
-          <h2>Ein praxisnaher Ansatz</h2>
+          <h2>Ein nutzungsorientierter Ansatz</h2>
           <p>
-            Wir starten immer mit den realen Situationen zuhause: kalte Zugluft an Türen,
-            hartnäckige Verschmutzung in der Küche oder Feuchtigkeit im Bad.
-            Daraus leiten wir konkrete, einfache und nachhaltige Lösungen ab.
+            Bei TOUSKI starten wir mit realen Alltagssituationen: Zugluft an Türen,
+            Wärmeverluste an sensiblen Stellen, hartnäckige Verschmutzung in Küche
+            oder Feuchtigkeit im Bad.
           </p>
           <p>
-            Mehr über unseren Ansatz finden Sie auf
-            <a href="/de/nos-services"> Unsere Leistungen</a> sowie auf den Seiten zu
-            <a href="/de/chaleur-confort"> Wärme & Innenkomfort</a>,
-            <a href="/de/isolation-protection"> Dämmung & Schutz</a>,
-            <a href="/de/teletravail-bien-etre"> Homeoffice & Wohlbefinden</a> und
+            Auf dieser Basis wählen wir Lösungen aus, die leicht integrierbar,
+            verständlich und langfristig wirksam sind.
+          </p>
+          <p>
+            Unser Ansatz hilft, überflüssige Produkte zu vermeiden und stattdessen
+            auf Maßnahmen mit klarem, praktischem Nutzen zu setzen.
+          </p>
+        </section>
+
+        <section className="container mw-930 pb-5">
+          <h2>Komfort als Gleichgewicht</h2>
+          <p>
+            Wohnkomfort lässt sich nicht auf einen einzigen Faktor reduzieren. Er ist das
+            Ergebnis mehrerer Elemente: Temperatur, Dämmung, Raumaufteilung und
+            ergonomische Nutzung im Alltag.
+          </p>
+          <p>
+            Deshalb betrachten wir das Zuhause als zusammenhängendes System, in dem
+            jede Verbesserung einen messbaren Beitrag zur Lebensqualität leisten sollte.
+          </p>
+          <p>
+            Ziel ist ein ruhiges, funktionales und verlässliches Zuhause, das Arbeit,
+            Erholung und tägliche Abläufe gleichermaßen unterstützt.
+          </p>
+        </section>
+
+        <section className="container mw-930 pb-5">
+          <h2>Ein nachhaltiger und verantwortungsvoller Ansatz</h2>
+          <p>
+            Die Verbesserung des Wohnkomforts ist für uns ein langfristiges Thema.
+            TOUSKI setzt auf robuste, nützliche und dauerhaft einsetzbare Lösungen,
+            statt auf kurzlebige Trends.
+          </p>
+          <p>
+            Wir bevorzugen klare, praktische Produkte, die Wartung vereinfachen,
+            den Alltag entlasten und über mehrere Saisons zuverlässig funktionieren.
+          </p>
+          <p>
+            So bauen wir Vertrauen auf: durch konsistente Qualität und nachvollziehbare
+            Entscheidungen entlang realer Bedürfnisse.
+          </p>
+        </section>
+
+        <section className="container mw-930 pb-5">
+          <h2>TOUSKI: Ein Projekt für Lebensqualität</h2>
+          <p>
+            TOUSKI richtet sich an alle, die ihr Zuhause komfortabler, effizienter und
+            alltagstauglicher gestalten möchten.
+          </p>
+          <p>
+            Unsere Vorgehensweise ist auf der Seite
+            <a href="/de/nos-services"> Unsere Leistungen</a> beschrieben und wird durch
+            unsere Kerninhalte ergänzt:
+            <a href="/de/chaleur-confort"> Wärme und Innenkomfort</a>,
+            <a href="/de/isolation-protection"> Dämmung und Schutz</a>,
+            <a href="/de/teletravail-bien-etre"> Homeoffice und Wohlbefinden</a> und
             <a href="/de/cocooning-maison"> Cocooning zuhause</a>.
+          </p>
+          <p>
+            Mit dieser Struktur verfolgt TOUSKI eine klare Linie: Haushalte mit
+            zuverlässigen, kohärenten und langlebigen Lösungen beim Wohnkomfort
+            konkret zu unterstützen.
           </p>
         </section>
       </main>

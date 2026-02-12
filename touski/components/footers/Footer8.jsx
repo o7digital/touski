@@ -71,6 +71,24 @@ export default function Footer8() {
       de: "Rechtliche Hinweise",
       es: "Aviso legal",
     },
+    returnsAndRefunds: {
+      fr: "Retours et remboursements",
+      en: "Returns & refunds",
+      de: "Ruckgaben und Ruckerstattungen",
+      es: "Devoluciones y reembolsos",
+    },
+    taxesAndDuties: {
+      fr: "Taxes et droits",
+      en: "Taxes & duties",
+      de: "Steuern und Zollgebuhren",
+      es: "Impuestos y aranceles",
+    },
+    shippingPolicy: {
+      fr: "Politique d'expedition",
+      en: "Shipping policy",
+      de: "Versandrichtlinie",
+      es: "Politica de envio",
+    },
     newsletter: {
       fr: "INFOLETTRE",
       en: "NEWSLETTER",
@@ -234,6 +252,30 @@ export default function Footer8() {
               <li className="sub-menu__item mb-2">
                 <Link href="/account_dashboard" className="menu-link menu-link_us-s">
                   {getLocaleValue(ui.myAccount, locale)}
+                </Link>
+              </li>
+              <li className="sub-menu__item mb-2">
+                <Link
+                  href={withLocale("/returns-and-refunds", locale)}
+                  className="menu-link menu-link_us-s"
+                >
+                  {getLocaleValue(ui.returnsAndRefunds, locale)}
+                </Link>
+              </li>
+              <li className="sub-menu__item mb-2">
+                <Link
+                  href={withLocale("/taxes-and-duties", locale)}
+                  className="menu-link menu-link_us-s"
+                >
+                  {getLocaleValue(ui.taxesAndDuties, locale)}
+                </Link>
+              </li>
+              <li className="sub-menu__item mb-2">
+                <Link
+                  href={withLocale("/shipping-policy", locale)}
+                  className="menu-link menu-link_us-s"
+                >
+                  {getLocaleValue(ui.shippingPolicy, locale)}
                 </Link>
               </li>
               <li className="sub-menu__item mb-2">
