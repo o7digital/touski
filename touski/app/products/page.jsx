@@ -8,30 +8,78 @@ import Footer8 from "@/components/footers/Footer8";
 import catalogPlaceholders from "@/data/catalogPlaceholders.json";
 
 const topCategories = [
-  { label: "Tous", key: "all" },
-  { label: "Anti-courants d'air", key: "anti-courants-air" },
-  { label: "Cuisine", key: "cuisine" },
-  { label: "Salle de bain", key: "salle-de-bain" },
+  {
+    label: "Tous",
+    key: "all",
+    description: "Tous les produits disponibles sur la boutique.",
+  },
+  {
+    label: "Anti-courants d'air",
+    key: "anti-courants-air",
+    description: "Bas de porte, joints et solutions d'etancheite.",
+  },
+  {
+    label: "Cuisine",
+    key: "cuisine",
+    description: "Degraissants, nettoyants specialises et accessoires utiles.",
+  },
+  {
+    label: "Salle de bain",
+    key: "salle-de-bain",
+    description: "Anti-calcaire, joints/moisissures et accessoires.",
+  },
 ];
 
 const subCategoriesByTop = {
   "anti-courants-air": [
-    { label: "Tous", key: "all" },
-    { label: "Bas de porte", key: "bas-de-porte" },
-    { label: "Joints & bandes d'etancheite", key: "joints-bandes-etancheite" },
-    { label: "Seuils & accessoires", key: "seuils-accessoires" },
+    { label: "Tous", key: "all", description: "Tous les produits anti-courants d'air." },
+    { label: "Bas de porte", key: "bas-de-porte", description: "Solutions de blocage au niveau du seuil." },
+    {
+      label: "Joints & bandes d'etancheite",
+      key: "joints-bandes-etancheite",
+      description: "Limiter les infiltrations autour des ouvertures.",
+    },
+    {
+      label: "Seuils & accessoires",
+      key: "seuils-accessoires",
+      description: "Complements d'etancheite et finition.",
+    },
   ],
   cuisine: [
-    { label: "Tous", key: "all" },
-    { label: "Degraissant intensif", key: "degraissant-intensif" },
-    { label: "Nettoyants specialises", key: "nettoyants-specialises" },
-    { label: "Accessoires", key: "cuisine-accessoires" },
+    { label: "Tous", key: "all", description: "Tous les produits cuisine." },
+    {
+      label: "Degraissant intensif",
+      key: "degraissant-intensif",
+      description: "Retirer les graisses tenaces efficacement.",
+    },
+    {
+      label: "Nettoyants specialises",
+      key: "nettoyants-specialises",
+      description: "Brule, inox, four et plaque.",
+    },
+    {
+      label: "Accessoires",
+      key: "cuisine-accessoires",
+      description: "Brosses, grattoirs safe et outils pratiques.",
+    },
   ],
   "salle-de-bain": [
-    { label: "Tous", key: "all" },
-    { label: "Anti-calcaire", key: "anti-calcaire" },
-    { label: "Joints & moisissures", key: "joints-moisissures" },
-    { label: "Accessoires", key: "salle-de-bain-accessoires" },
+    { label: "Tous", key: "all", description: "Tous les produits salle de bain." },
+    {
+      label: "Anti-calcaire",
+      key: "anti-calcaire",
+      description: "Limiter les depots et traces blanches.",
+    },
+    {
+      label: "Joints & moisissures",
+      key: "joints-moisissures",
+      description: "Entretien des joints exposes a l'humidite.",
+    },
+    {
+      label: "Accessoires",
+      key: "salle-de-bain-accessoires",
+      description: "Accessoires utiles pour l'entretien quotidien.",
+    },
   ],
 };
 
@@ -117,6 +165,14 @@ function ProductsContent() {
     if (selectedTopCategory === "all") return [];
     return subCategoriesByTop[selectedTopCategory] || [];
   }, [selectedTopCategory]);
+  const activeTopCategory = useMemo(
+    () => topCategories.find((category) => category.key === selectedTopCategory),
+    [selectedTopCategory]
+  );
+  const activeSubCategory = useMemo(
+    () => visibleSubCategories.find((category) => category.key === selectedSubCategory),
+    [visibleSubCategories, selectedSubCategory]
+  );
 
   async function loadProducts() {
     setLoading(true);
@@ -253,40 +309,52 @@ function ProductsContent() {
               </button>
             ))}
           </div>
+          {activeTopCategory?.description && (
+            <p className="text-center text-secondary mb-3" style={{ fontSize: 14 }}>
+              {activeTopCategory.description}
+            </p>
+          )}
 
           {visibleSubCategories.length > 0 && (
-            <div
-              style={{
-                display: "flex",
-                gap: 8,
-                justifyContent: "center",
-                flexWrap: "wrap",
-                marginBottom: 28,
-              }}
-            >
-              {visibleSubCategories.map((subcat) => (
-                <button
-                  key={subcat.key}
-                  onClick={() => setSelectedSubCategory(subcat.key)}
-                  style={{
-                    padding: "6px 14px",
-                    borderRadius: 20,
-                    border:
-                      selectedSubCategory === subcat.key
-                        ? "2px solid #202020"
-                        : "1px solid #ddd",
-                    backgroundColor:
-                      selectedSubCategory === subcat.key ? "#202020" : "white",
-                    color: selectedSubCategory === subcat.key ? "white" : "#333",
-                    cursor: "pointer",
-                    fontWeight: selectedSubCategory === subcat.key ? 700 : 500,
-                    fontSize: 12,
-                  }}
-                >
-                  {subcat.label}
-                </button>
-              ))}
-            </div>
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 8,
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  marginBottom: 12,
+                }}
+              >
+                {visibleSubCategories.map((subcat) => (
+                  <button
+                    key={subcat.key}
+                    onClick={() => setSelectedSubCategory(subcat.key)}
+                    style={{
+                      padding: "6px 14px",
+                      borderRadius: 20,
+                      border:
+                        selectedSubCategory === subcat.key
+                          ? "2px solid #202020"
+                          : "1px solid #ddd",
+                      backgroundColor:
+                        selectedSubCategory === subcat.key ? "#202020" : "white",
+                      color: selectedSubCategory === subcat.key ? "white" : "#333",
+                      cursor: "pointer",
+                      fontWeight: selectedSubCategory === subcat.key ? 700 : 500,
+                      fontSize: 12,
+                    }}
+                  >
+                    {subcat.label}
+                  </button>
+                ))}
+              </div>
+              {activeSubCategory?.description && (
+                <p className="text-center text-secondary mb-4" style={{ fontSize: 13 }}>
+                  {activeSubCategory.description}
+                </p>
+              )}
+            </>
           )}
 
           {isFallback && (
@@ -340,7 +408,6 @@ function ProductsContent() {
               >
                 {products.map((product) => {
                   const title = product.name || "Sans nom";
-                  const description = product.short_description || product.description;
                   const status = product.stock_status;
                   const imageUrl =
                     product.images?.[0]?.src || "/assets/images/products/default.jpg";
@@ -381,18 +448,6 @@ function ProductsContent() {
                         <span style={{ fontWeight: 700, color: "#28a745", fontSize: 18 }}>
                           ${product.price || "-"}
                         </span>
-                      </div>
-
-                      <div style={{ color: "#666", fontSize: 14, marginBottom: 12, lineHeight: 1.4 }}>
-                        {description ? (
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: `${String(description).substring(0, 120)}...`,
-                            }}
-                          />
-                        ) : (
-                          "Description non renseignee"
-                        )}
                       </div>
 
                       <div style={{ fontSize: 12, color: "#888" }}>

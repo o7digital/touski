@@ -7,10 +7,34 @@ import { usePathname } from "next/navigation";
 import catalogPlaceholders from "@/data/catalogPlaceholders.json";
 
 const pillarFilters = [
-  { key: "all", fr: "TOUT", en: "ALL" },
-  { key: "anti-courants-air", fr: "ANTI-COURANTS D'AIR", en: "DRAFT PROOFING" },
-  { key: "cuisine", fr: "CUISINE", en: "KITCHEN" },
-  { key: "salle-de-bain", fr: "SALLE DE BAIN", en: "BATHROOM" },
+  {
+    key: "all",
+    fr: "TOUT",
+    en: "ALL",
+    frDescription: "Tous les produits de la boutique.",
+    enDescription: "All products from the shop.",
+  },
+  {
+    key: "anti-courants-air",
+    fr: "ANTI-COURANTS D'AIR",
+    en: "DRAFT PROOFING",
+    frDescription: "Bas de porte, joints et solutions d'etancheite.",
+    enDescription: "Door sweeps, seals and draft-proofing solutions.",
+  },
+  {
+    key: "cuisine",
+    fr: "CUISINE",
+    en: "KITCHEN",
+    frDescription: "Degraissants, nettoyants specialises et accessoires utiles.",
+    enDescription: "Degreasers, specialty cleaners and useful accessories.",
+  },
+  {
+    key: "salle-de-bain",
+    fr: "SALLE DE BAIN",
+    en: "BATHROOM",
+    frDescription: "Anti-calcaire, joints/moisissures et accessoires.",
+    enDescription: "Anti-limescale, grout/mold care and accessories.",
+  },
 ];
 
 function fallbackByCategory(categoryKey) {
@@ -106,6 +130,7 @@ export default function BestSellingSpocket() {
 
   const visibleProducts = products.slice(0, visibleCount);
   const canShowMore = products.length > visibleCount;
+  const activeFilter = pillarFilters.find((filter) => filter.key === activeCategory);
 
   return (
     <section className="products-carousel container">
@@ -136,6 +161,11 @@ export default function BestSellingSpocket() {
           </button>
         ))}
       </div>
+      {activeFilter && (
+        <p className="text-center text-secondary mb-4" style={{ fontSize: 14 }}>
+          {isEnglish ? activeFilter.enDescription : activeFilter.frDescription}
+        </p>
+      )}
 
       {usingFallback && (
         <div className="alert alert-warning text-center mb-4" role="alert">
@@ -225,9 +255,6 @@ export default function BestSellingSpocket() {
                     <h6 className="pc__title mt-1">
                       <Link href={productLink}>{productTitle}</Link>
                     </h6>
-                    <p className="pc__category">
-                      {product.categories?.[0]?.name || "Non categorise"}
-                    </p>
                   </div>
                 </div>
               </div>
