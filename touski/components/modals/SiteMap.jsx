@@ -4,40 +4,137 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { getLocaleFromPathname, getLocaleValue, withLocale } from "@/lib/i18n";
 
 export default function SiteMap() {
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith("/en");
+  const locale = getLocaleFromPathname(pathname || "/");
+  const shopPath = withLocale("/products", locale);
 
-  const mainLinks = isEnglish
-    ? [
-        { href: "/en", label: "Home" },
-        { href: "/products", label: "Shop" },
-        { href: "/products?category_slug=anti-courants-air", label: "Draft Proofing" },
-        { href: "/products?category_slug=cuisine", label: "Kitchen" },
-        { href: "/products?category_slug=salle-de-bain", label: "Bathroom" },
-        { href: "/en/contact", label: "Contact" },
-      ]
-    : [
-        { href: "/", label: "Accueil" },
-        { href: "/products", label: "Boutique" },
-        { href: "/products?category_slug=anti-courants-air", label: "Anti-courants d'air" },
-        { href: "/products?category_slug=cuisine", label: "Cuisine" },
-        { href: "/products?category_slug=salle-de-bain", label: "Salle de bain" },
-        { href: "/contact", label: "Contact" },
-      ];
+  const mainLinks = [
+    {
+      href: withLocale("/", locale),
+      label: getLocaleValue(
+        { fr: "Accueil", en: "Home", de: "Startseite", es: "Inicio" },
+        locale
+      ),
+    },
+    {
+      href: shopPath,
+      label: getLocaleValue(
+        { fr: "Boutique", en: "Shop", de: "Shop", es: "Tienda" },
+        locale
+      ),
+    },
+    {
+      href: `${shopPath}?category_slug=anti-courants-air`,
+      label: getLocaleValue(
+        {
+          fr: "Anti-courants d'air",
+          en: "Draft Proofing",
+          de: "Zugluftschutz",
+          es: "Anti corrientes de aire",
+        },
+        locale
+      ),
+    },
+    {
+      href: `${shopPath}?category_slug=cuisine`,
+      label: getLocaleValue(
+        { fr: "Cuisine", en: "Kitchen", de: "Küche", es: "Cocina" },
+        locale
+      ),
+    },
+    {
+      href: `${shopPath}?category_slug=salle-de-bain`,
+      label: getLocaleValue(
+        { fr: "Salle de bain", en: "Bathroom", de: "Bad", es: "Baño" },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/contact", locale),
+      label: getLocaleValue(
+        { fr: "Contact", en: "Contact", de: "Kontakt", es: "Contacto" },
+        locale
+      ),
+    },
+  ];
 
-  const companyLinks = isEnglish
-    ? [
-        { href: "/en/about", label: "About TOUSKI" },
-        { href: "/en/nos-services", label: "Our services" },
-        { href: "/legal", label: "Legal notice" },
-      ]
-    : [
-        { href: "/about", label: "A propos de TOUSKI" },
-        { href: "/nos-services", label: "Nos services" },
-        { href: "/legal", label: "Mentions legales" },
-      ];
+  const companyLinks = [
+    {
+      href: withLocale("/about", locale),
+      label: getLocaleValue(
+        {
+          fr: "A propos de TOUSKI",
+          en: "About TOUSKI",
+          de: "Über TOUSKI",
+          es: "Sobre TOUSKI",
+        },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/nos-services", locale),
+      label: getLocaleValue(
+        {
+          fr: "Nos services",
+          en: "Our services",
+          de: "Unsere Leistungen",
+          es: "Nuestros servicios",
+        },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/returns-and-refunds", locale),
+      label: getLocaleValue(
+        {
+          fr: "Retours et remboursements",
+          en: "Returns & refunds",
+          de: "Ruckgaben und Ruckerstattungen",
+          es: "Devoluciones y reembolsos",
+        },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/taxes-and-duties", locale),
+      label: getLocaleValue(
+        {
+          fr: "Taxes et droits",
+          en: "Taxes & duties",
+          de: "Steuern und Zollgebuhren",
+          es: "Impuestos y aranceles",
+        },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/shipping-policy", locale),
+      label: getLocaleValue(
+        {
+          fr: "Politique d'expedition",
+          en: "Shipping policy",
+          de: "Versandrichtlinie",
+          es: "Politica de envio",
+        },
+        locale
+      ),
+    },
+    {
+      href: "/legal",
+      label: getLocaleValue(
+        {
+          fr: "Mentions legales",
+          en: "Legal notice",
+          de: "Rechtliche Hinweise",
+          es: "Aviso legal",
+        },
+        locale
+      ),
+    },
+  ];
 
   return (
     <div className="modal fade" id="siteMap" tabIndex="-1" aria-labelledby="siteMapLabel">
@@ -59,7 +156,15 @@ export default function SiteMap() {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title text-uppercase" id="siteMapLabel">
-                  {isEnglish ? "Site navigation" : "Navigation du site"}
+                  {getLocaleValue(
+                    {
+                      fr: "Navigation du site",
+                      en: "Site navigation",
+                      de: "Seitennavigation",
+                      es: "Navegación del sitio",
+                    },
+                    locale
+                  )}
                 </h5>
                 <button
                   type="button"
@@ -73,7 +178,15 @@ export default function SiteMap() {
                 <div className="row">
                   <div className="col-md-6 mb-4 mb-md-0">
                     <h6 className="text-uppercase mb-3">
-                      {isEnglish ? "Main links" : "Liens principaux"}
+                      {getLocaleValue(
+                        {
+                          fr: "Liens principaux",
+                          en: "Main links",
+                          de: "Hauptlinks",
+                          es: "Enlaces principales",
+                        },
+                        locale
+                      )}
                     </h6>
                     <ul className="list-unstyled mb-0">
                       {mainLinks.map((link) => (
@@ -88,7 +201,10 @@ export default function SiteMap() {
 
                   <div className="col-md-6">
                     <h6 className="text-uppercase mb-3">
-                      {isEnglish ? "TOUSKI" : "TOUSKI"}
+                      {getLocaleValue(
+                        { fr: "TOUSKI", en: "TOUSKI", de: "TOUSKI", es: "TOUSKI" },
+                        locale
+                      )}
                     </h6>
                     <ul className="list-unstyled mb-0">
                       {companyLinks.map((link) => (

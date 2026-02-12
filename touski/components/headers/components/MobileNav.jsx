@@ -2,29 +2,20 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getLocaleValue, withLocale } from "@/lib/i18n";
 
 export default function MobileNav() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const isEnglish = pathname?.startsWith("/en");
+  const locale = getLocaleFromPathname(pathname || "/");
 
   const isActive = (href) => {
     const [basePath, query] = href.split("?");
-    const hrefCategory = query
-      ? new URLSearchParams(query).get("category_slug")
-      : null;
-    const currentCategory = searchParams.get("category_slug");
-
-    if (basePath === "/" && pathname === "/") return true;
-    if (basePath === "/en" && pathname === "/en") return true;
 
     if (basePath !== pathname) return false;
 
-    if (basePath === "/products") {
-      if (!hrefCategory) return !currentCategory;
-      return currentCategory === hrefCategory;
-    }
+    // On ne depend pas des query params pour garder ce composant compatible SSG.
+    if (basePath.endsWith("/products") && query) return false;
 
     return true;
   };
@@ -70,29 +61,74 @@ export default function MobileNav() {
     }
   }, [pathname]);
 
-  const links = isEnglish
-    ? [
-        { href: "/en", label: "HOME" },
-        { href: "/products", label: "SHOP" },
+  const links = [
+    {
+      href: withLocale("/", locale),
+      label: getLocaleValue(
+        { fr: "ACCUEIL", en: "HOME", de: "STARTSEITE", es: "INICIO" },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/about", locale),
+      label: getLocaleValue(
+        { fr: "TOUSKI", en: "TOUSKI", de: "TOUSKI", es: "TOUSKI" },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/nos-services", locale),
+      label: getLocaleValue(
         {
-          href: "/products?category_slug=anti-courants-air",
-          label: "DRAFT PROOFING",
+          fr: "NOS SERVICES",
+          en: "OUR SERVICES",
+          de: "UNSERE LEISTUNGEN",
+          es: "NUESTROS SERVICIOS",
         },
-        { href: "/products?category_slug=cuisine", label: "KITCHEN" },
-        { href: "/products?category_slug=salle-de-bain", label: "BATHROOM" },
-        { href: "/en/contact", label: "CONTACT" },
-      ]
-    : [
-        { href: "/", label: "ACCUEIL" },
-        { href: "/products", label: "BOUTIQUE" },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/products", locale),
+      label: getLocaleValue(
+        { fr: "BOUTIQUE", en: "SHOP", de: "SHOP", es: "TIENDA" },
+        locale
+      ),
+    },
+    {
+      href: `${withLocale("/products", locale)}?category_slug=anti-courants-air`,
+      label: getLocaleValue(
         {
-          href: "/products?category_slug=anti-courants-air",
-          label: "ANTI-COURANTS D'AIR",
+          fr: "ANTI-COURANTS D'AIR",
+          en: "DRAFT PROOFING",
+          de: "ZUGLUFTSCHUTZ",
+          es: "ANTI CORRIENTES DE AIRE",
         },
-        { href: "/products?category_slug=cuisine", label: "CUISINE" },
-        { href: "/products?category_slug=salle-de-bain", label: "SALLE DE BAIN" },
-        { href: "/contact", label: "CONTACT" },
-      ];
+        locale
+      ),
+    },
+    {
+      href: `${withLocale("/products", locale)}?category_slug=cuisine`,
+      label: getLocaleValue(
+        { fr: "CUISINE", en: "KITCHEN", de: "KÜCHE", es: "COCINA" },
+        locale
+      ),
+    },
+    {
+      href: `${withLocale("/products", locale)}?category_slug=salle-de-bain`,
+      label: getLocaleValue(
+        { fr: "SALLE DE BAIN", en: "BATHROOM", de: "BAD", es: "BAÑO" },
+        locale
+      ),
+    },
+    {
+      href: withLocale("/contact", locale),
+      label: getLocaleValue(
+        { fr: "CONTACT", en: "CONTACT", de: "KONTAKT", es: "CONTACTO" },
+        locale
+      ),
+    },
+  ];
 
   return (
     <>

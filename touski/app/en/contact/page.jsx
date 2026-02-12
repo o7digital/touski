@@ -8,6 +8,15 @@ export const metadata = {
   title: "Contact us - Touski customer service | Quebec Canada",
   description:
     "Questions about our kitchen gadgets, practical tools or storage solutions? Contact the Touski team. Customer service for Canada.",
+  alternates: {
+    canonical: "https://touski.online/en/contact",
+    languages: {
+      "fr-CA": "https://touski.online/contact",
+      "en-CA": "https://touski.online/en/contact",
+      "de-DE": "https://touski.online/de/contact",
+      "es-ES": "https://touski.online/es/contact",
+    },
+  },
   keywords: "home products saint-elie-de-caxton, home accessories mauricie, quebec home shop, quebec online home shop, practical home products quebec, storage solutions quebec, affordable home accessories canada, canadian home products",
   openGraph: {
     title: "Contact Touski - Customer service",
@@ -41,4 +50,3 @@ export default function ContactPageEn() {
     </>
   );
 }
-

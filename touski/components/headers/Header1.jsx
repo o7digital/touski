@@ -1,15 +1,16 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "./components/Nav";
 import Image from "next/image";
 import User from "./components/User";
 import SearchPopup from "./components/SearchPopup";
+import { getLocaleFromPathname, getLocaleValue, withLocale } from "@/lib/i18n";
 
 export default function Header1() {
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith("/en");
+  const locale = getLocaleFromPathname(pathname || "/");
   const [scrollDirection, setScrollDirection] = useState("down");
 
   useEffect(() => {
@@ -48,15 +49,21 @@ export default function Header1() {
         className="text-center py-1"
         style={{ backgroundColor: "#f6f6f6", fontSize: 13, fontWeight: 500 }}
       >
-        {isEnglish
-          ? "Free shipping across Canada on orders over $140 CAD"
-          : "Livraison gratuite partout au Canada des 140 $ CAD"}
+        {getLocaleValue(
+          {
+            fr: "Livraison gratuite partout au Canada des 140 $ CAD",
+            en: "Free shipping across Canada on orders over $140 CAD",
+            de: "Kostenloser Versand in ganz Kanada ab 140 CAD",
+            es: "Envío gratis en todo Canadá en pedidos desde 140 CAD",
+          },
+          locale
+        )}
       </div>
 
       <div className="container">
         <div className="header-desk header-desk_type_1">
           <div className="logo">
-            <Link href="/">
+            <Link href={withLocale("/", locale)}>
               <Image
                 src="/assets/images/touski-logo.jpeg"
                 width={438}
@@ -70,7 +77,9 @@ export default function Header1() {
 
           <nav className="navigation">
             <ul className="navigation__list list-unstyled d-flex">
-              <Nav />
+              <Suspense fallback={null}>
+                <Nav />
+              </Suspense>
             </ul>
           </nav>
 

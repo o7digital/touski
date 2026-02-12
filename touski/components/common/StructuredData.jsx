@@ -1,10 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getLocaleValue, withLocale } from "@/lib/i18n";
 
 export default function StructuredData() {
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith("/en");
+  const locale = getLocaleFromPathname(pathname || "/");
   
   const baseUrl = "https://touski.online";
   
@@ -13,9 +14,15 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "OnlineStore",
     "name": "Touski",
-    "description": isEnglish 
-      ? "Online store for hard-to-find home essentials in Canada: draft proofing, kitchen and bathroom."
-      : "Boutique en ligne d'indispensables maison introuvables au Canada: anti-courants d'air, cuisine et salle de bain.",
+    "description": getLocaleValue(
+      {
+        fr: "Boutique en ligne d'indispensables maison introuvables au Canada: anti-courants d'air, cuisine et salle de bain.",
+        en: "Online store for hard-to-find home essentials in Canada: draft proofing, kitchen and bathroom.",
+        de: "Onlineshop für schwer auffindbare Haushaltshelfer in Kanada: Zugluftschutz, Küche und Bad.",
+        es: "Tienda online de esenciales del hogar difíciles de encontrar en Canadá: anti corrientes de aire, cocina y baño.",
+      },
+      locale
+    ),
     "url": baseUrl,
     "logo": `${baseUrl}/assets/images/touski-logo.jpeg`,
     "image": `${baseUrl}/assets/images/touski-logo.jpeg`,
@@ -40,10 +47,19 @@ export default function StructuredData() {
     "@type": "WebSite",
     "name": "Touski",
     "url": baseUrl,
-    "description": isEnglish
-      ? "Hard-to-find home essentials in Canada"
-      : "Indispensables maison introuvables au Canada",
-    "inLanguage": isEnglish ? "en-CA" : "fr-CA",
+    "description": getLocaleValue(
+      {
+        fr: "Indispensables maison introuvables au Canada",
+        en: "Hard-to-find home essentials in Canada",
+        de: "Schwer auffindbare Haushaltshelfer in Kanada",
+        es: "Esenciales del hogar difíciles de encontrar en Canadá",
+      },
+      locale
+    ),
+    "inLanguage": getLocaleValue(
+      { fr: "fr-CA", en: "en-CA", de: "de-DE", es: "es-ES" },
+      locale
+    ),
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
@@ -62,8 +78,11 @@ export default function StructuredData() {
       {
         "@type": "ListItem",
         "position": 1,
-        "name": isEnglish ? "Home" : "Accueil",
-        "item": isEnglish ? `${baseUrl}/en` : baseUrl
+        "name": getLocaleValue(
+          { fr: "Accueil", en: "Home", de: "Startseite", es: "Inicio" },
+          locale
+        ),
+        "item": `${baseUrl}${withLocale("/", locale)}`
       }
     ]
   };

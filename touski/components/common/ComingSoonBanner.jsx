@@ -1,9 +1,10 @@
 "use client";
 import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getLocaleValue } from "@/lib/i18n";
 
 export default function ComingSoonBanner() {
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith("/en");
+  const locale = getLocaleFromPathname(pathname || "/");
 
   return (
     <div
@@ -18,11 +19,28 @@ export default function ComingSoonBanner() {
         zIndex: 1000,
       }}
     >
-      {isEnglish ? (
-        <>
-          🎉 <strong>Opening soon!</strong> Browse our catalog - Online shopping available very soon
-        </>
-      ) : (
+      {getLocaleValue(locale, {
+        fr: (
+          <>
+            🎉 <strong>Ouverture prochaine !</strong> Découvrez notre catalogue - Achat en ligne disponible très bientôt
+          </>
+        ),
+        en: (
+          <>
+            🎉 <strong>Opening soon!</strong> Browse our catalog - Online shopping available very soon
+          </>
+        ),
+        de: (
+          <>
+            🎉 <strong>Baldige Eröffnung!</strong> Entdecken Sie unseren Katalog - Online-Einkauf in Kürze verfügbar
+          </>
+        ),
+        es: (
+          <>
+            🎉 <strong>¡Próxima apertura!</strong> Descubre nuestro catálogo - Compra online disponible muy pronto
+          </>
+        ),
+      }) ?? (
         <>
           🎉 <strong>Ouverture prochaine !</strong> Découvrez notre catalogue - Achat en ligne disponible très bientôt
         </>

@@ -1,12 +1,25 @@
 "use client";
-import { servicePromotions, servicePromotionsData3 } from "@/data/features";
+import {
+  servicePromotions,
+  servicePromotionsData3,
+  servicePromotionsDataDe,
+  servicePromotionsDataEs,
+} from "@/data/features";
 import React from "react";
 import { usePathname } from "next/navigation";
+import { getLocaleFromPathname } from "@/lib/i18n";
 
 export default function Features() {
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith("/en");
-  const items = isEnglish ? servicePromotionsData3 : servicePromotions;
+  const locale = getLocaleFromPathname(pathname || "/");
+  const items =
+    locale === "en"
+      ? servicePromotionsData3
+      : locale === "de"
+        ? servicePromotionsDataDe
+        : locale === "es"
+          ? servicePromotionsDataEs
+          : servicePromotions;
 
   return (
     <section className="service-promotion container mb-md-4 pb-md-4 mb-xl-5">

@@ -21,7 +21,9 @@ export const footerLinks3 = [
 
 export const languageOptions = [
   { value: "fr", text: "Canada | Français" },
-  { value: "en", text: "Canada | Anglais" },
+  { value: "en", text: "Canada | English" },
+  { value: "de", text: "Canada | Deutsch" },
+  { value: "es", text: "Canada | Español" },
 ];
 
 export const languageOptions2 = [

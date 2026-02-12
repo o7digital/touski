@@ -6,6 +6,15 @@ export const metadata = {
   title: "Nos services - Solutions de confort pour la maison | TOUSKI",
   description:
     "Découvrez les services TOUSKI : solutions de confort pour la maison, sélection de produits utiles et durables pour améliorer le bien-être au quotidien.",
+  alternates: {
+    canonical: "https://touski.online/nos-services",
+    languages: {
+      "fr-CA": "https://touski.online/nos-services",
+      "en-CA": "https://touski.online/en/nos-services",
+      "de-DE": "https://touski.online/de/nos-services",
+      "es-ES": "https://touski.online/es/nos-services",
+    },
+  },
 };
 
 export default function NosServicesPage() {

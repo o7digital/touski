@@ -5,12 +5,53 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import catalogPlaceholders from "@/data/catalogPlaceholders.json";
+import { getLocaleFromPathname, getLocaleValue, withLocale } from "@/lib/i18n";
 
 const pillarFilters = [
-  { key: "all", fr: "TOUT", en: "ALL" },
-  { key: "anti-courants-air", fr: "ANTI-COURANTS D'AIR", en: "DRAFT PROOFING" },
-  { key: "cuisine", fr: "CUISINE", en: "KITCHEN" },
-  { key: "salle-de-bain", fr: "SALLE DE BAIN", en: "BATHROOM" },
+  {
+    key: "all",
+    fr: "TOUT",
+    en: "ALL",
+    de: "ALLE",
+    es: "TODOS",
+    frDescription: "Tous les produits de la boutique.",
+    enDescription: "All products from the shop.",
+    deDescription: "Alle Produkte aus dem Shop.",
+    esDescription: "Todos los productos de la tienda.",
+  },
+  {
+    key: "anti-courants-air",
+    fr: "ANTI-COURANTS D'AIR",
+    en: "DRAFT PROOFING",
+    de: "ZUGLUFTSCHUTZ",
+    es: "ANTI CORRIENTES DE AIRE",
+    frDescription: "Bas de porte, joints et solutions d'etancheite.",
+    enDescription: "Door sweeps, seals and draft-proofing solutions.",
+    deDescription: "Türdichtungen, Dichtungen und Zugluftschutz-Lösungen.",
+    esDescription: "Burletes, juntas y soluciones contra corrientes de aire.",
+  },
+  {
+    key: "cuisine",
+    fr: "CUISINE",
+    en: "KITCHEN",
+    de: "KÜCHE",
+    es: "COCINA",
+    frDescription: "Degraissants, nettoyants specialises et accessoires utiles.",
+    enDescription: "Degreasers, specialty cleaners and useful accessories.",
+    deDescription: "Fettlöser, Spezialreiniger und nützliches Zubehör.",
+    esDescription: "Desengrasantes, limpiadores especializados y accesorios útiles.",
+  },
+  {
+    key: "salle-de-bain",
+    fr: "SALLE DE BAIN",
+    en: "BATHROOM",
+    de: "BAD",
+    es: "BAÑO",
+    frDescription: "Anti-calcaire, joints/moisissures et accessoires.",
+    enDescription: "Anti-limescale, grout/mold care and accessories.",
+    deDescription: "Kalkschutz, Fugen-/Schimmelpflege und Zubehör.",
+    esDescription: "Antisarro, cuidado de juntas/moho y accesorios.",
+  },
 ];
 
 function fallbackByCategory(categoryKey) {
@@ -36,7 +77,7 @@ function fallbackByCategory(categoryKey) {
 
 export default function BestSellingSpocket() {
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith("/en");
+  const locale = getLocaleFromPathname(pathname || "/");
   const { addProductToCart, isAddedToCartProducts } = useContextElement();
 
   const [activeCategory, setActiveCategory] = useState("all");
@@ -106,11 +147,21 @@ export default function BestSellingSpocket() {
 
   const visibleProducts = products.slice(0, visibleCount);
   const canShowMore = products.length > visibleCount;
+  const activeFilter = pillarFilters.find((filter) => filter.key === activeCategory);
+  const shopPath = withLocale("/products", locale);
 
   return (
     <section className="products-carousel container">
       <h2 className="section-title text-center mb-3 pb-xl-3 mb-xl-4">
-        {isEnglish ? "OUR BEST PRODUCTS" : "NOS MEILLEURS PRODUITS"}
+        {getLocaleValue(
+          {
+            fr: "NOS MEILLEURS PRODUITS",
+            en: "OUR BEST PRODUCTS",
+            de: "UNSERE BESTEN PRODUKTE",
+            es: "NUESTROS MEJORES PRODUCTOS",
+          },
+          locale
+        )}
       </h2>
 
       <div
@@ -132,16 +183,38 @@ export default function BestSellingSpocket() {
               textTransform: "uppercase",
             }}
           >
-            {isEnglish ? filter.en : filter.fr}
+            {getLocaleValue(
+              { fr: filter.fr, en: filter.en, de: filter.de, es: filter.es },
+              locale
+            )}
           </button>
         ))}
       </div>
+      {activeFilter && (
+        <p className="text-center text-secondary mb-4" style={{ fontSize: 14 }}>
+          {getLocaleValue(
+            {
+              fr: activeFilter.frDescription,
+              en: activeFilter.enDescription,
+              de: activeFilter.deDescription,
+              es: activeFilter.esDescription,
+            },
+            locale
+          )}
+        </p>
+      )}
 
       {usingFallback && (
         <div className="alert alert-warning text-center mb-4" role="alert">
-          {isEnglish
-            ? "Temporary placeholders are displayed while WooCommerce products are being completed."
-            : "Des placeholders temporaires sont affiches pendant la mise en place du catalogue WooCommerce."}
+          {getLocaleValue(
+            {
+              fr: "Des placeholders temporaires sont affiches pendant la mise en place du catalogue WooCommerce.",
+              en: "Temporary placeholders are displayed while WooCommerce products are being completed.",
+              de: "Temporäre Platzhalter werden angezeigt, während der WooCommerce-Katalog finalisiert wird.",
+              es: "Se muestran placeholders temporales mientras se completa el catálogo de WooCommerce.",
+            },
+            locale
+          )}
         </div>
       )}
 
@@ -161,7 +234,17 @@ export default function BestSellingSpocket() {
 
       {!loading && visibleProducts.length === 0 && (
         <div className="text-center py-5">
-          <p>{isEnglish ? "No product found." : "Aucun produit trouve."}</p>
+          <p>
+            {getLocaleValue(
+              {
+                fr: "Aucun produit trouve.",
+                en: "No product found.",
+                de: "Kein Produkt gefunden.",
+                es: "No se encontró ningún producto.",
+              },
+              locale
+            )}
+          </p>
         </div>
       )}
 
@@ -173,7 +256,9 @@ export default function BestSellingSpocket() {
             const productTitle = product.name || "Produit";
             const productPrice = product.price || "0";
             const productId = product.id;
-            const productLink = product.isPlaceholder ? "/products" : `/product/${productId}`;
+            const productLink = product.isPlaceholder
+              ? shopPath
+              : withLocale(`/product/${productId}`, locale);
 
             return (
               <div key={`${productId}-${index}`} className="col">
@@ -200,20 +285,60 @@ export default function BestSellingSpocket() {
                         onClick={() => addProductToCart(productId)}
                         title={
                           isAddedToCartProducts(productId)
-                            ? "Deja dans le panier"
-                            : "Ajouter au panier"
+                            ? getLocaleValue(
+                                {
+                                  fr: "Deja dans le panier",
+                                  en: "Already in cart",
+                                  de: "Bereits im Warenkorb",
+                                  es: "Ya en el carrito",
+                                },
+                                locale
+                              )
+                            : getLocaleValue(
+                                {
+                                  fr: "Ajouter au panier",
+                                  en: "Add to cart",
+                                  de: "In den Warenkorb",
+                                  es: "Añadir al carrito",
+                                },
+                                locale
+                              )
                         }
                       >
                         {isAddedToCartProducts(productId)
-                          ? "Deja dans le panier"
-                          : "Ajouter au panier"}
+                          ? getLocaleValue(
+                              {
+                                fr: "Deja dans le panier",
+                                en: "Already in cart",
+                                de: "Bereits im Warenkorb",
+                                es: "Ya en el carrito",
+                              },
+                              locale
+                            )
+                          : getLocaleValue(
+                              {
+                                fr: "Ajouter au panier",
+                                en: "Add to cart",
+                                de: "In den Warenkorb",
+                                es: "Añadir al carrito",
+                              },
+                              locale
+                            )}
                       </button>
                     ) : (
                       <span
                         className="position-absolute bottom-0 start-0 m-2 badge bg-secondary"
                         style={{ fontSize: 11 }}
                       >
-                        {isEnglish ? "Soon" : "Bientot"}
+                        {getLocaleValue(
+                          {
+                            fr: "Bientot",
+                            en: "Soon",
+                            de: "Bald",
+                            es: "Pronto",
+                          },
+                          locale
+                        )}
                       </span>
                     )}
                   </div>
@@ -225,9 +350,6 @@ export default function BestSellingSpocket() {
                     <h6 className="pc__title mt-1">
                       <Link href={productLink}>{productTitle}</Link>
                     </h6>
-                    <p className="pc__category">
-                      {product.categories?.[0]?.name || "Non categorise"}
-                    </p>
                   </div>
                 </div>
               </div>
@@ -243,7 +365,15 @@ export default function BestSellingSpocket() {
             className="btn btn-outline-dark btn-lg"
             onClick={() => setVisibleCount((prev) => prev + 24)}
           >
-            {isEnglish ? "Show more products" : "Voir plus de produits"}
+            {getLocaleValue(
+              {
+                fr: "Voir plus de produits",
+                en: "Show more products",
+                de: "Mehr Produkte anzeigen",
+                es: "Ver más productos",
+              },
+              locale
+            )}
           </button>
         </div>
       )}

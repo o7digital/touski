@@ -11,6 +11,8 @@ export const metadata = {
     languages: {
       "fr-CA": "https://touski.online/anti-courants-air",
       "en-CA": "https://touski.online/en/anti-courants-air",
+      "de-DE": "https://touski.online/de/anti-courants-air",
+      "es-ES": "https://touski.online/es/anti-courants-air",
     },
   },
 };

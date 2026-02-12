@@ -33,7 +33,7 @@ export default function RootLayout({ children, langOverride }) {
       });
     }
   }, []);
-  const lang = langOverride === "en" ? "en" : "fr";
+  const lang = ["en", "de", "es"].includes(langOverride) ? langOverride : "fr";
 
   return (
     <html lang={lang}>

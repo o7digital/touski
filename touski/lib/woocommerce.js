@@ -5,10 +5,12 @@
 
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
-const wooUrl = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL;
+const defaultWooUrl = "https://oliviers42.sg-host.com";
+const wooUrl = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || defaultWooUrl;
 const wooConsumerKey = process.env.WOOCOMMERCE_CONSUMER_KEY;
 const wooConsumerSecret = process.env.WOOCOMMERCE_CONSUMER_SECRET;
 const isWooConfigured = Boolean(wooUrl && wooConsumerKey && wooConsumerSecret);
+const storeApiBaseUrl = `${wooUrl.replace(/\/$/, "")}/wp-json/wc/store/v1`;
 
 // Initialize WooCommerce API client only when credentials are present.
 const api = isWooConfigured
@@ -27,12 +29,98 @@ function ensureWooConfigured() {
 
   if (!hasLoggedWooWarning) {
     console.warn(
-      "WooCommerce is not configured. Define NEXT_PUBLIC_WOOCOMMERCE_URL, WOOCOMMERCE_CONSUMER_KEY and WOOCOMMERCE_CONSUMER_SECRET."
+      "WooCommerce REST credentials are not configured. Falling back to public Woo Store API for read operations."
     );
     hasLoggedWooWarning = true;
   }
 
   return false;
+}
+
+function minorToDecimal(value, minorUnit = 2) {
+  if (value === undefined || value === null || value === "") return "";
+  const numericValue = Number(value);
+  if (!Number.isFinite(numericValue)) return String(value);
+  return (numericValue / 10 ** minorUnit).toFixed(minorUnit);
+}
+
+function mapStoreProductToWooLike(storeProduct) {
+  const minorUnit = Number(storeProduct?.prices?.currency_minor_unit ?? 2);
+
+  return {
+    id: storeProduct.id,
+    name: storeProduct.name,
+    slug: storeProduct.slug,
+    sku: storeProduct.sku || "",
+    description: storeProduct.description || "",
+    short_description: storeProduct.short_description || "",
+    price: minorToDecimal(storeProduct?.prices?.price, minorUnit),
+    regular_price: minorToDecimal(storeProduct?.prices?.regular_price, minorUnit),
+    sale_price: minorToDecimal(storeProduct?.prices?.sale_price, minorUnit),
+    on_sale: Boolean(storeProduct.on_sale),
+    images: Array.isArray(storeProduct.images)
+      ? storeProduct.images.map((img) => ({
+          id: img.id,
+          src: img.src,
+          alt: img.alt || img.name || storeProduct.name,
+        }))
+      : [],
+    categories: Array.isArray(storeProduct.categories)
+      ? storeProduct.categories.map((cat) => ({
+          id: cat.id,
+          name: cat.name,
+          slug: cat.slug,
+        }))
+      : [],
+    tags: Array.isArray(storeProduct.tags)
+      ? storeProduct.tags.map((tag) => ({
+          id: tag.id,
+          name: tag.name,
+          slug: tag.slug,
+        }))
+      : [],
+    stock_status: storeProduct.is_in_stock ? "instock" : "outofstock",
+    stock_quantity: null,
+    manage_stock: false,
+    type: storeProduct.type || "simple",
+    variations: [],
+    attributes: Array.isArray(storeProduct.attributes)
+      ? storeProduct.attributes.map((attribute) => ({
+          id: attribute.id || 0,
+          name: attribute.name,
+          options: Array.isArray(attribute.terms)
+            ? attribute.terms.map((term) => term.name)
+            : [],
+        }))
+      : [],
+    weight: "",
+    dimensions: {},
+    meta_data: [],
+    permalink: storeProduct.permalink || "",
+    rating_count: Number(storeProduct.review_count || 0),
+    average_rating: storeProduct.average_rating || "0",
+    reviews_allowed: true,
+    date_created: null,
+    date_modified: null,
+  };
+}
+
+async function fetchStoreApi(path, params = {}) {
+  const search = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") return;
+    search.set(key, String(value));
+  });
+
+  const url = `${storeApiBaseUrl}${path}${search.toString() ? `?${search}` : ""}`;
+  const response = await fetch(url, { next: { revalidate: 300 } });
+
+  if (!response.ok) {
+    throw new Error(`Store API request failed (${response.status})`);
+  }
+
+  return response.json();
 }
 
 /**
@@ -41,7 +129,23 @@ function ensureWooConfigured() {
  * @returns {Array} Liste des produits
  */
 export async function getProducts(params = {}) {
-  if (!ensureWooConfigured()) return [];
+  if (!ensureWooConfigured()) {
+    try {
+      const storeProducts = await fetchStoreApi("/products", {
+        per_page: params.per_page || 20,
+        page: params.page || 1,
+        search: params.search,
+      });
+
+      if (!Array.isArray(storeProducts)) return [];
+      return storeProducts.map((product) =>
+        mapWooProductToLocal(mapStoreProductToWooLike(product))
+      );
+    } catch (error) {
+      console.error("Error fetching products from Woo Store API:", error.message);
+      return [];
+    }
+  }
 
   try {
     const response = await api.get("products", {
@@ -63,7 +167,15 @@ export async function getProducts(params = {}) {
  * @returns {Object|null} Produit ou null si erreur
  */
 export async function getProduct(id) {
-  if (!ensureWooConfigured()) return null;
+  if (!ensureWooConfigured()) {
+    try {
+      const storeProduct = await fetchStoreApi(`/products/${id}`);
+      return mapWooProductToLocal(mapStoreProductToWooLike(storeProduct));
+    } catch (error) {
+      console.error(`Error fetching product ${id} from Store API:`, error.message);
+      return null;
+    }
+  }
 
   try {
     const response = await api.get(`products/${id}`);
@@ -80,7 +192,22 @@ export async function getProduct(id) {
  * @returns {Object|null} Produit ou null
  */
 export async function getProductBySlug(slug) {
-  if (!ensureWooConfigured()) return null;
+  if (!ensureWooConfigured()) {
+    try {
+      const storeProducts = await fetchStoreApi("/products", {
+        slug,
+        per_page: 1,
+      });
+
+      if (Array.isArray(storeProducts) && storeProducts.length > 0) {
+        return mapWooProductToLocal(mapStoreProductToWooLike(storeProducts[0]));
+      }
+      return null;
+    } catch (error) {
+      console.error(`Error fetching product by slug ${slug} from Store API:`, error.message);
+      return null;
+    }
+  }
 
   try {
     const response = await api.get("products", {
@@ -104,7 +231,17 @@ export async function getProductBySlug(slug) {
  * @returns {Array} Liste des catégories
  */
 export async function getCategories(params = {}) {
-  if (!ensureWooConfigured()) return [];
+  if (!ensureWooConfigured()) {
+    try {
+      const categories = await fetchStoreApi("/products/categories", {
+        per_page: params.per_page || 100,
+      });
+      return Array.isArray(categories) ? categories : [];
+    } catch (error) {
+      console.error("Error fetching categories from Store API:", error.message);
+      return [];
+    }
+  }
 
   try {
     const response = await api.get("products/categories", {
@@ -125,7 +262,23 @@ export async function getCategories(params = {}) {
  * @returns {Array} Résultats de recherche
  */
 export async function searchProducts(query, params = {}) {
-  if (!ensureWooConfigured()) return [];
+  if (!ensureWooConfigured()) {
+    try {
+      const storeProducts = await fetchStoreApi("/products", {
+        search: query,
+        per_page: params.per_page || 20,
+        page: params.page || 1,
+      });
+
+      if (!Array.isArray(storeProducts)) return [];
+      return storeProducts.map((product) =>
+        mapWooProductToLocal(mapStoreProductToWooLike(product))
+      );
+    } catch (error) {
+      console.error("Error searching products from Store API:", error.message);
+      return [];
+    }
+  }
 
   try {
     const response = await api.get("products", {
