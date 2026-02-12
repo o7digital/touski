@@ -4,6 +4,17 @@ export const metadata = {
   title: "Touski — hard-to-find home essentials in Canada",
   description:
     "Draft proofing, kitchen and bathroom essentials that are useful, effective and carefully selected for Canada.",
+  keywords: [
+    "home essentials canada",
+    "draft proofing canada",
+    "door sweep insulation",
+    "kitchen degreaser canada",
+    "specialty kitchen cleaner",
+    "bathroom anti-limescale cleaner",
+    "grout mold treatment",
+    "bathroom cleaning accessories",
+    "TOUSKI",
+  ],
   alternates: {
     canonical: "https://touski.online/en",
     languages: {
