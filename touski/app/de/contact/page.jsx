@@ -7,6 +7,13 @@ export const metadata = {
   title: "Kontakt - TOUSKI Kundenservice | Kanada",
   description:
     "Fragen zu unseren Haushaltsprodukten? Kontaktieren Sie das TOUSKI-Team. Kundenservice für ganz Kanada.",
+  keywords: [
+    "TOUSKI Kontakt",
+    "Kundenservice Kanada",
+    "Haushaltsprodukte Hilfe",
+    "Zugluftschutz Beratung",
+    "TOUSKI Support",
+  ],
   alternates: {
     canonical: "https://touski.online/de/contact",
     languages: {
@@ -15,6 +22,15 @@ export const metadata = {
       "de-DE": "https://touski.online/de/contact",
       "es-ES": "https://touski.online/es/contact",
     },
+  },
+  openGraph: {
+    title: "Kontakt - TOUSKI Kundenservice | Kanada",
+    description:
+      "Fragen zu unseren Haushaltsprodukten? Kontaktieren Sie das TOUSKI-Team. Kundenservice für ganz Kanada.",
+    url: "https://touski.online/de/contact",
+    siteName: "TOUSKI",
+    locale: "de_DE",
+    type: "website",
   },
 };
 

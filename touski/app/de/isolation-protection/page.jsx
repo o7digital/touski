@@ -3,11 +3,33 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Dämmung und Schutz | TOUSKI",
+  title: "Dämmung und Schutz des Hauses in Kanada | TOUSKI",
   description:
-    "Verstehen Sie, wie Dämmung und Schutzmaßnahmen den Wohnkomfort verbessern und Wärmeverluste reduzieren.",
+    "Dämmung und Schutz für kanadische Haushalte: Wärmeverluste senken, Zugluft begrenzen und den Wohnkomfort im Winter verbessern.",
+  keywords: [
+    "Dämmung Haus Kanada",
+    "Wärmeverlust reduzieren",
+    "Tür und Fenster abdichten",
+    "Zugluftschutz Kanada",
+    "Heizkosten senken",
+  ],
   alternates: {
     canonical: "https://touski.online/de/isolation-protection",
+    languages: {
+      "fr-CA": "https://touski.online/isolation-protection",
+      "en-CA": "https://touski.online/en/isolation-protection",
+      "de-DE": "https://touski.online/de/isolation-protection",
+      "es-ES": "https://touski.online/es/isolation-protection",
+    },
+  },
+  openGraph: {
+    title: "Dämmung und Schutz des Hauses in Kanada | TOUSKI",
+    description:
+      "Dämmung und Schutz für kanadische Haushalte: Wärmeverluste senken, Zugluft begrenzen und den Wohnkomfort im Winter verbessern.",
+    url: "https://touski.online/de/isolation-protection",
+    siteName: "TOUSKI",
+    locale: "de_DE",
+    type: "article",
   },
 };
 

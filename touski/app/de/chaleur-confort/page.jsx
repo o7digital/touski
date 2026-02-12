@@ -3,11 +3,33 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Wärme und Innenkomfort | TOUSKI",
+  title: "Wärme und Innenkomfort in Kanada | TOUSKI",
   description:
-    "So verbessern Sie Wärme und Komfort im Zuhause mit praktischen Lösungen für den Alltag.",
+    "Praktische Lösungen für Wärme und Innenkomfort in Kanada: Zugluft reduzieren, Temperatur stabilisieren und Wohnkomfort im Winter verbessern.",
+  keywords: [
+    "Wärme zuhause Kanada",
+    "Innenkomfort verbessern",
+    "Zugluft reduzieren",
+    "Wohnkomfort Winter",
+    "Energie sparen Haus Kanada",
+  ],
   alternates: {
     canonical: "https://touski.online/de/chaleur-confort",
+    languages: {
+      "fr-CA": "https://touski.online/chaleur-confort",
+      "en-CA": "https://touski.online/en/chaleur-confort",
+      "de-DE": "https://touski.online/de/chaleur-confort",
+      "es-ES": "https://touski.online/es/chaleur-confort",
+    },
+  },
+  openGraph: {
+    title: "Wärme und Innenkomfort in Kanada | TOUSKI",
+    description:
+      "Praktische Lösungen für Wärme und Innenkomfort in Kanada: Zugluft reduzieren, Temperatur stabilisieren und Wohnkomfort im Winter verbessern.",
+    url: "https://touski.online/de/chaleur-confort",
+    siteName: "TOUSKI",
+    locale: "de_DE",
+    type: "article",
   },
 };
 

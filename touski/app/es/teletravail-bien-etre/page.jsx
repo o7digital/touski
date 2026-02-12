@@ -3,11 +3,33 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Teletrabajo y bienestar | TOUSKI",
+  title: "Teletrabajo y bienestar en casa | TOUSKI Canadá",
   description:
-    "Descubre cómo el confort térmico y la organización del espacio mejoran el bienestar en teletrabajo.",
+    "Optimiza tu teletrabajo en Canadá con confort térmico, menos corrientes de aire y mejor organización del espacio en casa.",
+  keywords: [
+    "teletrabajo en casa Canadá",
+    "bienestar home office",
+    "confort térmico oficina",
+    "organización del espacio de trabajo",
+    "productividad en casa",
+  ],
   alternates: {
     canonical: "https://touski.online/es/teletravail-bien-etre",
+    languages: {
+      "fr-CA": "https://touski.online/teletravail-bien-etre",
+      "en-CA": "https://touski.online/en/teletravail-bien-etre",
+      "de-DE": "https://touski.online/de/teletravail-bien-etre",
+      "es-ES": "https://touski.online/es/teletravail-bien-etre",
+    },
+  },
+  openGraph: {
+    title: "Teletrabajo y bienestar en casa | TOUSKI Canadá",
+    description:
+      "Optimiza tu teletrabajo en Canadá con confort térmico, menos corrientes de aire y mejor organización del espacio en casa.",
+    url: "https://touski.online/es/teletravail-bien-etre",
+    siteName: "TOUSKI",
+    locale: "es_ES",
+    type: "article",
   },
 };
 

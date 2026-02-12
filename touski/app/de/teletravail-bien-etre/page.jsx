@@ -3,11 +3,33 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Homeoffice und Wohlbefinden | TOUSKI",
+  title: "Homeoffice und Wohlbefinden zuhause | TOUSKI Kanada",
   description:
-    "Entdecken Sie, wie Temperatur, Ergonomie und Raumklima das Wohlbefinden im Homeoffice verbessern.",
+    "Verbessern Sie Ihr Homeoffice in Kanada mit stabiler Raumtemperatur, weniger Zugluft und besserem Wohlbefinden im Arbeitsalltag.",
+  keywords: [
+    "Homeoffice Komfort Kanada",
+    "Wohlbefinden zuhause arbeiten",
+    "Raumklima verbessern",
+    "Zugluft im Büro zuhause",
+    "Ergonomie und Temperatur",
+  ],
   alternates: {
     canonical: "https://touski.online/de/teletravail-bien-etre",
+    languages: {
+      "fr-CA": "https://touski.online/teletravail-bien-etre",
+      "en-CA": "https://touski.online/en/teletravail-bien-etre",
+      "de-DE": "https://touski.online/de/teletravail-bien-etre",
+      "es-ES": "https://touski.online/es/teletravail-bien-etre",
+    },
+  },
+  openGraph: {
+    title: "Homeoffice und Wohlbefinden zuhause | TOUSKI Kanada",
+    description:
+      "Verbessern Sie Ihr Homeoffice in Kanada mit stabiler Raumtemperatur, weniger Zugluft und besserem Wohlbefinden im Arbeitsalltag.",
+    url: "https://touski.online/de/teletravail-bien-etre",
+    siteName: "TOUSKI",
+    locale: "de_DE",
+    type: "article",
   },
 };
 

@@ -3,11 +3,33 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Calor y confort interior | TOUSKI",
+  title: "Calor y confort interior en Canadá | TOUSKI",
   description:
-    "Mejora el calor y el confort interior de tu hogar con soluciones prácticas para el uso diario.",
+    "Soluciones prácticas para mejorar el confort térmico en Canadá: menos corrientes de aire, temperatura estable y bienestar en casa.",
+  keywords: [
+    "calor en casa Canadá",
+    "confort interior invierno",
+    "reducir corrientes de aire",
+    "ahorro energético hogar",
+    "bienestar térmico",
+  ],
   alternates: {
     canonical: "https://touski.online/es/chaleur-confort",
+    languages: {
+      "fr-CA": "https://touski.online/chaleur-confort",
+      "en-CA": "https://touski.online/en/chaleur-confort",
+      "de-DE": "https://touski.online/de/chaleur-confort",
+      "es-ES": "https://touski.online/es/chaleur-confort",
+    },
+  },
+  openGraph: {
+    title: "Calor y confort interior en Canadá | TOUSKI",
+    description:
+      "Soluciones prácticas para mejorar el confort térmico en Canadá: menos corrientes de aire, temperatura estable y bienestar en casa.",
+    url: "https://touski.online/es/chaleur-confort",
+    siteName: "TOUSKI",
+    locale: "es_ES",
+    type: "article",
   },
 };
 

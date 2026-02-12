@@ -4,6 +4,13 @@ export const metadata = {
   title: "Touski — esenciales del hogar difíciles de encontrar en Canadá",
   description:
     "Anti corrientes de aire, cocina y baño: productos útiles, eficaces y cuidadosamente seleccionados para Canadá.",
+  keywords: [
+    "esenciales del hogar Canadá",
+    "anti corrientes de aire",
+    "limpieza cocina Canadá",
+    "soluciones baño antical",
+    "TOUSKI",
+  ],
   alternates: {
     canonical: "https://touski.online/es",
     languages: {

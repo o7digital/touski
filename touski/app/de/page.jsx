@@ -4,6 +4,13 @@ export const metadata = {
   title: "Touski — schwer auffindbare Haushaltshelfer in Kanada",
   description:
     "Zugluftschutz, Küche und Bad: nützliche, wirksame und sorgfältig ausgewählte Haushaltsprodukte für Kanada.",
+  keywords: [
+    "Haushaltshelfer Kanada",
+    "Zugluftschutz Produkte",
+    "Küche Reiniger Kanada",
+    "Bad Entkalker und Fugenpflege",
+    "TOUSKI",
+  ],
   alternates: {
     canonical: "https://touski.online/de",
     languages: {

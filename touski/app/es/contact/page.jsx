@@ -7,6 +7,13 @@ export const metadata = {
   title: "Contacto - Servicio al cliente TOUSKI | Canadá",
   description:
     "¿Preguntas sobre nuestros productos para el hogar? Contacta al equipo de TOUSKI. Servicio al cliente para todo Canadá.",
+  keywords: [
+    "contacto TOUSKI",
+    "servicio al cliente Canadá",
+    "ayuda productos hogar",
+    "soporte anti corrientes",
+    "atención TOUSKI",
+  ],
   alternates: {
     canonical: "https://touski.online/es/contact",
     languages: {
@@ -15,6 +22,15 @@ export const metadata = {
       "de-DE": "https://touski.online/de/contact",
       "es-ES": "https://touski.online/es/contact",
     },
+  },
+  openGraph: {
+    title: "Contacto - Servicio al cliente TOUSKI | Canadá",
+    description:
+      "¿Preguntas sobre nuestros productos para el hogar? Contacta al equipo de TOUSKI. Servicio al cliente para todo Canadá.",
+    url: "https://touski.online/es/contact",
+    siteName: "TOUSKI",
+    locale: "es_ES",
+    type: "website",
   },
 };
 

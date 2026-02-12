@@ -6,6 +6,13 @@ export const metadata = {
   title: "Zugluftschutz | Türdichtungen und Abdichtungslösungen für Kanada | TOUSKI",
   description:
     "Zugluftschutz für Türen und Fenster in Kanada: Türabdichtungen, Dichtungsbänder und Zubehör für mehr Komfort und Energieeinsparung.",
+  keywords: [
+    "Zugluftschutz Kanada",
+    "Türdichtung Winter",
+    "Fenster abdichten",
+    "Energie sparen Haus",
+    "TOUSKI Zugluft",
+  ],
   alternates: {
     canonical: "https://touski.online/de/anti-courants-air",
     languages: {
@@ -14,6 +21,15 @@ export const metadata = {
       "de-DE": "https://touski.online/de/anti-courants-air",
       "es-ES": "https://touski.online/es/anti-courants-air",
     },
+  },
+  openGraph: {
+    title: "Zugluftschutz | Türdichtungen und Abdichtungslösungen für Kanada | TOUSKI",
+    description:
+      "Zugluftschutz für Türen und Fenster in Kanada: Türabdichtungen, Dichtungsbänder und Zubehör für mehr Komfort und Energieeinsparung.",
+    url: "https://touski.online/de/anti-courants-air",
+    siteName: "TOUSKI",
+    locale: "de_DE",
+    type: "article",
   },
 };
 

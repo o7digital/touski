@@ -710,6 +710,13 @@ export function getPolicyPath(policyKey, locale = "fr") {
 export function getPolicyMetadata(policyKey, locale = "fr") {
   const content = getPolicyContent(policyKey, locale);
   const canonicalPath = getPolicyPath(policyKey, locale);
+  const localeOpenGraph = {
+    fr: "fr_CA",
+    en: "en_CA",
+    de: "de_DE",
+    es: "es_ES",
+  };
+  const safeLocale = normalizeLocale(locale);
 
   return {
     title: `${content.metaTitle} | TOUSKI`,
@@ -722,6 +729,14 @@ export function getPolicyMetadata(policyKey, locale = "fr") {
         "de-DE": `${BASE_URL}${getPolicyPath(policyKey, "de")}`,
         "es-ES": `${BASE_URL}${getPolicyPath(policyKey, "es")}`,
       },
+    },
+    openGraph: {
+      title: `${content.metaTitle} | TOUSKI`,
+      description: content.metaDescription,
+      url: `${BASE_URL}${canonicalPath}`,
+      siteName: "TOUSKI",
+      locale: localeOpenGraph[safeLocale],
+      type: "article",
     },
   };
 }

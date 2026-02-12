@@ -3,11 +3,33 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Aislamiento y protección | TOUSKI",
+  title: "Aislamiento y protección del hogar en Canadá | TOUSKI",
   description:
-    "Comprende cómo el aislamiento y la protección reducen pérdidas térmicas y mejoran el confort del hogar.",
+    "Mejora el aislamiento del hogar en Canadá: reduce pérdidas térmicas, limita corrientes de aire y aumenta el confort en invierno.",
+  keywords: [
+    "aislamiento hogar Canadá",
+    "protección térmica vivienda",
+    "reducir pérdidas de calor",
+    "sellado puertas y ventanas",
+    "ahorrar calefacción",
+  ],
   alternates: {
     canonical: "https://touski.online/es/isolation-protection",
+    languages: {
+      "fr-CA": "https://touski.online/isolation-protection",
+      "en-CA": "https://touski.online/en/isolation-protection",
+      "de-DE": "https://touski.online/de/isolation-protection",
+      "es-ES": "https://touski.online/es/isolation-protection",
+    },
+  },
+  openGraph: {
+    title: "Aislamiento y protección del hogar en Canadá | TOUSKI",
+    description:
+      "Mejora el aislamiento del hogar en Canadá: reduce pérdidas térmicas, limita corrientes de aire y aumenta el confort en invierno.",
+    url: "https://touski.online/es/isolation-protection",
+    siteName: "TOUSKI",
+    locale: "es_ES",
+    type: "article",
   },
 };
 

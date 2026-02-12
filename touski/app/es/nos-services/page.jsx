@@ -3,9 +3,16 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Nuestros servicios | TOUSKI",
+  title: "Nuestros servicios para el hogar en Canadá | TOUSKI",
   description:
-    "Descubre los servicios de TOUSKI: soluciones prácticas y duraderas para mejorar el confort del hogar.",
+    "Descubre los servicios de TOUSKI en Canadá: anti corrientes, cocina, baño y soluciones útiles para mejorar el confort del hogar.",
+  keywords: [
+    "servicios TOUSKI",
+    "confort del hogar Canadá",
+    "anti corrientes cocina baño",
+    "soluciones prácticas hogar",
+    "bienestar en casa Canadá",
+  ],
   alternates: {
     canonical: "https://touski.online/es/nos-services",
     languages: {
@@ -14,6 +21,15 @@ export const metadata = {
       "de-DE": "https://touski.online/de/nos-services",
       "es-ES": "https://touski.online/es/nos-services",
     },
+  },
+  openGraph: {
+    title: "Nuestros servicios para el hogar en Canadá | TOUSKI",
+    description:
+      "Descubre los servicios de TOUSKI en Canadá: anti corrientes, cocina, baño y soluciones útiles para mejorar el confort del hogar.",
+    url: "https://touski.online/es/nos-services",
+    siteName: "TOUSKI",
+    locale: "es_ES",
+    type: "article",
   },
 };
 

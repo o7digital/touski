@@ -3,11 +3,33 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Cocooning en casa | TOUSKI",
+  title: "Cocooning en casa en Canadá | TOUSKI",
   description:
-    "Crea un hogar cálido y relajante con un enfoque equilibrado de confort y bienestar.",
+    "Crea un hogar cálido y relajante en Canadá con un enfoque de cocooning, confort interior y bienestar diario.",
+  keywords: [
+    "cocooning en casa Canadá",
+    "hogar cálido invierno",
+    "bienestar en casa",
+    "ambiente acogedor",
+    "confort doméstico",
+  ],
   alternates: {
     canonical: "https://touski.online/es/cocooning-maison",
+    languages: {
+      "fr-CA": "https://touski.online/cocooning-maison",
+      "en-CA": "https://touski.online/en/cocooning-maison",
+      "de-DE": "https://touski.online/de/cocooning-maison",
+      "es-ES": "https://touski.online/es/cocooning-maison",
+    },
+  },
+  openGraph: {
+    title: "Cocooning en casa en Canadá | TOUSKI",
+    description:
+      "Crea un hogar cálido y relajante en Canadá con un enfoque de cocooning, confort interior y bienestar diario.",
+    url: "https://touski.online/es/cocooning-maison",
+    siteName: "TOUSKI",
+    locale: "es_ES",
+    type: "article",
   },
 };
 

@@ -3,9 +3,16 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Unsere Leistungen | TOUSKI",
+  title: "Unsere Leistungen für Wohnkomfort in Kanada | TOUSKI",
   description:
-    "Entdecken Sie die TOUSKI-Leistungen: praktische und langlebige Lösungen für mehr Wohnkomfort im Alltag.",
+    "Entdecken Sie TOUSKI-Leistungen in Kanada: Zugluftschutz, Küche, Bad und praktische Lösungen für den täglichen Wohnkomfort.",
+  keywords: [
+    "TOUSKI Leistungen",
+    "Wohnkomfort Service Kanada",
+    "Zugluftschutz Küche Bad",
+    "Haushaltslösungen Alltag",
+    "Kanada Winter Zuhause",
+  ],
   alternates: {
     canonical: "https://touski.online/de/nos-services",
     languages: {
@@ -14,6 +21,15 @@ export const metadata = {
       "de-DE": "https://touski.online/de/nos-services",
       "es-ES": "https://touski.online/es/nos-services",
     },
+  },
+  openGraph: {
+    title: "Unsere Leistungen für Wohnkomfort in Kanada | TOUSKI",
+    description:
+      "Entdecken Sie TOUSKI-Leistungen in Kanada: Zugluftschutz, Küche, Bad und praktische Lösungen für den täglichen Wohnkomfort.",
+    url: "https://touski.online/de/nos-services",
+    siteName: "TOUSKI",
+    locale: "de_DE",
+    type: "article",
   },
 };
 

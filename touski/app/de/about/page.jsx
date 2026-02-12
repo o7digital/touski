@@ -3,9 +3,16 @@ import Header1 from "@/components/headers/Header1";
 import React from "react";
 
 export const metadata = {
-  title: "Über TOUSKI | Wohnkomfort und Lebensqualität",
+  title: "Über TOUSKI | Wohnkomfort und Haushaltslösungen in Kanada",
   description:
-    "Entdecken Sie die Vision von TOUSKI: Wohnkomfort mit nützlichen und langlebigen Lösungen für den Alltag verbessern.",
+    "Erfahren Sie mehr über TOUSKI und unsere Vision: praktische Haushaltslösungen für Wohnkomfort, Alltag und Winter in Kanada.",
+  keywords: [
+    "Über TOUSKI",
+    "Wohnkomfort Kanada",
+    "Haushaltslösungen Kanada",
+    "Zugluftschutz Küche Bad",
+    "TOUSKI Mission",
+  ],
   alternates: {
     canonical: "https://touski.online/de/about",
     languages: {
@@ -14,6 +21,15 @@ export const metadata = {
       "de-DE": "https://touski.online/de/about",
       "es-ES": "https://touski.online/es/about",
     },
+  },
+  openGraph: {
+    title: "Über TOUSKI | Wohnkomfort und Haushaltslösungen in Kanada",
+    description:
+      "Erfahren Sie mehr über TOUSKI und unsere Vision: praktische Haushaltslösungen für Wohnkomfort, Alltag und Winter in Kanada.",
+    url: "https://touski.online/de/about",
+    siteName: "TOUSKI",
+    locale: "de_DE",
+    type: "article",
   },
 };
 

@@ -6,6 +6,13 @@ export const metadata = {
   title: "Anti corrientes de aire | Burletes y sellos para Canadá | TOUSKI",
   description:
     "Soluciones anti corrientes de aire para puertas y ventanas en Canadá: burletes, sellos y accesorios para mejorar el confort y ahorrar energía.",
+  keywords: [
+    "anti corrientes de aire Canadá",
+    "burletes para puertas",
+    "sellos para ventanas",
+    "ahorro de calefacción",
+    "TOUSKI anti corrientes",
+  ],
   alternates: {
     canonical: "https://touski.online/es/anti-courants-air",
     languages: {
@@ -14,6 +21,15 @@ export const metadata = {
       "de-DE": "https://touski.online/de/anti-courants-air",
       "es-ES": "https://touski.online/es/anti-courants-air",
     },
+  },
+  openGraph: {
+    title: "Anti corrientes de aire | Burletes y sellos para Canadá | TOUSKI",
+    description:
+      "Soluciones anti corrientes de aire para puertas y ventanas en Canadá: burletes, sellos y accesorios para mejorar el confort y ahorrar energía.",
+    url: "https://touski.online/es/anti-courants-air",
+    siteName: "TOUSKI",
+    locale: "es_ES",
+    type: "article",
   },
 };
 
