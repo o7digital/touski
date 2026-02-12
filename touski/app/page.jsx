@@ -1,11 +1,13 @@
 import HomePage9 from "./(homes)/home-9/page";
 
 export const metadata = {
-  title: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
-  description: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
+  title: "Touski — indispensables maison introuvables au Canada",
+  description:
+    "Anti-courants d'air, cuisine et salle de bain: des indispensables utiles, efficaces et selectionnes pour les foyers au Canada.",
   openGraph: {
-    title: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
-    description: "Tout ce qui est nécessaire pour son chez soi. Produits pour la maison",
+    title: "Touski — indispensables maison introuvables au Canada",
+    description:
+      "Anti-courants d'air, cuisine et salle de bain: des indispensables utiles, efficaces et selectionnes pour les foyers au Canada.",
     locale: "fr_CA",
     type: "website",
   },

@@ -1,9 +1,9 @@
 import HomePage9 from "../(homes)/home-9/page";
 
 export const metadata = {
-  title: "Home comfort solutions for cold climates | TOUSKI",
+  title: "Touski — hard-to-find home essentials in Canada",
   description:
-    "TOUSKI offers solutions to improve indoor warmth, insulation and everyday well-being at home. Practical ideas for comfort in cold climates.",
+    "Draft proofing, kitchen and bathroom essentials that are useful, effective and carefully selected for Canada.",
   alternates: {
     canonical: "https://touski.online/en",
     languages: {
@@ -12,9 +12,9 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: "Home comfort solutions for cold climates | TOUSKI",
+    title: "Touski — hard-to-find home essentials in Canada",
     description:
-      "TOUSKI curates practical solutions to improve indoor warmth, insulation and everyday well-being at home.",
+      "Draft proofing, kitchen and bathroom essentials that are useful, effective and carefully selected for Canada.",
     locale: "en_CA",
     type: "website",
   },

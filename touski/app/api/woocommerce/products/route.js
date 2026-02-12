@@ -1,15 +1,26 @@
 import { NextResponse } from "next/server";
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
-const api = new WooCommerceRestApi({
-  url: process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || "",
-  consumerKey: process.env.WOOCOMMERCE_CONSUMER_KEY || "",
-  consumerSecret: process.env.WOOCOMMERCE_CONSUMER_SECRET || "",
-  version: "wc/v3",
-});
+const wooUrl = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL;
+const wooConsumerKey = process.env.WOOCOMMERCE_CONSUMER_KEY;
+const wooConsumerSecret = process.env.WOOCOMMERCE_CONSUMER_SECRET;
+const isWooConfigured = Boolean(wooUrl && wooConsumerKey && wooConsumerSecret);
+
+const api = isWooConfigured
+  ? new WooCommerceRestApi({
+      url: wooUrl,
+      consumerKey: wooConsumerKey,
+      consumerSecret: wooConsumerSecret,
+      version: "wc/v3",
+    })
+  : null;
 
 export async function GET(request) {
   try {
+    if (!api) {
+      return NextResponse.json([]);
+    }
+
     const { searchParams } = new URL(request.url);
 
     const params = {

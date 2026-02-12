@@ -5,14 +5,35 @@
 
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
-// Initialize WooCommerce API client
-const api = new WooCommerceRestApi({
-  url: process.env.NEXT_PUBLIC_WOOCOMMERCE_URL,
-  consumerKey: process.env.WOOCOMMERCE_CONSUMER_KEY,
-  consumerSecret: process.env.WOOCOMMERCE_CONSUMER_SECRET,
-  version: "wc/v3",
-  queryStringAuth: true, // Force Basic Auth as query string
-});
+const wooUrl = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL;
+const wooConsumerKey = process.env.WOOCOMMERCE_CONSUMER_KEY;
+const wooConsumerSecret = process.env.WOOCOMMERCE_CONSUMER_SECRET;
+const isWooConfigured = Boolean(wooUrl && wooConsumerKey && wooConsumerSecret);
+
+// Initialize WooCommerce API client only when credentials are present.
+const api = isWooConfigured
+  ? new WooCommerceRestApi({
+      url: wooUrl,
+      consumerKey: wooConsumerKey,
+      consumerSecret: wooConsumerSecret,
+      version: "wc/v3",
+      queryStringAuth: true, // Force Basic Auth as query string
+    })
+  : null;
+
+let hasLoggedWooWarning = false;
+function ensureWooConfigured() {
+  if (api) return true;
+
+  if (!hasLoggedWooWarning) {
+    console.warn(
+      "WooCommerce is not configured. Define NEXT_PUBLIC_WOOCOMMERCE_URL, WOOCOMMERCE_CONSUMER_KEY and WOOCOMMERCE_CONSUMER_SECRET."
+    );
+    hasLoggedWooWarning = true;
+  }
+
+  return false;
+}
 
 /**
  * Récupérer tous les produits
@@ -20,6 +41,8 @@ const api = new WooCommerceRestApi({
  * @returns {Array} Liste des produits
  */
 export async function getProducts(params = {}) {
+  if (!ensureWooConfigured()) return [];
+
   try {
     const response = await api.get("products", {
       per_page: 20,
@@ -40,6 +63,8 @@ export async function getProducts(params = {}) {
  * @returns {Object|null} Produit ou null si erreur
  */
 export async function getProduct(id) {
+  if (!ensureWooConfigured()) return null;
+
   try {
     const response = await api.get(`products/${id}`);
     return mapWooProductToLocal(response.data);
@@ -55,6 +80,8 @@ export async function getProduct(id) {
  * @returns {Object|null} Produit ou null
  */
 export async function getProductBySlug(slug) {
+  if (!ensureWooConfigured()) return null;
+
   try {
     const response = await api.get("products", {
       slug: slug,
@@ -77,6 +104,8 @@ export async function getProductBySlug(slug) {
  * @returns {Array} Liste des catégories
  */
 export async function getCategories(params = {}) {
+  if (!ensureWooConfigured()) return [];
+
   try {
     const response = await api.get("products/categories", {
       per_page: 100,
@@ -96,6 +125,8 @@ export async function getCategories(params = {}) {
  * @returns {Array} Résultats de recherche
  */
 export async function searchProducts(query, params = {}) {
+  if (!ensureWooConfigured()) return [];
+
   try {
     const response = await api.get("products", {
       search: query,
@@ -231,6 +262,8 @@ export function getProductMeta(product, key) {
  * @returns {Object|null} Commande créée ou null
  */
 export async function createOrder(orderData) {
+  if (!ensureWooConfigured()) return null;
+
   try {
     const response = await api.post("orders", orderData);
     return response.data;
@@ -246,6 +279,8 @@ export async function createOrder(orderData) {
  * @returns {Object|null} Commande ou null
  */
 export async function getOrder(orderId) {
+  if (!ensureWooConfigured()) return null;
+
   try {
     const response = await api.get(`orders/${orderId}`);
     return response.data;

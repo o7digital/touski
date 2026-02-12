@@ -6,9 +6,10 @@ export default async function sitemap() {
   // Pages statiques françaises
   const staticRoutesFr = [
     { url: '', priority: 1, changeFrequency: 'daily' },
+    { url: '/products', priority: 0.9, changeFrequency: 'daily' },
     { url: '/about', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/contact', priority: 0.7, changeFrequency: 'monthly' },
-    { url: '/shop-1', priority: 0.9, changeFrequency: 'daily' },
+    { url: '/anti-courants-air', priority: 0.8, changeFrequency: 'weekly' },
     { url: '/chaleur-confort', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/cocooning-maison', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/teletravail-bien-etre', priority: 0.7, changeFrequency: 'weekly' },
@@ -18,6 +19,7 @@ export default async function sitemap() {
   // Pages statiques anglaises
   const staticRoutesEn = [
     { url: '/en', priority: 1, changeFrequency: 'daily' },
+    { url: '/en/anti-courants-air', priority: 0.8, changeFrequency: 'weekly' },
     { url: '/en/about', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/en/contact', priority: 0.7, changeFrequency: 'monthly' },
     { url: '/en/chaleur-confort', priority: 0.7, changeFrequency: 'weekly' },
@@ -48,7 +50,7 @@ export default async function sitemap() {
     categoryUrls = categories
       .filter(cat => cat.count > 0) // Seulement les catégories avec produits
       .map((category) => ({
-        url: `${baseUrl}/shop-1?category=${category.slug}`,
+        url: `${baseUrl}/products?category_slug=${category.slug}`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.7,
@@ -57,15 +59,8 @@ export default async function sitemap() {
     console.error('Error fetching categories for sitemap:', error);
   }
 
-  // Pages blog (si vous avez des blogs réels, ajustez cette partie)
-  const blogUrls = [
-    { url: '/blog_list1', priority: 0.6, changeFrequency: 'weekly' },
-    { url: '/blog_list2', priority: 0.6, changeFrequency: 'weekly' },
-    { url: '/blog_list3', priority: 0.6, changeFrequency: 'weekly' },
-  ];
-
   // Combiner toutes les URLs
-  const staticUrls = [...staticRoutesFr, ...staticRoutesEn, ...blogUrls].map((route) => ({
+  const staticUrls = [...staticRoutesFr, ...staticRoutesEn].map((route) => ({
     url: `${baseUrl}${route.url}`,
     lastModified: new Date(),
     changeFrequency: route.changeFrequency,

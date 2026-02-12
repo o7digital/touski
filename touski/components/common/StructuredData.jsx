@@ -14,8 +14,8 @@ export default function StructuredData() {
     "@type": "OnlineStore",
     "name": "Touski",
     "description": isEnglish 
-      ? "Online store specialized in practical products and smart solutions for home organization in Quebec and Canada."
-      : "Boutique en ligne spécialisée dans les produits pratiques et solutions intelligentes pour l'organisation de la maison au Québec et Canada.",
+      ? "Online store for hard-to-find home essentials in Canada: draft proofing, kitchen and bathroom."
+      : "Boutique en ligne d'indispensables maison introuvables au Canada: anti-courants d'air, cuisine et salle de bain.",
     "url": baseUrl,
     "logo": `${baseUrl}/assets/images/touski-logo.jpeg`,
     "image": `${baseUrl}/assets/images/touski-logo.jpeg`,
@@ -41,14 +41,14 @@ export default function StructuredData() {
     "name": "Touski",
     "url": baseUrl,
     "description": isEnglish
-      ? "Practical products to organize your home | Quebec Canada"
-      : "Produits pratiques pour organiser la maison | Boutique Québec",
+      ? "Hard-to-find home essentials in Canada"
+      : "Indispensables maison introuvables au Canada",
     "inLanguage": isEnglish ? "en-CA" : "fr-CA",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": `${baseUrl}/shop-1?search={search_term_string}`
+        "urlTemplate": `${baseUrl}/products?search={search_term_string}`
       },
       "query-input": "required name=search_term_string"
     }

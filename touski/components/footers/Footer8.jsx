@@ -2,14 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  currencyOptions,
-  footerLinks1,
-  footerLinks2,
-  footerLinks3,
-  languageOptions,
-  socialLinks,
-} from "@/data/footer";
+import { languageOptions, socialLinks } from "@/data/footer";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function Footer8() {
@@ -58,8 +51,8 @@ export default function Footer8() {
             </div>
             <p className="mb-3" style={{fontSize: '0.9rem'}}>
               {isEnglish
-                ? "Everything you need for your home"
-                : "Tout ce qui est nécessaire pour son chez-soi"}
+                ? "Hard-to-find home essentials in Canada"
+                : "Indispensables maison introuvables au Canada"}
             </p>
             <p className="mb-2" style={{fontSize: '0.85rem'}}>
               <strong>contact@touski.online</strong>
@@ -239,8 +232,8 @@ export default function Footer8() {
               <span className="footer-copyright" style={{fontSize: '0.85rem'}}>
                 ©{new Date().getFullYear()} TOUSKI -{" "}
                 {isEnglish
-                  ? "Everything you need for your home"
-                  : "Tout ce qui est nécessaire pour son chez-soi"}
+                  ? "Hard-to-find home essentials in Canada"
+                  : "Indispensables maison introuvables au Canada"}
               </span>
             </div>
             <div className="col-md-6">
@@ -267,28 +260,21 @@ export default function Footer8() {
             </div>
           </div>
           
-          {/* SEO Keywords - Visible */}
+          {/* SEO Keywords - Structured */}
           <div className="row mt-3">
             <div className="col-12">
-              <div style={{fontSize: '0.7rem', color: '#666', lineHeight: '1.4'}}>
+              <div style={{fontSize: '0.7rem', color: '#666', lineHeight: '1.5'}}>
                 {isEnglish ? (
                   <>
-                    practical home products quebec, quebec home shop, home products saint-elie-de-caxton, 
-                    home accessories mauricie, small kitchen storage quebec, organize small house quebec, 
-                    quebec online home shop, practical kitchen accessories quebec, organize pantry canada, 
-                    home storage baskets quebec, affordable home accessories canada, practical bathroom products quebec, 
-                    storage solutions quebec, useful home gadgets quebec, canadian home products
+                    <strong>Draft proofing:</strong> door draft stopper, weather stripping, home insulation accessories Canada.{" "}
+                    <strong>Kitchen:</strong> heavy-duty degreaser, specialty kitchen cleaner, safe scraper tools.{" "}
+                    <strong>Bathroom:</strong> anti-limescale cleaner, grout and mold treatment, useful bathroom accessories.
                   </>
                 ) : (
                   <>
-                    organiser maison québec, produits maison saint-élie-de-caxton, accessoires maison mauricie, 
-                    boutique maison mauricie, organiser petite maison québec mauricie, rangement petite cuisine québec, 
-                    rangement petit appartement québec, accessoires minimalistes maison québec, organiser maison mauricie, 
-                    idées rangement maison québec, rangement maison québec pas cher, accessoires maison pratiques québec, 
-                    produits pratiques maison québec, gadgets cuisine innovants québec, ustensiles cuisine pratiques québec, 
-                    organiser tiroirs cuisine québec, solutions rangement salle de bain québec, produits pratiques salle de bain québec, 
-                    boutique maison québec en ligne, accessoires maison pas chers canada, rangement salle de bain mauricie, 
-                    organiser garde-manger mauricie, paniers rangement mauricie
+                    <strong>Anti-courants d'air:</strong> bas de porte, joints d'etancheite, accessoires isolation Canada.{" "}
+                    <strong>Cuisine:</strong> degraissant intensif, nettoyants specialises, accessoires pratiques.{" "}
+                    <strong>Salle de bain:</strong> anti-calcaire, traitement joints et moisissures, accessoires utiles.
                   </>
                 )}
               </div>
