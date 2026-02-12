@@ -343,6 +343,136 @@ const antiDraftSeoIntroContent = {
   ],
 };
 
+const kitchenSeoIntroContent = {
+  title: {
+    fr: "Produits cuisine: degraissants, nettoyants specialises et accessoires",
+    en: "Kitchen products: degreasers, specialty cleaners and accessories",
+    de: "Kuechenprodukte: Fettloeser, Spezialreiniger und Zubehoer",
+    es: "Productos de cocina: desengrasantes, limpiadores especializados y accesorios",
+  },
+  intro: {
+    fr: "Pour garder une cuisine propre et fonctionnelle, il faut traiter chaque type de salissure avec le bon produit: graisse de cuisson, residus incrustes et surfaces fragiles. Cette selection TOUSKI regroupe des produits cuisine utiles au Canada pour accelerer le nettoyage, proteger les materiaux et simplifier l'entretien quotidien.",
+    en: "To keep a kitchen clean and functional, each type of residue needs the right product: cooking grease, baked-on buildup and delicate surfaces. This TOUSKI selection brings together practical kitchen products in Canada to speed up cleaning, protect materials and simplify daily maintenance.",
+    de: "Damit die Kueche sauber und funktional bleibt, braucht jede Verschmutzung die passende Loesung: Kochfett, eingebrannte Rueckstaende und empfindliche Oberflaechen. Diese TOUSKI-Auswahl vereint praktische Kuechenprodukte fuer Kanada, um die Reinigung zu beschleunigen, Materialien zu schuetzen und die taegliche Pflege zu vereinfachen.",
+    es: "Para mantener una cocina limpia y funcional, cada tipo de suciedad necesita el producto adecuado: grasa de coccion, residuos incrustados y superficies delicadas. Esta seleccion de TOUSKI reune productos de cocina utiles en Canada para acelerar la limpieza, proteger materiales y simplificar el mantenimiento diario.",
+  },
+  items: [
+    {
+      key: "kitchen-heavy-degreaser",
+      subCategories: ["degraissant-intensif"],
+      title: {
+        fr: "Degraissant intensif plaques et hottes",
+        en: "Heavy-duty degreaser for cooktops and hoods",
+        de: "Intensiver Fettloeser fuer Kochfelder und Dunstabzugshauben",
+        es: "Desengrasante intensivo para placas y campanas",
+      },
+      description: {
+        fr: "Ce degraissant intensif dissout les depots gras sur les zones de cuisson et la hotte. Il aide a retrouver plus vite des surfaces nettes, limite l'accumulation de graisse et rend l'entretien de la cuisine plus regulier et plus simple.",
+        en: "This heavy-duty degreaser breaks down greasy buildup on cooking zones and range hoods. It helps restore clean surfaces faster, limits grease accumulation and makes kitchen maintenance more consistent and easier.",
+        de: "Dieser intensive Fettloeser loest Fettablagerungen auf Kochbereichen und Dunstabzugshauben. Er sorgt schneller fuer saubere Oberflaechen, reduziert neue Ablagerungen und erleichtert die regelmaessige Kuechenpflege.",
+        es: "Este desengrasante intensivo disuelve la grasa acumulada en zonas de coccion y campanas. Ayuda a recuperar superficies limpias mas rapido, limita nuevos depositos y facilita un mantenimiento de cocina constante.",
+      },
+    },
+    {
+      key: "kitchen-specialty-cleaner",
+      subCategories: ["nettoyants-specialises"],
+      title: {
+        fr: "Nettoyant specialise four et brule",
+        en: "Specialty cleaner for ovens and burnt residue",
+        de: "Spezialreiniger fuer Ofen und eingebrannte Rueckstaende",
+        es: "Limpiador especializado para horno y residuos quemados",
+      },
+      description: {
+        fr: "Le nettoyant specialise cible les traces de brule et les residus colles dans le four ou autour des bruleurs. Il permet un nettoyage cuisine plus precis, avec moins d'effort mecanique et de meilleurs resultats sur les taches difficiles.",
+        en: "This specialty cleaner targets burnt marks and stuck-on residue in ovens or around burners. It provides more precise kitchen cleaning, requires less scrubbing and delivers better results on hard-to-remove stains.",
+        de: "Der Spezialreiniger wirkt gegen eingebrannte Spuren und festhaftende Rueckstaende im Ofen oder an Brennern. Er ermoeglicht eine praezisere Kuechenreinigung mit weniger Schrubben und besseren Ergebnissen bei hartnaeckigen Verschmutzungen.",
+        es: "El limpiador especializado actua sobre marcas de quemado y residuos adheridos en el horno o alrededor de los quemadores. Ofrece una limpieza de cocina mas precisa, con menos friccion y mejores resultados en manchas dificiles.",
+      },
+    },
+    {
+      key: "kitchen-accessory-kit",
+      subCategories: ["cuisine-accessoires"],
+      title: {
+        fr: "Grattoir safe vitroceramique et brosse cuisine",
+        en: "Safe ceramic scraper and kitchen brush",
+        de: "Sicherer Glaskeramikschaber und Kuechenbuerste",
+        es: "Rascador seguro vitroceramica y cepillo de cocina",
+      },
+      description: {
+        fr: "Ce duo grattoir safe et brosse cuisine est adapte aux surfaces sensibles comme la vitroceramique. Il retire les residus sans rayer, complete les nettoyants cuisine et contribue a prolonger la qualite visuelle des plaques et plans de travail.",
+        en: "This safe scraper and kitchen brush duo is designed for sensitive surfaces such as ceramic cooktops. It removes residue without scratching, complements kitchen cleaners and helps preserve the visual quality of cooktops and counters.",
+        de: "Dieses Set aus sicherem Schaber und Kuechenbuerste eignet sich fuer empfindliche Oberflaechen wie Glaskeramik. Es entfernt Rueckstaende ohne Kratzer, ergaenzt Kuechenreiniger und hilft, die Optik von Kochfeldern und Arbeitsflaechen zu erhalten.",
+        es: "Este duo de rascador seguro y cepillo de cocina esta pensado para superficies delicadas como la vitroceramica. Elimina residuos sin rayar, complementa los limpiadores de cocina y ayuda a mantener el buen estado visual de placas y encimeras.",
+      },
+    },
+  ],
+};
+
+const bathroomSeoIntroContent = {
+  title: {
+    fr: "Produits salle de bain: anti-calcaire, joints et accessoires",
+    en: "Bathroom products: anti-limescale, grout care and accessories",
+    de: "Badprodukte: Kalkschutz, Fugenpflege und Zubehoer",
+    es: "Productos de bano: antisarro, cuidado de juntas y accesorios",
+  },
+  intro: {
+    fr: "L'humidite et le calcaire exigent des produits salle de bain adaptes a chaque zone: parois de douche, robinetterie, joints et finitions. Cette selection TOUSKI aide a maintenir une salle de bain propre, a limiter les traces blanches et a conserver une hygiene visuelle durable sans routine complexe.",
+    en: "Humidity and limescale require bathroom products tailored to each area: shower walls, faucets, grout lines and finishing details. This TOUSKI selection helps keep the bathroom clean, reduce white marks and maintain lasting visual hygiene without a complex routine.",
+    de: "Feuchtigkeit und Kalk erfordern Badprodukte, die auf jede Zone abgestimmt sind: Duschwaende, Armaturen, Fugen und Abschluesse. Diese TOUSKI-Auswahl hilft, das Bad sauber zu halten, Kalkspuren zu reduzieren und eine dauerhafte optische Hygiene ohne aufwendige Routine zu sichern.",
+    es: "La humedad y el sarro requieren productos de bano adaptados a cada zona: mamparas, griferia, juntas y acabados. Esta seleccion de TOUSKI ayuda a mantener el bano limpio, reducir marcas blancas y conservar una higiene visual duradera sin una rutina compleja.",
+  },
+  items: [
+    {
+      key: "bathroom-limescale-gel",
+      subCategories: ["anti-calcaire"],
+      title: {
+        fr: "Gel anti-calcaire douche et robinetterie",
+        en: "Anti-limescale gel for shower and faucets",
+        de: "Kalkschutz-Gel fuer Dusche und Armaturen",
+        es: "Gel antisarro para ducha y griferia",
+      },
+      description: {
+        fr: "Le gel anti-calcaire cible les depots sur les parois de douche et la robinetterie. Il facilite le nettoyage des traces blanches, ameliore la finition des surfaces et aide a garder une salle de bain plus nette entre deux entretiens.",
+        en: "This anti-limescale gel targets buildup on shower walls and faucets. It makes white-mark removal easier, improves surface finish and helps keep the bathroom cleaner between maintenance sessions.",
+        de: "Das Kalkschutz-Gel wirkt gegen Ablagerungen an Duschwaenden und Armaturen. Es erleichtert das Entfernen weisser Spuren, verbessert die Oberflaechenoptik und hilft, das Bad laenger sauber zu halten.",
+        es: "El gel antisarro actua sobre los depositos en mamparas y griferia. Facilita la eliminacion de marcas blancas, mejora el acabado de las superficies y ayuda a mantener el bano limpio por mas tiempo.",
+      },
+    },
+    {
+      key: "bathroom-grout-treatment",
+      subCategories: ["joints-moisissures"],
+      title: {
+        fr: "Traitement joints et moisissures sans chlore fort",
+        en: "Grout and mold treatment without strong chlorine",
+        de: "Fugen- und Schimmelbehandlung ohne starkes Chlor",
+        es: "Tratamiento de juntas y moho sin cloro fuerte",
+      },
+      description: {
+        fr: "Ce traitement pour joints et moisissures est pense pour les zones humides autour de la douche et de la baignoire. Il aide a nettoyer les joints en profondeur, reduit l'aspect des taches sombres et soutient une salle de bain plus saine au quotidien.",
+        en: "This grout and mold treatment is designed for humid areas around showers and bathtubs. It helps deep-clean grout lines, reduces the look of dark stains and supports a healthier bathroom day to day.",
+        de: "Diese Fugen- und Schimmelbehandlung ist fuer feuchte Bereiche rund um Dusche und Badewanne ausgelegt. Sie hilft bei der Tiefenreinigung von Fugen, reduziert dunkle Verfaerbungen und unterstuetzt ein hygienischeres Bad im Alltag.",
+        es: "Este tratamiento para juntas y moho esta pensado para zonas humedas alrededor de duchas y baneras. Ayuda a limpiar juntas en profundidad, reduce el aspecto de manchas oscuras y favorece un bano mas saludable en el dia a dia.",
+      },
+    },
+    {
+      key: "bathroom-accessory-kit",
+      subCategories: ["salle-de-bain-accessoires"],
+      title: {
+        fr: "Kit accessoires salle de bain anti-humidite",
+        en: "Anti-humidity bathroom accessory kit",
+        de: "Anti-Feuchtigkeit Bad-Zubehoerset",
+        es: "Kit de accesorios de bano anti humedad",
+      },
+      description: {
+        fr: "Le kit d'accessoires salle de bain reunit des outils pratiques pour les surfaces exposees a l'humidite. Il accelere les gestes d'entretien quotidien, complete les produits de nettoyage et aide a conserver des finitions propres plus longtemps.",
+        en: "This bathroom accessory kit combines practical tools for moisture-exposed surfaces. It speeds up everyday maintenance steps, complements cleaning products and helps keep finishes cleaner for longer.",
+        de: "Dieses Bad-Zubehoerset kombiniert praktische Werkzeuge fuer feuchtigkeitsbelastete Oberflaechen. Es beschleunigt die taegliche Pflege, ergaenzt Reinigungsprodukte und hilft, saubere Oberflaechen laenger zu erhalten.",
+        es: "Este kit de accesorios de bano combina herramientas practicas para superficies expuestas a la humedad. Acelera el mantenimiento diario, complementa los productos de limpieza y ayuda a mantener acabados limpios durante mas tiempo.",
+      },
+    },
+  ],
+};
+
 function getTopCategoryFromSlug(slug) {
   if (!slug || slug === "all") return "all";
   if (subCategoryDefsByTop[slug]) return slug;
@@ -471,6 +601,46 @@ function ProductsContent() {
       intro: getLocaleValue(antiDraftSeoIntroContent.intro, locale),
       guideCta: getLocaleValue(antiDraftSeoIntroContent.guideCta, locale),
       guideHref: withLocale("/anti-courants-air", locale),
+      items: visibleItems.map((item) => ({
+        key: item.key,
+        title: getLocaleValue(item.title, locale),
+        description: getLocaleValue(item.description, locale),
+      })),
+    };
+  }, [locale, selectedSubCategory, selectedTopCategory]);
+  const kitchenSeoIntro = useMemo(() => {
+    if (selectedTopCategory !== "cuisine") return null;
+
+    const visibleItems =
+      selectedSubCategory === "all"
+        ? kitchenSeoIntroContent.items
+        : kitchenSeoIntroContent.items.filter((item) =>
+            item.subCategories.includes(selectedSubCategory)
+          );
+
+    return {
+      title: getLocaleValue(kitchenSeoIntroContent.title, locale),
+      intro: getLocaleValue(kitchenSeoIntroContent.intro, locale),
+      items: visibleItems.map((item) => ({
+        key: item.key,
+        title: getLocaleValue(item.title, locale),
+        description: getLocaleValue(item.description, locale),
+      })),
+    };
+  }, [locale, selectedSubCategory, selectedTopCategory]);
+  const bathroomSeoIntro = useMemo(() => {
+    if (selectedTopCategory !== "salle-de-bain") return null;
+
+    const visibleItems =
+      selectedSubCategory === "all"
+        ? bathroomSeoIntroContent.items
+        : bathroomSeoIntroContent.items.filter((item) =>
+            item.subCategories.includes(selectedSubCategory)
+          );
+
+    return {
+      title: getLocaleValue(bathroomSeoIntroContent.title, locale),
+      intro: getLocaleValue(bathroomSeoIntroContent.intro, locale),
       items: visibleItems.map((item) => ({
         key: item.key,
         title: getLocaleValue(item.title, locale),
@@ -768,6 +938,92 @@ function ProductsContent() {
               <p style={{ marginTop: 14, marginBottom: 0, fontSize: 14 }}>
                 <Link href={antiDraftSeoIntro.guideHref}>{antiDraftSeoIntro.guideCta}</Link>
               </p>
+            </section>
+          )}
+          {kitchenSeoIntro && kitchenSeoIntro.items.length > 0 && (
+            <section
+              style={{
+                margin: "12px 0 28px",
+                padding: "20px",
+                border: "1px solid #ececec",
+                borderRadius: 12,
+                backgroundColor: "#fcfcfc",
+              }}
+            >
+              <h2 style={{ fontSize: 24, marginBottom: 12 }}>{kitchenSeoIntro.title}</h2>
+              <p
+                className="text-secondary"
+                style={{ marginBottom: 18, fontSize: 15, lineHeight: 1.7 }}
+              >
+                {kitchenSeoIntro.intro}
+              </p>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                  gap: 14,
+                }}
+              >
+                {kitchenSeoIntro.items.map((item) => (
+                  <article
+                    key={item.key}
+                    style={{
+                      backgroundColor: "white",
+                      border: "1px solid #efefef",
+                      borderRadius: 10,
+                      padding: 14,
+                    }}
+                  >
+                    <h3 style={{ fontSize: 16, marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ marginBottom: 0, fontSize: 14, color: "#555", lineHeight: 1.6 }}>
+                      {item.description}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
+          {bathroomSeoIntro && bathroomSeoIntro.items.length > 0 && (
+            <section
+              style={{
+                margin: "12px 0 28px",
+                padding: "20px",
+                border: "1px solid #ececec",
+                borderRadius: 12,
+                backgroundColor: "#fcfcfc",
+              }}
+            >
+              <h2 style={{ fontSize: 24, marginBottom: 12 }}>{bathroomSeoIntro.title}</h2>
+              <p
+                className="text-secondary"
+                style={{ marginBottom: 18, fontSize: 15, lineHeight: 1.7 }}
+              >
+                {bathroomSeoIntro.intro}
+              </p>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                  gap: 14,
+                }}
+              >
+                {bathroomSeoIntro.items.map((item) => (
+                  <article
+                    key={item.key}
+                    style={{
+                      backgroundColor: "white",
+                      border: "1px solid #efefef",
+                      borderRadius: 10,
+                      padding: 14,
+                    }}
+                  >
+                    <h3 style={{ fontSize: 16, marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ marginBottom: 0, fontSize: 14, color: "#555", lineHeight: 1.6 }}>
+                      {item.description}
+                    </p>
+                  </article>
+                ))}
+              </div>
             </section>
           )}
 
